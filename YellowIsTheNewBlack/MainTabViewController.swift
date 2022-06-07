@@ -11,11 +11,11 @@ import Then
 class MainTabViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
         tabBar.tintColor = .yellow
+        tabBar.backgroundColor = .black
         tabBar.unselectedItemTintColor = .white
         
-        let firstVC = RecordingViewController()
+        let firstVC = VideoRecorderViewController()
         firstVC.tabBarItem = UITabBarItem(title: "녹화", image: UIImage(systemName: "record.circle"), tag: 0)
         let secondVC = GalleryViewController()
         secondVC.tabBarItem = UITabBarItem(title: "앨범", image: UIImage(systemName: "rectangle.stack"), tag: 1)
