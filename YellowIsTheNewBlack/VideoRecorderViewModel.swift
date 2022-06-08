@@ -31,17 +31,23 @@ class VideoRecoderViewModel {
         let deviceInput = try AVCaptureDeviceInput(device: device)
         if captureSession.canAddInput(deviceInput) {
             captureSession.addInput(deviceInput)
+        } else {
+            throw VideoRecorderError.unableToSetInput
         }
         
         let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
         let audioInput = try AVCaptureDeviceInput(device: audioDevice)
         if captureSession.canAddInput(audioInput) {
             captureSession.addInput(audioInput)
+        } else {
+            throw VideoRecorderError.unableToSetInput
         }
         
         let fileOutput = AVCaptureMovieFileOutput()
         if captureSession.canAddOutput(fileOutput) {
             captureSession.addOutput(fileOutput)
+        } else {
+            throw VideoRecorderError.unableToSetOutput
         }
         
         captureSession.commitConfiguration()
