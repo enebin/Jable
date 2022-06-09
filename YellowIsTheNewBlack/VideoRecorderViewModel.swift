@@ -25,35 +25,27 @@ class VideoRecoderViewModel: NSObject {
     /// 밖에서 무조건 실행되어야 함.
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
     func setupSession() throws {
-        guard let device = self.device else {
-            throw VideoRecorderError.invalidDevice
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            try self.setUpCaptureSession()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    do {
+                        try self.setUpCaptureSession()
+                    }
+                    catch let error {
+                        fatalError(error.localizedDescription)
+                    }
+                }
+            }
+        case .denied:
+            return
+        case .restricted:
+            return
+        @unknown default:
+            fatalError()
         }
-        captureSession.beginConfiguration()
-        
-        let deviceInput = try AVCaptureDeviceInput(device: device)
-        if captureSession.canAddInput(deviceInput) {
-            captureSession.addInput(deviceInput)
-        } else {
-            throw VideoRecorderError.unableToSetInput
-        }
-        
-        let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
-        let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-        if captureSession.canAddInput(audioInput) {
-            captureSession.addInput(audioInput)
-        } else {
-            throw VideoRecorderError.unableToSetInput
-        }
-        
-        let fileOutput = AVCaptureMovieFileOutput()
-        if captureSession.canAddOutput(fileOutput) {
-            self.output = fileOutput
-            captureSession.addOutput(fileOutput)
-        } else {
-            throw VideoRecorderError.unableToSetOutput
-        }
-        
-        captureSession.commitConfiguration()
     }
     
     // ???: Should be executed outside?
@@ -80,28 +72,54 @@ class VideoRecoderViewModel: NSObject {
     
     // MARK: - Internal methods
     
-    /// Finds best camera for the device
+        private func setUpCaptureSession() throws {
+            guard let device = self.device else {
+                throw VideoRecorderError.invalidDevice
+            }
+            
+            captureSession.beginConfiguration()
+            
+            let deviceInput = try AVCaptureDeviceInput(device: device)
+            if captureSession.canAddInput(deviceInput) {
+                captureSession.addInput(deviceInput)
+            } else {
+                throw VideoRecorderError.unableToSetInput
+            }
+            
+            let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
+            let audioInput = try AVCaptureDeviceInput(device: audioDevice)
+            if captureSession.canAddInput(audioInput) {
+                captureSession.addInput(audioInput)
+            } else {
+                throw VideoRecorderError.unableToSetInput
+            }
+            
+            let fileOutput = AVCaptureMovieFileOutput()
+            if captureSession.canAddOutput(fileOutput) {
+                self.output = fileOutput
+                captureSession.addOutput(fileOutput)
+            } else {
+                throw VideoRecorderError.unableToSetOutput
+            }
+            
+            captureSession.commitConfiguration()
+    }
+    
+    /// Finds the best camera among the several cameras
+    ///
+    /// Only back postion is supported now
     private func findBestCamera(in position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        var deviceTypes: [AVCaptureDevice.DeviceType]!
-        
-        if #available(iOS 11.1, *) {
-            deviceTypes = [.builtInTrueDepthCamera, .builtInDualCamera, .builtInWideAngleCamera]
+        if let device = AVCaptureDevice.default(.builtInDualCamera,
+                                                for: .video,
+                                                position: position) {
+            return device
+        } else if let device = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                       for: .video,
+                                                       position: position) {
+            return device
         } else {
-            deviceTypes = [.builtInDualCamera, .builtInWideAngleCamera]
-        }
-        
-        let discoverySession = AVCaptureDevice.DiscoverySession(
-            deviceTypes: deviceTypes,
-            mediaType: .video,
-            position: .unspecified
-        )
-        
-        let devices = discoverySession.devices
-        guard devices.isEmpty else {
             return nil
         }
-        
-        return devices.first(where: { device in device.position == position })
     }
     
     // MARK: - Init
