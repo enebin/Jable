@@ -16,7 +16,7 @@ enum VideoRecorderError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidDevice:
-            return "카메라 설정 중 에러가 발생했습니다."
+            return "카메라 디바이스 설정 중 에러가 발생했습니다."
         case .unableToSetInput:
             return "영상을 저장할 수 없습니다."
         case .unableToSetOutput:

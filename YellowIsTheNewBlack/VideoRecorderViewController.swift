@@ -7,7 +7,7 @@
 
 import UIKit
 import Then
-import AVFoundation
+import SnapKit
 
 class VideoRecorderViewController: UIViewController {
     // Dependencies
@@ -17,8 +17,8 @@ class VideoRecorderViewController: UIViewController {
     var errorMessage = "알 수 없는 오류"
     
     // View components
-    lazy var alert = UIAlertController(title: "Alert", message: self.errorMessage, preferredStyle: UIAlertController.Style.alert).then {
-        $0.addAction(UIAlertAction(title: "Click",
+    lazy var alert = UIAlertController(title: "오류", message: self.errorMessage, preferredStyle: UIAlertController.Style.alert).then {
+        $0.addAction(UIAlertAction(title: "Ok",
                                    style: UIAlertAction.Style.default,
                                    handler: nil))
     }
@@ -29,21 +29,18 @@ class VideoRecorderViewController: UIViewController {
                               y: self.view.bounds.midY)
         $0.videoGravity = .resizeAspectFill
     }
+    
+    lazy var recordButton = UIButton().then {
+        $0.backgroundColor = .white
+        $0.sizeToFit()
+    }
 
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.layer.addSublayer(previewLayer)
-        viewModel.startRunningCamera()
-    }
-    
-    // Initializers
-    init(viewModel: VideoRecoderViewModel = VideoRecoderViewModel()) {
-        super.init(nibName: nil, bundle: nil)
+        self.setLayout()
         
-        // Update dependencies
-        self.viewModel = viewModel
-
         do {
             try viewModel.setupSession()
         }
@@ -54,6 +51,24 @@ class VideoRecorderViewController: UIViewController {
             self.errorMessage = error.localizedDescription
             self.present(self.alert, animated: true, completion: nil)
         }
+        
+        viewModel.startRunningCamera()
+    }
+    
+    private func setLayout() {
+        self.view.addSubview(recordButton)
+        self.recordButton.snp.makeConstraints { make in
+            make.height.width.equalTo(50)
+            make.center.equalToSuperview()
+        }
+    }
+    
+    // Initializers
+    init(viewModel: VideoRecoderViewModel = VideoRecoderViewModel()) {
+        super.init(nibName: nil, bundle: nil)
+        
+        // Update dependencies
+        self.viewModel = viewModel
     }
     
     required init?(coder: NSCoder) {
