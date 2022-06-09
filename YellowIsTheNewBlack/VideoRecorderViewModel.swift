@@ -7,10 +7,12 @@
 
 import AVFoundation
 
-class VideoRecoderViewModel {
+class VideoRecoderViewModel: NSObject {
     // Dependencies
+    private let videoFileManager: VideoFileManager
     private let captureSession: AVCaptureSession
     private var device: AVCaptureDevice? = nil
+    private var output: AVCaptureMovieFileOutput? = nil
     
     // MARK: - Public methods and vars
     
@@ -45,6 +47,7 @@ class VideoRecoderViewModel {
         
         let fileOutput = AVCaptureMovieFileOutput()
         if captureSession.canAddOutput(fileOutput) {
+            self.output = fileOutput
             captureSession.addOutput(fileOutput)
         } else {
             throw VideoRecorderError.unableToSetOutput
@@ -53,9 +56,26 @@ class VideoRecoderViewModel {
         captureSession.commitConfiguration()
     }
     
-    
-    func startRunning() {
+    // ???: Should be executed outside?
+    func startRunningCamera() {
         self.captureSession.startRunning()
+    }
+    
+    func startRecordingVideo() throws {
+        guard let output = self.output else {
+            throw VideoRecorderError.notConfigured
+        }
+        
+        let filePath = videoFileManager.filePath
+        output.startRecording(to: filePath, recordingDelegate: self)
+    }
+    
+    func stopRecordingVideo() throws {
+        guard let output = self.output else {
+            throw VideoRecorderError.notConfigured
+        }
+        
+        output.stopRecording()
     }
     
     // MARK: - Internal methods
@@ -83,15 +103,32 @@ class VideoRecoderViewModel {
         
         return devices.first(where: { device in device.position == position })
     }
-
+    
+    // MARK: - Init
     
     init(_ captureSession: AVCaptureSession = AVCaptureSession(),
+         _ videoFileManager: VideoFileManager = VideoFileManager(),
          quality: AVCaptureSession.Preset = .low,
          position: AVCaptureDevice.Position = .back
     ) {
         captureSession.sessionPreset = quality
         
         self.captureSession = captureSession
-        self.device = self.findBestCamera(in: position)
+        self.videoFileManager = videoFileManager
+        
+        super.init() // Why?
+
+        let deviceFound = self.findBestCamera(in: position)
+        self.device = deviceFound
+    }
+}
+
+extension VideoRecoderViewModel: AVCaptureFileOutputRecordingDelegate {
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        if let error = error {
+            print("Error recording movie: \(error.localizedDescription)")
+        } else {
+            videoFileManager.save(path: outputFileURL)
+        }
     }
 }

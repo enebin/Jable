@@ -17,10 +17,24 @@
 		9BEAA65D284389FF00AB77A7 /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA65C284389FF00AB77A7 /* RecordingViewController.swift */; };
 		9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA65E28438A0800AB77A7 /* SettingViewController.swift */; };
 		9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */; };
+		9C17CD792851C94F00486283 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD782851C94F00486283 /* RxCocoa */; };
+		9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD7A2851C94F00486283 /* RxSwift */; };
 		9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */; };
 		9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */; };
 		9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518E284F335B007CF311 /* VideoRecorderError.swift */; };
+		9CD451992851B167007CF311 /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD451982851B167007CF311 /* VideoFileManager.swift */; };
+		9CD451A12851BB59007CF311 /* VideoFileManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD451A02851BB59007CF311 /* VideoFileManagerTest.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9CD451A22851BB59007CF311 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BEAA6372843824E00AB77A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9BEAA63E2843824E00AB77A7;
+			remoteInfo = YellowIsTheNewBlack;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YellowIsTheNewBlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +50,9 @@
 		9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewModel.swift; sourceTree = "<group>"; };
 		9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewController.swift; sourceTree = "<group>"; };
 		9CD4518E284F335B007CF311 /* VideoRecorderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderError.swift; sourceTree = "<group>"; };
+		9CD451982851B167007CF311 /* VideoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManager.swift; sourceTree = "<group>"; };
+		9CD4519E2851BB59007CF311 /* YellowIsTheNewBlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellowIsTheNewBlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CD451A02851BB59007CF311 /* VideoFileManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManagerTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,8 +60,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C17CD792851C94F00486283 /* RxCocoa in Frameworks */,
 				9BEAA6582843828100AB77A7 /* SnapKit in Frameworks */,
+				9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */,
 				9BEAA65B2843829D00AB77A7 /* Then in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CD4519B2851BB59007CF311 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */,
+				9CD4519F2851BB59007CF311 /* YellowIsTheNewBlackTests */,
 				9BEAA6402843824E00AB77A7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */,
+				9CD4519E2851BB59007CF311 /* YellowIsTheNewBlackTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -90,8 +118,17 @@
 				9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */,
 				9CD4518E284F335B007CF311 /* VideoRecorderError.swift */,
 				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
+				9CD451982851B167007CF311 /* VideoFileManager.swift */,
 			);
 			name = Camera;
+			sourceTree = "<group>";
+		};
+		9CD4519F2851BB59007CF311 /* YellowIsTheNewBlackTests */ = {
+			isa = PBXGroup;
+			children = (
+				9CD451A02851BB59007CF311 /* VideoFileManagerTest.swift */,
+			);
+			path = YellowIsTheNewBlackTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,10 +150,30 @@
 			packageProductDependencies = (
 				9BEAA6572843828100AB77A7 /* SnapKit */,
 				9BEAA65A2843829D00AB77A7 /* Then */,
+				9C17CD782851C94F00486283 /* RxCocoa */,
+				9C17CD7A2851C94F00486283 /* RxSwift */,
 			);
 			productName = YellowIsTheNewBlack;
 			productReference = 9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9CD4519D2851BB59007CF311 /* YellowIsTheNewBlackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9CD451A42851BB59007CF311 /* Build configuration list for PBXNativeTarget "YellowIsTheNewBlackTests" */;
+			buildPhases = (
+				9CD4519A2851BB59007CF311 /* Sources */,
+				9CD4519B2851BB59007CF311 /* Frameworks */,
+				9CD4519C2851BB59007CF311 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9CD451A32851BB59007CF311 /* PBXTargetDependency */,
+			);
+			name = YellowIsTheNewBlackTests;
+			productName = YellowIsTheNewBlackTests;
+			productReference = 9CD4519E2851BB59007CF311 /* YellowIsTheNewBlackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -130,6 +187,10 @@
 				TargetAttributes = {
 					9BEAA63E2843824E00AB77A7 = {
 						CreatedOnToolsVersion = 13.4;
+					};
+					9CD4519D2851BB59007CF311 = {
+						CreatedOnToolsVersion = 13.4;
+						TestTargetID = 9BEAA63E2843824E00AB77A7;
 					};
 				};
 			};
@@ -145,12 +206,14 @@
 			packageReferences = (
 				9BEAA6562843828100AB77A7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9BEAA6592843829D00AB77A7 /* XCRemoteSwiftPackageReference "Then" */,
+				9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 9BEAA6402843824E00AB77A7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				9BEAA63E2843824E00AB77A7 /* YellowIsTheNewBlack */,
+				9CD4519D2851BB59007CF311 /* YellowIsTheNewBlackTests */,
 			);
 		};
 /* End PBXProject section */
@@ -165,6 +228,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9CD4519C2851BB59007CF311 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -176,6 +246,7 @@
 				9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */,
 				9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */,
 				9BEAA65D284389FF00AB77A7 /* RecordingViewController.swift in Sources */,
+				9CD451992851B167007CF311 /* VideoFileManager.swift in Sources */,
 				9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
@@ -184,7 +255,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9CD4519A2851BB59007CF311 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9CD451A12851BB59007CF311 /* VideoFileManagerTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9CD451A32851BB59007CF311 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9BEAA63E2843824E00AB77A7 /* YellowIsTheNewBlack */;
+			targetProxy = 9CD451A22851BB59007CF311 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9BEAA64D2843825200AB77A7 /* LaunchScreen.storyboard */ = {
@@ -368,6 +455,44 @@
 			};
 			name = Release;
 		};
+		9CD451A52851BB59007CF311 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W6QHM4Y43Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = enebin.com.YellowIsTheNewBlackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YellowIsTheNewBlack.app/YellowIsTheNewBlack";
+			};
+			name = Debug;
+		};
+		9CD451A62851BB59007CF311 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W6QHM4Y43Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = enebin.com.YellowIsTheNewBlackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YellowIsTheNewBlack.app/YellowIsTheNewBlack";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -385,6 +510,15 @@
 			buildConfigurations = (
 				9BEAA6542843825200AB77A7 /* Debug */,
 				9BEAA6552843825200AB77A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9CD451A42851BB59007CF311 /* Build configuration list for PBXNativeTarget "YellowIsTheNewBlackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CD451A52851BB59007CF311 /* Debug */,
+				9CD451A62851BB59007CF311 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -408,6 +542,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -420,6 +562,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9BEAA6592843829D00AB77A7 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		9C17CD782851C94F00486283 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		9C17CD7A2851C94F00486283 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

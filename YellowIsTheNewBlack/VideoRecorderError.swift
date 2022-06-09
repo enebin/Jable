@@ -11,6 +11,7 @@ enum VideoRecorderError: LocalizedError {
     case invalidDevice
     case unableToSetInput
     case unableToSetOutput
+    case notConfigured
     
     var errorDescription: String? {
         switch self {
@@ -20,6 +21,8 @@ enum VideoRecorderError: LocalizedError {
             return "영상을 저장할 수 없습니다."
         case .unableToSetOutput:
             return "영상을 녹화할 수 없습니다."
+        case .notConfigured:
+            return "카메라 세션이 생성되지 않았습니다."
         }
     }
 }

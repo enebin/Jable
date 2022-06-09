@@ -34,7 +34,7 @@ class VideoRecorderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.layer.addSublayer(previewLayer)
-        viewModel.startRunning()
+        viewModel.startRunningCamera()
     }
     
     // Initializers
@@ -46,7 +46,11 @@ class VideoRecorderViewController: UIViewController {
 
         do {
             try viewModel.setupSession()
-        } catch let error {
+        }
+        catch VideoRecorderError.notConfigured {
+            fatalError("비디오 세션이 제대로 초기화되지 않았음")
+        }
+        catch let error {
             self.errorMessage = error.localizedDescription
             self.present(self.alert, animated: true, completion: nil)
         }
