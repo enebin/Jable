@@ -11,6 +11,7 @@ import Then
 
 class SettingViewController: UIViewController {
     lazy var tableView = UITableView().then {
+        $0.backgroundColor = .black
         $0.delegate = self
         $0.dataSource = self
         $0.register(UITableViewCell.self, forCellReuseIdentifier: "settingCell")
@@ -27,8 +28,7 @@ class SettingViewController: UIViewController {
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(300)
+            make.width.height.equalToSuperview()
         }
     }
 }
@@ -36,11 +36,27 @@ class SettingViewController: UIViewController {
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-            let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as UITableViewCell
+        
+        // Design cell's property
+        if #available(iOS 14, *) {
+            var content = cell.defaultContentConfiguration()
+            content.text = items[indexPath.row]
+            content.textProperties.color = .white
             
+            var background = UIBackgroundConfiguration.listPlainCell()
+            background.backgroundColor = .black
+            
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = background
+        } else {
             cell.textLabel?.text = items[indexPath.row]
+            cell.textLabel?.textColor = .white
             
-            return cell
+            cell.backgroundColor = .black
+        }
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
