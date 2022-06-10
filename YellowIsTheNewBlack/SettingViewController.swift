@@ -6,12 +6,45 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
 class SettingViewController: UIViewController {
+    lazy var tableView = UITableView().then {
+        $0.delegate = self
+        $0.dataSource = self
+        $0.register(UITableViewCell.self, forCellReuseIdentifier: "settingCell")
+    }
+    
+    let items = ["1", "2", "3"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .green
-        // Do any additional setup after loading the view.
+        self.setLayout()
     }
+    
+    private func setLayout() {
+        self.view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(300)
+        }
+    }
+}
+
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+            let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as UITableViewCell
+            
+            cell.textLabel?.text = items[indexPath.row]
+            
+            return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.items.count
+    }
+    
 }

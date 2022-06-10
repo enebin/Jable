@@ -7,6 +7,7 @@
 
 import AVFoundation
 
+/// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
     private let videoFileManager: VideoFileManager
