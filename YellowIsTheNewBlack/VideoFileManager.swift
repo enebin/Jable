@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 /// Managing all stuffs related to local disk
-class VideoFileManager {
+class VideoFileManager: NSObject {
     // Dependencies
     private let fileManager: FileManager
     private let dateFormatter: DateFormatter
@@ -30,7 +30,13 @@ class VideoFileManager {
     }
     
     func save(path: URL) {
-        UISaveVideoAtPathToSavedPhotosAlbum(path.path, nil, nil, nil)
+        // TODO: Throw
+        let strPath = path.path
+        if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(strPath) {
+            UISaveVideoAtPathToSavedPhotosAlbum(path.path, self, nil, nil)
+        } else {
+            return
+        }
     }
     
     // MARK: - Internal methos
@@ -44,20 +50,28 @@ class VideoFileManager {
     ) {
         self.fileManager = fileManager
         self.dateFormatter = dateFormatter
-                
-        // set path
+        
         let albumPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first! // FIXME: Remove force unwrap
         self.path = albumPath.appendingPathComponent("BiBlackBox", isDirectory: true)
-        self.setDateFormatter(dateFormatter)
+
+        super.init()
         
+        // set path
+        self.setDateFormatter(dateFormatter)
+
         // Set directory if doesn't exist
         do {
             try FileManager.default.createDirectory(atPath: self.path.path,
                                                     withIntermediateDirectories: true,
                                                     attributes: nil)
-            print(fileManager.fileExists(atPath: self.path.path))
         } catch let error {
             print(error)
         }
+    }
+}
+
+extension VideoFileManager: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print(#function, info)
     }
 }

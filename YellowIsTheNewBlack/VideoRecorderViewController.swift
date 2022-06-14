@@ -77,11 +77,12 @@ class VideoRecorderViewController: UIViewController {
                 
                 do {
                     if self.isRecording {
+                        self.isRecording.toggle()
                        try self.viewModel.stopRecordingVideo()
                     } else {
+                        self.isRecording.toggle()
                         try self.viewModel.startRecordingVideo()
                     }
-                    
                 } catch let error {
                     self.errorMessage = error.localizedDescription
                     self.present(self.alert, animated: true)

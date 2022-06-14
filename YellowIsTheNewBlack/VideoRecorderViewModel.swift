@@ -60,9 +60,6 @@ class VideoRecoderViewModel: NSObject {
         }
         
         let filePath = videoFileManager.filePath
-        print(filePath)
-        print(FileManager.default.isWritableFile(atPath: filePath.path))
-        
         output.startRecording(to: filePath, recordingDelegate: self)
     }
     
@@ -151,7 +148,7 @@ extension VideoRecoderViewModel: AVCaptureFileOutputRecordingDelegate {
             // TODO: Handle error or what
             print("Error recording movie: \(error.localizedDescription), \(error)")
         } else {
-            print(outputFileURL.path)
+            print(#function, outputFileURL.path)
             videoFileManager.save(path: outputFileURL)
         }
     }
