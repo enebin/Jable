@@ -60,6 +60,9 @@ class VideoRecoderViewModel: NSObject {
         }
         
         let filePath = videoFileManager.filePath
+        print(filePath)
+        print(FileManager.default.isWritableFile(atPath: filePath.path))
+        
         output.startRecording(to: filePath, recordingDelegate: self)
     }
     
@@ -73,37 +76,37 @@ class VideoRecoderViewModel: NSObject {
     
     // MARK: - Internal methods
     
-        private func setUpCaptureSession() throws {
-            guard let device = self.device else {
-                throw VideoRecorderError.invalidDevice
-            }
-            
-            captureSession.beginConfiguration()
-            
-            let deviceInput = try AVCaptureDeviceInput(device: device)
-            if captureSession.canAddInput(deviceInput) {
-                captureSession.addInput(deviceInput)
-            } else {
-                throw VideoRecorderError.unableToSetInput
-            }
-            
-            let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
-            let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-            if captureSession.canAddInput(audioInput) {
-                captureSession.addInput(audioInput)
-            } else {
-                throw VideoRecorderError.unableToSetInput
-            }
-            
-            let fileOutput = AVCaptureMovieFileOutput()
-            if captureSession.canAddOutput(fileOutput) {
-                self.output = fileOutput
-                captureSession.addOutput(fileOutput)
-            } else {
-                throw VideoRecorderError.unableToSetOutput
-            }
-            
-            captureSession.commitConfiguration()
+    private func setUpCaptureSession() throws {
+        guard let device = self.device else {
+            throw VideoRecorderError.invalidDevice
+        }
+        
+        captureSession.beginConfiguration()
+        
+        let deviceInput = try AVCaptureDeviceInput(device: device)
+        if captureSession.canAddInput(deviceInput) {
+            captureSession.addInput(deviceInput)
+        } else {
+            throw VideoRecorderError.unableToSetInput
+        }
+        
+        let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
+        let audioInput = try AVCaptureDeviceInput(device: audioDevice)
+        if captureSession.canAddInput(audioInput) {
+            captureSession.addInput(audioInput)
+        } else {
+            throw VideoRecorderError.unableToSetInput
+        }
+        
+        let fileOutput = AVCaptureMovieFileOutput()
+        if captureSession.canAddOutput(fileOutput) {
+            self.output = fileOutput
+            captureSession.addOutput(fileOutput)
+        } else {
+            throw VideoRecorderError.unableToSetOutput
+        }
+        
+        captureSession.commitConfiguration()
     }
     
     /// Finds the best camera among the several cameras
@@ -127,7 +130,7 @@ class VideoRecoderViewModel: NSObject {
     
     init(_ captureSession: AVCaptureSession = AVCaptureSession(),
          _ videoFileManager: VideoFileManager = VideoFileManager(),
-         quality: AVCaptureSession.Preset = .low,
+         quality: AVCaptureSession.Preset = .medium,
          position: AVCaptureDevice.Position = .back
     ) {
         captureSession.sessionPreset = quality
@@ -136,7 +139,7 @@ class VideoRecoderViewModel: NSObject {
         self.videoFileManager = videoFileManager
         
         super.init() // Why?
-
+        
         let deviceFound = self.findBestCamera(in: position)
         self.device = deviceFound
     }
@@ -145,8 +148,10 @@ class VideoRecoderViewModel: NSObject {
 extension VideoRecoderViewModel: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         if let error = error {
-            print("Error recording movie: \(error.localizedDescription)")
+            // TODO: Handle error or what
+            print("Error recording movie: \(error.localizedDescription), \(error)")
         } else {
+            print(outputFileURL.path)
             videoFileManager.save(path: outputFileURL)
         }
     }

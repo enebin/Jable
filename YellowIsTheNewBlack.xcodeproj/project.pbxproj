@@ -14,7 +14,6 @@
 		9BEAA64F2843825200AB77A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BEAA64D2843825200AB77A7 /* LaunchScreen.storyboard */; };
 		9BEAA6582843828100AB77A7 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9BEAA6572843828100AB77A7 /* SnapKit */; };
 		9BEAA65B2843829D00AB77A7 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 9BEAA65A2843829D00AB77A7 /* Then */; };
-		9BEAA65D284389FF00AB77A7 /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA65C284389FF00AB77A7 /* RecordingViewController.swift */; };
 		9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA65E28438A0800AB77A7 /* SettingViewController.swift */; };
 		9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */; };
 		9C17CD792851C94F00486283 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD782851C94F00486283 /* RxCocoa */; };
@@ -46,7 +45,6 @@
 		9BEAA64B2843825200AB77A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9BEAA64E2843825200AB77A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9BEAA6502843825200AB77A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9BEAA65C284389FF00AB77A7 /* RecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
 		9BEAA65E28438A0800AB77A7 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		9C9CA80728531F5100655A66 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
@@ -102,14 +100,13 @@
 		9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */ = {
 			isa = PBXGroup;
 			children = (
-				9CD45189284F2BE9007CF311 /* Camera */,
+				9CD45189284F2BE9007CF311 /* Video */,
 				9BEAA6422843824E00AB77A7 /* AppDelegate.swift */,
 				9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */,
 				9BEAA64B2843825200AB77A7 /* Assets.xcassets */,
 				9BEAA64D2843825200AB77A7 /* LaunchScreen.storyboard */,
 				9BEAA6502843825200AB77A7 /* Info.plist */,
 				9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */,
-				9BEAA65C284389FF00AB77A7 /* RecordingViewController.swift */,
 				9BEAA65E28438A0800AB77A7 /* SettingViewController.swift */,
 				9C9CA80728531F5100655A66 /* SettingViewModel.swift */,
 				9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */,
@@ -117,7 +114,7 @@
 			path = YellowIsTheNewBlack;
 			sourceTree = "<group>";
 		};
-		9CD45189284F2BE9007CF311 /* Camera */ = {
+		9CD45189284F2BE9007CF311 /* Video */ = {
 			isa = PBXGroup;
 			children = (
 				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
@@ -126,7 +123,7 @@
 				9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */,
 				9CD451982851B167007CF311 /* VideoFileManager.swift */,
 			);
-			name = Camera;
+			name = Video;
 			sourceTree = "<group>";
 		};
 		9CD4519F2851BB59007CF311 /* YellowIsTheNewBlackTests */ = {
@@ -252,7 +249,6 @@
 				9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */,
 				9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */,
 				9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */,
-				9BEAA65D284389FF00AB77A7 /* RecordingViewController.swift in Sources */,
 				9CD451992851B167007CF311 /* VideoFileManager.swift in Sources */,
 				9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,

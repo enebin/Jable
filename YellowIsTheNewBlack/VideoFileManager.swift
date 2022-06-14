@@ -35,7 +35,7 @@ class VideoFileManager {
     
     // MARK: - Internal methos
     private func setDateFormatter(_ formatter: DateFormatter) {
-        formatter.dateFormat = "yyyy-MM-dd-HH:mm"
+        formatter.dateFormat = "yyyy_MM_dd_HH-mm"
     }
 
     init(
@@ -44,11 +44,20 @@ class VideoFileManager {
     ) {
         self.fileManager = fileManager
         self.dateFormatter = dateFormatter
-        
+                
         // set path
-        let albumPath = fileManager.urls(for: .picturesDirectory, in: .userDomainMask).first! // FIXME: Remove force unwrap
+        let albumPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first! // FIXME: Remove force unwrap
         self.path = albumPath.appendingPathComponent("BiBlackBox", isDirectory: true)
-        
         self.setDateFormatter(dateFormatter)
+        
+        // Set directory if doesn't exist
+        do {
+            try FileManager.default.createDirectory(atPath: self.path.path,
+                                                    withIntermediateDirectories: true,
+                                                    attributes: nil)
+            print(fileManager.fileExists(atPath: self.path.path))
+        } catch let error {
+            print(error)
+        }
     }
 }

@@ -8,13 +8,17 @@
 import UIKit
 import Then
 import SnapKit
+import RxCocoa
+import RxSwift
 
 class VideoRecorderViewController: UIViewController {
     // Dependencies
     var viewModel: VideoRecoderViewModel! = nil
+    var bag = DisposeBag()
     
     // Internal vars and const
     var errorMessage = "알 수 없는 오류"
+    var isRecording = false
     
     // View components
     lazy var alert = UIAlertController(title: "오류", message: self.errorMessage, preferredStyle: UIAlertController.Style.alert).then {
@@ -24,9 +28,6 @@ class VideoRecorderViewController: UIViewController {
     }
     
     lazy var previewLayer = viewModel.getPreviewLayer.then {
-        $0.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-        $0.position = CGPoint(x: self.view.bounds.midX,
-                              y: self.view.bounds.midY)
         $0.videoGravity = .resizeAspectFill
     }
     
@@ -38,8 +39,8 @@ class VideoRecorderViewController: UIViewController {
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.layer.addSublayer(previewLayer)
         self.setLayout()
+        self.bindUIComponents()
         
         do {
             try viewModel.setupSession()
@@ -56,11 +57,38 @@ class VideoRecorderViewController: UIViewController {
     }
     
     private func setLayout() {
+        self.view.layer.addSublayer(previewLayer)
+        previewLayer.bounds = CGRect(x: 0, y: 0,
+                                     width: self.view.bounds.width,
+                                     height: self.view.bounds.height)
+        previewLayer.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
+        
         self.view.addSubview(recordButton)
         self.recordButton.snp.makeConstraints { make in
             make.height.width.equalTo(50)
             make.center.equalToSuperview()
         }
+    }
+    
+    private func bindUIComponents() {
+        self.recordButton.rx.tap
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                
+                do {
+                    if self.isRecording {
+                       try self.viewModel.stopRecordingVideo()
+                    } else {
+                        try self.viewModel.startRecordingVideo()
+                    }
+                    
+                } catch let error {
+                    self.errorMessage = error.localizedDescription
+                    self.present(self.alert, animated: true)
+                }
+            }
+            .disposed(by: self.bag)
+        
     }
     
     // Initializers

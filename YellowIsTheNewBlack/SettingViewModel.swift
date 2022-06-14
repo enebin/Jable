@@ -12,7 +12,9 @@ class SettingViewModel {
     
     init() {
         self.settings = [
-            Setting(name: "화질", type: .toggle, action: <#T##() -> ()#>)
+            Setting(name: "화질", type: .toggle, action: {
+                print("SS")
+            })
         ]
     }
 }
