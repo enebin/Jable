@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
+		9BA3629D2859EB6100339D46 /* LogggingManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629C2859EB6100339D46 /* LogggingManagerTest.swift */; };
+		9BA3629E2859EBDD00339D46 /* LogggingManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629C2859EB6100339D46 /* LogggingManagerTest.swift */; };
+		9BA362A02859EE6900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
 		9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6422843824E00AB77A7 /* AppDelegate.swift */; };
 		9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */; };
 		9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */; };
@@ -38,6 +42,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9BA3629A2859EA9900339D46 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
+		9BA3629C2859EB6100339D46 /* LogggingManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogggingManagerTest.swift; path = YellowIsTheNewBlackTests/LogggingManagerTest.swift; sourceTree = SOURCE_ROOT; };
+		9BA3629F2859ECD200339D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YellowIsTheNewBlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEAA6422843824E00AB77A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9BA362992859EA8900339D46 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				9BA3629A2859EA9900339D46 /* LoggingManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
 		9BEAA6362843824E00AB77A7 = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +132,7 @@
 		9CD45189284F2BE9007CF311 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				9BA362992859EA8900339D46 /* Managers */,
 				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
 				9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */,
 				9CD4518E284F335B007CF311 /* VideoRecorderError.swift */,
@@ -129,7 +145,9 @@
 		9CD4519F2851BB59007CF311 /* YellowIsTheNewBlackTests */ = {
 			isa = PBXGroup;
 			children = (
+				9BA3629F2859ECD200339D46 /* Info.plist */,
 				9CD451A02851BB59007CF311 /* VideoFileManagerTest.swift */,
+				9BA3629C2859EB6100339D46 /* LogggingManagerTest.swift */,
 			);
 			path = YellowIsTheNewBlackTests;
 			sourceTree = "<group>";
@@ -246,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */,
+				9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */,
 				9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */,
 				9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */,
 				9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */,
@@ -256,6 +275,7 @@
 				9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */,
 				9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */,
 				9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */,
+				9BA3629E2859EBDD00339D46 /* LogggingManagerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +284,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CD451A12851BB59007CF311 /* VideoFileManagerTest.swift in Sources */,
+				9BA362A02859EE6900339D46 /* LoggingManager.swift in Sources */,
+				9BA3629D2859EB6100339D46 /* LogggingManagerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +347,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -385,6 +408,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -467,6 +492,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YellowIsTheNewBlackTests/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = enebin.com.YellowIsTheNewBlackTests;
@@ -486,6 +513,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YellowIsTheNewBlackTests/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = enebin.com.YellowIsTheNewBlackTests;
