@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
-		9BA3629D2859EB6100339D46 /* LogggingManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629C2859EB6100339D46 /* LogggingManagerTest.swift */; };
-		9BA3629E2859EBDD00339D46 /* LogggingManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629C2859EB6100339D46 /* LogggingManagerTest.swift */; };
-		9BA362A02859EE6900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
+		9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B72859F50B00339D46 /* DemoTest.swift */; };
 		9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6422843824E00AB77A7 /* AppDelegate.swift */; };
 		9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */; };
 		9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */; };
@@ -28,11 +26,10 @@
 		9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */; };
 		9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518E284F335B007CF311 /* VideoRecorderError.swift */; };
 		9CD451992851B167007CF311 /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD451982851B167007CF311 /* VideoFileManager.swift */; };
-		9CD451A12851BB59007CF311 /* VideoFileManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD451A02851BB59007CF311 /* VideoFileManagerTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9CD451A22851BB59007CF311 /* PBXContainerItemProxy */ = {
+		9BA362B12859F4DE00339D46 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BEAA6372843824E00AB77A7 /* Project object */;
 			proxyType = 1;
@@ -43,8 +40,9 @@
 
 /* Begin PBXFileReference section */
 		9BA3629A2859EA9900339D46 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
-		9BA3629C2859EB6100339D46 /* LogggingManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogggingManagerTest.swift; path = YellowIsTheNewBlackTests/LogggingManagerTest.swift; sourceTree = SOURCE_ROOT; };
-		9BA3629F2859ECD200339D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9BA362AD2859F4DE00339D46 /* YellowIsTheNewBlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellowIsTheNewBlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YellowIsTheNewBlackTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		9BA362B72859F50B00339D46 /* DemoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTest.swift; sourceTree = "<group>"; };
 		9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YellowIsTheNewBlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEAA6422843824E00AB77A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,11 +58,16 @@
 		9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewController.swift; sourceTree = "<group>"; };
 		9CD4518E284F335B007CF311 /* VideoRecorderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderError.swift; sourceTree = "<group>"; };
 		9CD451982851B167007CF311 /* VideoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManager.swift; sourceTree = "<group>"; };
-		9CD4519E2851BB59007CF311 /* YellowIsTheNewBlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellowIsTheNewBlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9CD451A02851BB59007CF311 /* VideoFileManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManagerTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9BA362AA2859F4DE00339D46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9BEAA63C2843824E00AB77A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -73,13 +76,6 @@
 				9BEAA6582843828100AB77A7 /* SnapKit in Frameworks */,
 				9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */,
 				9BEAA65B2843829D00AB77A7 /* Then in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9CD4519B2851BB59007CF311 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,11 +90,20 @@
 			name = Managers;
 			sourceTree = "<group>";
 		};
+		9BA362AE2859F4DE00339D46 /* YellowIsTheNewBlackTests */ = {
+			isa = PBXGroup;
+			children = (
+				9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */,
+				9BA362B72859F50B00339D46 /* DemoTest.swift */,
+			);
+			path = YellowIsTheNewBlackTests;
+			sourceTree = "<group>";
+		};
 		9BEAA6362843824E00AB77A7 = {
 			isa = PBXGroup;
 			children = (
 				9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */,
-				9CD4519F2851BB59007CF311 /* YellowIsTheNewBlackTests */,
+				9BA362AE2859F4DE00339D46 /* YellowIsTheNewBlackTests */,
 				9BEAA6402843824E00AB77A7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -107,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */,
-				9CD4519E2851BB59007CF311 /* YellowIsTheNewBlackTests.xctest */,
+				9BA362AD2859F4DE00339D46 /* YellowIsTheNewBlackTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -142,19 +147,27 @@
 			name = Video;
 			sourceTree = "<group>";
 		};
-		9CD4519F2851BB59007CF311 /* YellowIsTheNewBlackTests */ = {
-			isa = PBXGroup;
-			children = (
-				9BA3629F2859ECD200339D46 /* Info.plist */,
-				9CD451A02851BB59007CF311 /* VideoFileManagerTest.swift */,
-				9BA3629C2859EB6100339D46 /* LogggingManagerTest.swift */,
-			);
-			path = YellowIsTheNewBlackTests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9BA362AC2859F4DE00339D46 /* YellowIsTheNewBlackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9BA362B32859F4DE00339D46 /* Build configuration list for PBXNativeTarget "YellowIsTheNewBlackTests" */;
+			buildPhases = (
+				9BA362A92859F4DE00339D46 /* Sources */,
+				9BA362AA2859F4DE00339D46 /* Frameworks */,
+				9BA362AB2859F4DE00339D46 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9BA362B22859F4DE00339D46 /* PBXTargetDependency */,
+			);
+			name = YellowIsTheNewBlackTests;
+			productName = YellowIsTheNewBlackTests;
+			productReference = 9BA362AD2859F4DE00339D46 /* YellowIsTheNewBlackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		9BEAA63E2843824E00AB77A7 /* YellowIsTheNewBlack */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9BEAA6532843825200AB77A7 /* Build configuration list for PBXNativeTarget "YellowIsTheNewBlack" */;
@@ -178,24 +191,6 @@
 			productReference = 9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9CD4519D2851BB59007CF311 /* YellowIsTheNewBlackTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9CD451A42851BB59007CF311 /* Build configuration list for PBXNativeTarget "YellowIsTheNewBlackTests" */;
-			buildPhases = (
-				9CD4519A2851BB59007CF311 /* Sources */,
-				9CD4519B2851BB59007CF311 /* Frameworks */,
-				9CD4519C2851BB59007CF311 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9CD451A32851BB59007CF311 /* PBXTargetDependency */,
-			);
-			name = YellowIsTheNewBlackTests;
-			productName = YellowIsTheNewBlackTests;
-			productReference = 9CD4519E2851BB59007CF311 /* YellowIsTheNewBlackTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -206,12 +201,13 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					9BA362AC2859F4DE00339D46 = {
+						CreatedOnToolsVersion = 13.4;
+						LastSwiftMigration = 1340;
+						TestTargetID = 9BEAA63E2843824E00AB77A7;
+					};
 					9BEAA63E2843824E00AB77A7 = {
 						CreatedOnToolsVersion = 13.4;
-					};
-					9CD4519D2851BB59007CF311 = {
-						CreatedOnToolsVersion = 13.4;
-						TestTargetID = 9BEAA63E2843824E00AB77A7;
 					};
 				};
 			};
@@ -234,12 +230,19 @@
 			projectRoot = "";
 			targets = (
 				9BEAA63E2843824E00AB77A7 /* YellowIsTheNewBlack */,
-				9CD4519D2851BB59007CF311 /* YellowIsTheNewBlackTests */,
+				9BA362AC2859F4DE00339D46 /* YellowIsTheNewBlackTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9BA362AB2859F4DE00339D46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9BEAA63D2843824E00AB77A7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,16 +252,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9CD4519C2851BB59007CF311 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9BA362A92859F4DE00339D46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9BEAA63B2843824E00AB77A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -275,27 +279,16 @@
 				9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */,
 				9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */,
 				9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */,
-				9BA3629E2859EBDD00339D46 /* LogggingManagerTest.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9CD4519A2851BB59007CF311 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9CD451A12851BB59007CF311 /* VideoFileManagerTest.swift in Sources */,
-				9BA362A02859EE6900339D46 /* LoggingManager.swift in Sources */,
-				9BA3629D2859EB6100339D46 /* LogggingManagerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9CD451A32851BB59007CF311 /* PBXTargetDependency */ = {
+		9BA362B22859F4DE00339D46 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9BEAA63E2843824E00AB77A7 /* YellowIsTheNewBlack */;
-			targetProxy = 9CD451A22851BB59007CF311 /* PBXContainerItemProxy */;
+			targetProxy = 9BA362B12859F4DE00339D46 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -311,6 +304,59 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9BA362B42859F4DE00339D46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W6QHM4Y43Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = enebin.YellowIsTheNewBlackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "YellowIsTheNewBlackTests/YellowIsTheNewBlackTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YellowIsTheNewBlack.app/YellowIsTheNewBlack";
+			};
+			name = Debug;
+		};
+		9BA362B52859F4DE00339D46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W6QHM4Y43Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = enebin.YellowIsTheNewBlackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "YellowIsTheNewBlackTests/YellowIsTheNewBlackTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YellowIsTheNewBlack.app/YellowIsTheNewBlack";
+			};
+			name = Release;
+		};
 		9BEAA6512843825200AB77A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -484,51 +530,18 @@
 			};
 			name = Release;
 		};
-		9CD451A52851BB59007CF311 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W6QHM4Y43Z;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YellowIsTheNewBlackTests/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = enebin.com.YellowIsTheNewBlackTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YellowIsTheNewBlack.app/YellowIsTheNewBlack";
-			};
-			name = Debug;
-		};
-		9CD451A62851BB59007CF311 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W6QHM4Y43Z;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YellowIsTheNewBlackTests/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = enebin.com.YellowIsTheNewBlackTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YellowIsTheNewBlack.app/YellowIsTheNewBlack";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9BA362B32859F4DE00339D46 /* Build configuration list for PBXNativeTarget "YellowIsTheNewBlackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9BA362B42859F4DE00339D46 /* Debug */,
+				9BA362B52859F4DE00339D46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9BEAA63A2843824E00AB77A7 /* Build configuration list for PBXProject "YellowIsTheNewBlack" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -543,15 +556,6 @@
 			buildConfigurations = (
 				9BEAA6542843825200AB77A7 /* Debug */,
 				9BEAA6552843825200AB77A7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9CD451A42851BB59007CF311 /* Build configuration list for PBXNativeTarget "YellowIsTheNewBlackTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9CD451A52851BB59007CF311 /* Debug */,
-				9CD451A62851BB59007CF311 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

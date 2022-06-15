@@ -2,14 +2,12 @@
 //  YellowIsTheNewBlackTests.swift
 //  YellowIsTheNewBlackTests
 //
-//  Created by 이영빈 on 2022/06/09.
+//  Created by 프라이빗 on 2022/06/15.
 //
 
 import XCTest
-@testable import YellowIsTheNewBlack
 
 class YellowIsTheNewBlackTests: XCTestCase {
-    let MockVideoFileManager = VideoFileManager()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -20,11 +18,11 @@ class YellowIsTheNewBlackTests: XCTestCase {
     }
 
     func testExample() throws {
-//        let formatter = DateFormatter()
-//        let newFormatter = MockVideoFileManager.setDateFormatter(formatter)
-        
-//        print(newFormatter.string(from: Date()))
-        
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        // Any test you write for XCTest can be annotated as throws and async.
+        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
+        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
     }
 
     func testPerformanceExample() throws {
