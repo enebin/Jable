@@ -25,7 +25,10 @@ class VideoFileManager: NSObject {
         let directoryPath = self.path
         let fileName = self.dateFormatter.string(from: Date())
         
-        let filePath = directoryPath.appendingPathComponent(fileName)
+        let filePath = directoryPath
+            .appendingPathComponent(fileName)
+            .appendingPathExtension("mp4")
+        
         return filePath
     }
     
@@ -51,21 +54,22 @@ class VideoFileManager: NSObject {
         self.fileManager = fileManager
         self.dateFormatter = dateFormatter
         
+        // set paths
         let albumPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first! // FIXME: Remove force unwrap
         self.path = albumPath.appendingPathComponent("BiBlackBox", isDirectory: true)
 
         super.init()
         
-        // set path
         self.setDateFormatter(dateFormatter)
-
-        // Set directory if doesn't exist
-        do {
-            try FileManager.default.createDirectory(atPath: self.path.path,
-                                                    withIntermediateDirectories: true,
-                                                    attributes: nil)
-        } catch let error {
-            print(error)
+        if fileManager.fileExists(atPath: self.path.path) == false {
+            // Set directory if doesn't exist
+            do {
+                try FileManager.default.createDirectory(atPath: self.path.path,
+                                                        withIntermediateDirectories: true,
+                                                        attributes: nil)
+            } catch let error {
+                print(error)
+            }
         }
     }
 }
