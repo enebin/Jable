@@ -40,7 +40,11 @@ class SettingViewController: UIViewController {
         
         let largeTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.largeTitleTextAttributes = largeTitleAttributes
-        self.navigationController?.navigationBar.barTintColor = UIColor.black
+        
+        
+        let smallTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = smallTitleAttributes
+        
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "녹화"
         
