@@ -19,17 +19,5 @@ class SettingViewModel {
     }
 }
 
-extension SettingViewModel {
-    struct Setting {
-        let name: String
-        let type: SettingType
-        let action: () -> ()
-    }
-    
-    enum SettingType  {
-        case toggle
-        case carousel
-    }
-}
 
 
