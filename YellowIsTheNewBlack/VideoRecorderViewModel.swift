@@ -149,7 +149,7 @@ extension VideoRecoderViewModel: AVCaptureFileOutputRecordingDelegate {
             print("Error recording movie: \(error.localizedDescription), \(error)")
         } else {
             print(#function, outputFileURL.path)
-            videoFileManager.save(path: outputFileURL)
+            videoFileManager.saveVideoToAlbum(path: outputFileURL)
         }
     }
 }

@@ -32,7 +32,7 @@ class VideoFileManager: NSObject {
         return filePath
     }
     
-    func save(path: URL) {
+    func saveVideoToAlbum(path: URL) {
         // TODO: Throw
         let strPath = path.path
         if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(strPath) {
