@@ -10,6 +10,8 @@ import UIKit
 
 /// Managing all stuffs related to local disk
 class VideoFileManager: NSObject {
+    static let `default` = VideoFileManager()
+    
     // Dependencies
     private let fileManager: FileManager
     private let dateFormatter: DateFormatter
@@ -30,16 +32,6 @@ class VideoFileManager: NSObject {
             .appendingPathExtension("mp4")
         
         return filePath
-    }
-    
-    func saveVideoToAlbum(path: URL) {
-        // TODO: Throw
-        let strPath = path.path
-        if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(strPath) {
-            UISaveVideoAtPathToSavedPhotosAlbum(path.path, self, nil, nil)
-        } else {
-            return
-        }
     }
     
     // MARK: - Internal methos

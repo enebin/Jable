@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import UIKit
 
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
@@ -126,7 +127,7 @@ class VideoRecoderViewModel: NSObject {
     // MARK: - Init
     
     init(_ captureSession: AVCaptureSession = AVCaptureSession(),
-         _ videoFileManager: VideoFileManager = VideoFileManager(),
+         _ videoFileManager: VideoFileManager = VideoFileManager.default,
          quality: AVCaptureSession.Preset = .medium,
          position: AVCaptureDevice.Position = .back
     ) {
@@ -148,8 +149,12 @@ extension VideoRecoderViewModel: AVCaptureFileOutputRecordingDelegate {
             // TODO: Handle error or what
             print("Error recording movie: \(error.localizedDescription), \(error)")
         } else {
-            print(#function, outputFileURL.path)
-            videoFileManager.saveVideoToAlbum(path: outputFileURL)
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
+                UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
+            } else {
+                print("Error while saving movie")
+                return
+            }
         }
     }
 }
