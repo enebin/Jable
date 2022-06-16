@@ -37,6 +37,13 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let largeTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = largeTitleAttributes
+        self.navigationController?.navigationBar.barTintColor = UIColor.black
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.title = "녹화"
+        
         self.setLayout()
     }
     
