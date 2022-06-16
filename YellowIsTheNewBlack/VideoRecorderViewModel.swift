@@ -146,9 +146,9 @@ class VideoRecoderViewModel: NSObject {
 extension VideoRecoderViewModel: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         if let error = error {
-            // TODO: Handle error or what
             print("Error recording movie: \(error.localizedDescription), \(error)")
         } else {
+            // Save to the album roll
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
                 UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
             } else {
