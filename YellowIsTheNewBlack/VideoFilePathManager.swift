@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 /// Managing all stuffs related to local disk
-class VideoFileManager: NSObject {
-    static let `default` = VideoFileManager()
+class VideoFilePathManager: NSObject {
+    static let `default` = VideoFilePathManager()
     
     // Dependencies
     private let fileManager: FileManager
@@ -66,7 +66,7 @@ class VideoFileManager: NSObject {
     }
 }
 
-extension VideoFileManager: UIImagePickerControllerDelegate {
+extension VideoFilePathManager: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         print(#function, info)
     }

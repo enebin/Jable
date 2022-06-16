@@ -11,7 +11,7 @@ import UIKit
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
-    private let videoFileManager: VideoFileManager
+    private let videoFilePathManager: VideoFilePathManager
     private let captureSession: AVCaptureSession
     private var device: AVCaptureDevice? = nil
     private var output: AVCaptureMovieFileOutput? = nil
@@ -60,7 +60,7 @@ class VideoRecoderViewModel: NSObject {
             throw VideoRecorderError.notConfigured
         }
         
-        let filePath = videoFileManager.filePath
+        let filePath = videoFilePathManager.filePath
         output.startRecording(to: filePath, recordingDelegate: self)
     }
     
@@ -127,14 +127,14 @@ class VideoRecoderViewModel: NSObject {
     // MARK: - Init
     
     init(_ captureSession: AVCaptureSession = AVCaptureSession(),
-         _ videoFileManager: VideoFileManager = VideoFileManager.default,
+         _ videoFilePathManager: VideoFilePathManager = VideoFilePathManager.default,
          quality: AVCaptureSession.Preset = .medium,
          position: AVCaptureDevice.Position = .back
     ) {
         captureSession.sessionPreset = quality
         
         self.captureSession = captureSession
-        self.videoFileManager = videoFileManager
+        self.videoFilePathManager = videoFilePathManager
         
         super.init() // Why?
         
