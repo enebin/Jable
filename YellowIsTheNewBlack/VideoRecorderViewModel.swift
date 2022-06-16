@@ -36,7 +36,7 @@ class VideoRecoderViewModel: NSObject {
                         try self.setUpCaptureSession()
                     }
                     catch let error {
-                        fatalError(error.localizedDescription)
+                        print(error.localizedDescription)
                     }
                 }
             }
