@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */; };
+		9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */; };
 		9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
 		9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B72859F50B00339D46 /* DemoTest.swift */; };
 		9BA362BA285B31D900339D46 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B9285B31D900339D46 /* Setting.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryThumbnailMakerTests.swift; sourceTree = "<group>"; };
+		9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
 		9BA3629A2859EA9900339D46 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		9BA362AD2859F4DE00339D46 /* YellowIsTheNewBlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellowIsTheNewBlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YellowIsTheNewBlackTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -90,6 +92,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B543AC4285C970100B41CB3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9BA362992859EA8900339D46 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */,
+				9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */,
 				9BA362BB285B442C00339D46 /* GalleryViewModel.swift */,
 				9BA362BE285B465800339D46 /* GalleryThumbnailMaker.swift */,
 			);
@@ -125,6 +135,7 @@
 				9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */,
 				9BA362AE2859F4DE00339D46 /* YellowIsTheNewBlackTests */,
 				9BEAA6402843824E00AB77A7 /* Products */,
+				9B543AC4285C970100B41CB3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -299,6 +310,7 @@
 				9BA362BF285B465800339D46 /* GalleryThumbnailMaker.swift in Sources */,
 				9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,
+				9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */,
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
 				9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */,
 				9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */,
