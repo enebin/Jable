@@ -23,7 +23,7 @@ class GalleryThumbnailMaker {
         let filePaths = try fileManager.contentsOfDirectory(atPath: directoryPath.path)
         
         images = try filePaths.map {
-            let path = URL(fileURLWithPath: $0)
+            let path = directoryPath.appendingPathComponent($0)
             let thumbnail = try generateThumbnailOfVideo(at: path)
             return thumbnail
         }
