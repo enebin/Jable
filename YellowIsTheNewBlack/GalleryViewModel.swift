@@ -6,8 +6,8 @@
 //
 
 import UIKit
+import AVFoundation
 
 class GalleryViewModel {
-    
 }
 
