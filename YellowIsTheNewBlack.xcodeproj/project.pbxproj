@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */; };
 		9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
 		9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B72859F50B00339D46 /* DemoTest.swift */; };
 		9BA362BA285B31D900339D46 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B9285B31D900339D46 /* Setting.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryThumbnailMakerTests.swift; sourceTree = "<group>"; };
 		9BA3629A2859EA9900339D46 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		9BA362AD2859F4DE00339D46 /* YellowIsTheNewBlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellowIsTheNewBlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YellowIsTheNewBlackTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */,
 				9BA362B72859F50B00339D46 /* DemoTest.swift */,
+				9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */,
 			);
 			path = YellowIsTheNewBlackTests;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */,
 				9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
