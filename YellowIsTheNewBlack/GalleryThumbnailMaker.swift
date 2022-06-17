@@ -16,16 +16,21 @@ class GalleryThumbnailMaker {
     private let fileManager: FileManager
     
     // TODO: Test
-    func getAllThumbnailsInVideoFileDirectory() throws -> [UIImage] {
+    func getAllThumbnailsInVideoFileDirectory() -> [UIImage] {
         var images = [UIImage]()
         
         let directoryPath = videoFilePathManager.fileDiretoryPath
-        let filePaths = try fileManager.contentsOfDirectory(atPath: directoryPath.path)
         
-        images = try filePaths.map {
-            let path = directoryPath.appendingPathComponent($0)
-            let thumbnail = try generateThumbnailOfVideo(at: path)
-            return thumbnail
+        do {
+            let filePaths = try fileManager.contentsOfDirectory(atPath: directoryPath.path)
+
+            images = try filePaths.map {
+                let path = directoryPath.appendingPathComponent($0)
+                let thumbnail = try generateThumbnailOfVideo(at: path)
+                return thumbnail
+            }
+        } catch let error {
+            LoggingManager.logger.log(error: error)
         }
         
         return images
