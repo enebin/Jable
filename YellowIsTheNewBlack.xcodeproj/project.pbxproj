@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */; };
 		9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */; };
+		9B543ACE285DA2B200B41CB3 /* VideoInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543ACD285DA2B200B41CB3 /* VideoInformation.swift */; };
+		9B543AD0285DAB1600B41CB3 /* VideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */; };
 		9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
 		9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B72859F50B00339D46 /* DemoTest.swift */; };
 		9BA362BA285B31D900339D46 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B9285B31D900339D46 /* Setting.swift */; };
@@ -46,6 +48,8 @@
 /* Begin PBXFileReference section */
 		9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryThumbnailMakerTests.swift; sourceTree = "<group>"; };
 		9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
+		9B543ACD285DA2B200B41CB3 /* VideoInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInformation.swift; sourceTree = "<group>"; };
+		9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionManager.swift; sourceTree = "<group>"; };
 		9BA3629A2859EA9900339D46 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		9BA362AD2859F4DE00339D46 /* YellowIsTheNewBlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellowIsTheNewBlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YellowIsTheNewBlackTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -99,11 +103,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9B543ACC285DA2A400B41CB3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9B543ACD285DA2B200B41CB3 /* VideoInformation.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		9BA362992859EA8900339D46 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				9CD451982851B167007CF311 /* VideoFilePathManager.swift */,
 				9BA3629A2859EA9900339D46 /* LoggingManager.swift */,
+				9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -151,6 +164,7 @@
 		9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */ = {
 			isa = PBXGroup;
 			children = (
+				9B543ACC285DA2A400B41CB3 /* Models */,
 				9BA362992859EA8900339D46 /* Managers */,
 				9CD45189284F2BE9007CF311 /* Video */,
 				9BA362BD285B464100339D46 /* Gallery */,
@@ -308,12 +322,14 @@
 				9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */,
 				9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */,
 				9BA362BF285B465800339D46 /* GalleryThumbnailMaker.swift in Sources */,
+				9B543ACE285DA2B200B41CB3 /* VideoInformation.swift in Sources */,
 				9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,
 				9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */,
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
 				9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */,
 				9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */,
+				9B543AD0285DAB1600B41CB3 /* VideoSessionManager.swift in Sources */,
 				9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
