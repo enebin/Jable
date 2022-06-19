@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */; };
+		9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */; };
+		9B543AD0285DAB1600B41CB3 /* VideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */; };
 		9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
 		9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B72859F50B00339D46 /* DemoTest.swift */; };
 		9BA362BA285B31D900339D46 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B9285B31D900339D46 /* Setting.swift */; };
+		9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362BB285B442C00339D46 /* GalleryViewModel.swift */; };
 		9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6422843824E00AB77A7 /* AppDelegate.swift */; };
 		9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */; };
 		9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */; };
@@ -19,6 +23,9 @@
 		9BEAA65B2843829D00AB77A7 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 9BEAA65A2843829D00AB77A7 /* Then */; };
 		9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA65E28438A0800AB77A7 /* SettingViewController.swift */; };
 		9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */; };
+		9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */; };
+		9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB502285EC59C006C526C /* VideoFileManager.swift */; };
+		9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */; };
 		9C17CD792851C94F00486283 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD782851C94F00486283 /* RxCocoa */; };
 		9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD7A2851C94F00486283 /* RxSwift */; };
 		9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA80728531F5100655A66 /* SettingViewModel.swift */; };
@@ -26,7 +33,7 @@
 		9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */; };
 		9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */; };
 		9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518E284F335B007CF311 /* VideoRecorderError.swift */; };
-		9CD451992851B167007CF311 /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD451982851B167007CF311 /* VideoFileManager.swift */; };
+		9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD451982851B167007CF311 /* VideoFilePathManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,11 +47,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryThumbnailMakerTests.swift; sourceTree = "<group>"; };
+		9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
+		9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionManager.swift; sourceTree = "<group>"; };
 		9BA3629A2859EA9900339D46 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		9BA362AD2859F4DE00339D46 /* YellowIsTheNewBlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellowIsTheNewBlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YellowIsTheNewBlackTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		9BA362B72859F50B00339D46 /* DemoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTest.swift; sourceTree = "<group>"; };
 		9BA362B9285B31D900339D46 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		9BA362BB285B442C00339D46 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
 		9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YellowIsTheNewBlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEAA6422843824E00AB77A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,12 +65,15 @@
 		9BEAA6502843825200AB77A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9BEAA65E28438A0800AB77A7 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
+		9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileInformation.swift; sourceTree = "<group>"; };
+		9BEFB502285EC59C006C526C /* VideoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManager.swift; sourceTree = "<group>"; };
+		9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileInformationMaker.swift; sourceTree = "<group>"; };
 		9C9CA80728531F5100655A66 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderConfiguration.swift; sourceTree = "<group>"; };
 		9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewModel.swift; sourceTree = "<group>"; };
 		9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewController.swift; sourceTree = "<group>"; };
 		9CD4518E284F335B007CF311 /* VideoRecorderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderError.swift; sourceTree = "<group>"; };
-		9CD451982851B167007CF311 /* VideoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManager.swift; sourceTree = "<group>"; };
+		9CD451982851B167007CF311 /* VideoFilePathManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFilePathManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,10 +98,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B543AC4285C970100B41CB3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9BA362992859EA8900339D46 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				9BA3629A2859EA9900339D46 /* LoggingManager.swift */,
+				9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -97,8 +119,19 @@
 			children = (
 				9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */,
 				9BA362B72859F50B00339D46 /* DemoTest.swift */,
+				9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */,
 			);
 			path = YellowIsTheNewBlackTests;
+			sourceTree = "<group>";
+		};
+		9BA362BD285B464100339D46 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */,
+				9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */,
+				9BA362BB285B442C00339D46 /* GalleryViewModel.swift */,
+			);
+			name = Gallery;
 			sourceTree = "<group>";
 		};
 		9BEAA6362843824E00AB77A7 = {
@@ -107,6 +140,7 @@
 				9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */,
 				9BA362AE2859F4DE00339D46 /* YellowIsTheNewBlackTests */,
 				9BEAA6402843824E00AB77A7 /* Products */,
+				9B543AC4285C970100B41CB3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,10 +156,12 @@
 		9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */ = {
 			isa = PBXGroup;
 			children = (
+				9BA362992859EA8900339D46 /* Managers */,
+				9BEFB4FF285DFBE4006C526C /* Files */,
 				9CD45189284F2BE9007CF311 /* Video */,
+				9BA362BD285B464100339D46 /* Gallery */,
 				9BEAA6502843825200AB77A7 /* Info.plist */,
 				9BEAA6422843824E00AB77A7 /* AppDelegate.swift */,
-				9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */,
 				9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */,
 				9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */,
 				9BEAA65E28438A0800AB77A7 /* SettingViewController.swift */,
@@ -137,15 +173,24 @@
 			path = YellowIsTheNewBlack;
 			sourceTree = "<group>";
 		};
+		9BEFB4FF285DFBE4006C526C /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */,
+				9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */,
+				9CD451982851B167007CF311 /* VideoFilePathManager.swift */,
+				9BEFB502285EC59C006C526C /* VideoFileManager.swift */,
+			);
+			name = Files;
+			sourceTree = "<group>";
+		};
 		9CD45189284F2BE9007CF311 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				9BA362992859EA8900339D46 /* Managers */,
 				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
 				9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */,
 				9CD4518E284F335B007CF311 /* VideoRecorderError.swift */,
 				9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */,
-				9CD451982851B167007CF311 /* VideoFileManager.swift */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -262,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */,
 				9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,17 +317,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */,
+				9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */,
 				9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */,
+				9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */,
 				9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */,
 				9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */,
 				9BA362BA285B31D900339D46 /* Setting.swift in Sources */,
 				9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */,
-				9CD451992851B167007CF311 /* VideoFileManager.swift in Sources */,
+				9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */,
 				9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */,
+				9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */,
+				9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,
+				9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */,
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
 				9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */,
 				9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */,
+				9B543AD0285DAB1600B41CB3 /* VideoSessionManager.swift in Sources */,
 				9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

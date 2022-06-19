@@ -1,81 +1,94 @@
 //
-//  VideoFileManage.swift
+//  VideoFileManager.swift
 //  YellowIsTheNewBlack
 //
-//  Created by 이영빈 on 2022/06/09.
+//  Created by 프라이빗 on 2022/06/19.
 //
 
 import Foundation
-import UIKit
 
-/// Managing all stuffs related to local disk
-class VideoFileManager: NSObject {
+final class VideoFileManager {
+    static let `default` = VideoFileManager()
+    
     // Dependencies
     private let fileManager: FileManager
-    private let dateFormatter: DateFormatter
+    private let pathManager: VideoFilePathManager
+    private let informationMaker: VideoFileInformationMaker
     
-    // Internal vars and consts
-    private let path: URL
+    // Data
+    private(set) var informations: [VideoFileInformation]
+        
     
     var fileDiretoryPath: URL {
-        return self.path
+        return pathManager.fileDiretoryPath
     }
     
     var filePath: URL {
-        let directoryPath = self.path
-        let fileName = self.dateFormatter.string(from: Date())
-        
-        let filePath = directoryPath
-            .appendingPathComponent(fileName)
-            .appendingPathExtension("mp4")
-        
-        return filePath
+        return pathManager.filePath
     }
     
-    func save(path: URL) {
-        // TODO: Throw
-        let strPath = path.path
-        if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(strPath) {
-            UISaveVideoAtPathToSavedPhotosAlbum(path.path, self, nil, nil)
-        } else {
-            return
+    /// Path를 이용해서 비디오를 받아오고 내부에서 쓸 수 있게 래퍼로 인코드?함
+    func addAfterEncode(at path: URL) {
+        let info = informationMaker.makeInformationFile(for: path)
+        self.informations.append(info)
+    }
+    
+    /// 앨범에서 삭제되는 케이스
+    @discardableResult
+    func delete(_ info: VideoFileInformation) -> [VideoFileInformation] {
+        guard let index = self.informations.firstIndex(of: info) else {
+            LoggingManager.logger.log(message: "Video doesn't exist")
+            return self.informations
         }
+        
+        // Delete from disk
+        do {
+            try fileManager.removeItem(at: info.path)
+        }
+        catch let error {
+            LoggingManager.logger.log(error: error)
+            return self.informations
+        }
+        
+        // Delete from memory
+        self.informations.remove(at: index)
+        return self.informations
     }
     
-    // MARK: - Internal methos
-    private func setDateFormatter(_ formatter: DateFormatter) {
-        formatter.dateFormat = "yyyy_MM_dd_HH-mm"
+    /// Initialize the on memory data to on disk data
+    @discardableResult
+    func refresh() -> [VideoFileInformation] {
+        let directoryPath = self.fileDiretoryPath
+        
+        do {
+            // Returns file's name, not file's path, shit
+            let filePaths = try fileManager.contentsOfDirectory(atPath: directoryPath.path)
+                .map { name -> URL in
+                    let directoryPath = self.fileDiretoryPath
+                    return directoryPath.appendingPathComponent(name)
+                }
+            
+            self.informations = filePaths
+                .map { filePath -> VideoFileInformation in
+                    return informationMaker.makeInformationFile(for: filePath)
+                }
+        } catch let error {
+            LoggingManager.logger.log(error: error)
+        }
+        
+        return self.informations
     }
-
+    
     init(
         _ fileManager: FileManager = FileManager.default,
-        _ dateFormatter: DateFormatter = DateFormatter()
+        _ pathManager: VideoFilePathManager = VideoFilePathManager(),
+        _ informationMaker: VideoFileInformationMaker = VideoFileInformationMaker()
     ) {
         self.fileManager = fileManager
-        self.dateFormatter = dateFormatter
+        self.pathManager = pathManager
+        self.informationMaker = informationMaker
         
-        // set paths
-        let albumPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first! // FIXME: Remove force unwrap
-        self.path = albumPath.appendingPathComponent("BiBlackBox", isDirectory: true)
-
-        super.init()
-        
-        self.setDateFormatter(dateFormatter)
-        if fileManager.fileExists(atPath: self.path.path) == false {
-            // Set directory if doesn't exist
-            do {
-                try FileManager.default.createDirectory(atPath: self.path.path,
-                                                        withIntermediateDirectories: true,
-                                                        attributes: nil)
-            } catch let error {
-                print(error)
-            }
-        }
-    }
-}
-
-extension VideoFileManager: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        print(#function, info)
+        self.informations = [VideoFileInformation]()
+        self.refresh()
     }
 }

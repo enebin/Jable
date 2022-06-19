@@ -27,7 +27,7 @@ class VideoRecorderViewController: UIViewController {
                                    handler: nil))
     }
     
-    lazy var previewLayer = viewModel.getPreviewLayer.then {
+    lazy var previewLayer = viewModel.previewLayer.then {
         $0.videoGravity = .resizeAspectFill
     }
     
