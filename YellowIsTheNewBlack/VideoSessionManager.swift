@@ -12,7 +12,7 @@ class VideoSessionManager: NSObject {
     static let shared = VideoSessionManager()
     
     // Dependencies
-    private let videoFilePathManager: VideoFilePathManager
+    private let videoFileManager: VideoFileManager
     private let captureSession: AVCaptureSession
     private var device: AVCaptureDevice? = nil
     private var output: AVCaptureMovieFileOutput? = nil
@@ -62,7 +62,7 @@ class VideoSessionManager: NSObject {
             throw VideoRecorderError.notConfigured
         }
         
-        let filePath = videoFilePathManager.filePath
+        let filePath = videoFileManager.filePath
         output.startRecording(to: filePath, recordingDelegate: self)
     }
     
@@ -129,14 +129,14 @@ class VideoSessionManager: NSObject {
     // MARK: - Init
     
     init(_ captureSession: AVCaptureSession = AVCaptureSession(),
-         _ videoFilePathManager: VideoFilePathManager = VideoFilePathManager.default,
+         _ videoFileManager: VideoFileManager = VideoFileManager.default,
          quality: AVCaptureSession.Preset = .medium,
          position: AVCaptureDevice.Position = .back
     ) {
         captureSession.sessionPreset = quality
         
         self.captureSession = captureSession
-        self.videoFilePathManager = videoFilePathManager
+        self.videoFileManager = videoFileManager
         
         super.init() // Why?
         
@@ -150,9 +150,12 @@ extension VideoSessionManager: AVCaptureFileOutputRecordingDelegate {
         if let error = error {
             print("Error recording movie: \(error.localizedDescription), \(error)")
         } else {
-            // Save to the album roll
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
+                // Save to the album roll
                 UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
+                
+                // Add to the local memory
+                videoFileManager.addAfterEncode(at: outputFileURL)
             } else {
                 print("Error while saving movie")
                 return

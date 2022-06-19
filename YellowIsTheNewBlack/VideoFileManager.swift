@@ -8,7 +8,7 @@
 import Foundation
 
 final class VideoFileManager {
-    static let shared = VideoFileManager()
+    static let `default` = VideoFileManager()
     
     // Dependencies
     private let fileManager: FileManager
