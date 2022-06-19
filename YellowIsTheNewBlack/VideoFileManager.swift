@@ -61,14 +61,17 @@ final class VideoFileManager {
         let directoryPath = self.fileDiretoryPath
         
         do {
+            // Returns file's name, not file's path, shit
             let filePaths = try fileManager.contentsOfDirectory(atPath: directoryPath.path)
+                .map { name -> URL in
+                    let directoryPath = self.fileDiretoryPath
+                    return directoryPath.appendingPathComponent(name)
+                }
             
-            let infos = filePaths.map { filePath -> VideoFileInformation in
-                let url = URL(fileURLWithPath: filePath)
-                return informationMaker.makeInformationFile(for: url)
-            }
-            
-            self.informations = infos
+            self.informations = filePaths
+                .map { filePath -> VideoFileInformation in
+                    return informationMaker.makeInformationFile(for: filePath)
+                }
         } catch let error {
             LoggingManager.logger.log(error: error)
         }

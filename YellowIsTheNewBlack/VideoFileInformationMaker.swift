@@ -25,13 +25,13 @@ class VideoFileInformationMaker {
         
         let imgGenerator = AVAssetImageGenerator(asset: asset)
         imgGenerator.appliesPreferredTrackTransform = true
-        
         do {
             let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
             let thumbnail = UIImage(cgImage: cgImage)
             return thumbnail
         }
-        catch {
+        catch let error {
+            LoggingManager.logger.log(error: error)
             return nil
         }
     }
