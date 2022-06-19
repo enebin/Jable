@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 
-struct VideoFileInformation {
+struct VideoFileInformation: Identifiable, Equatable {
+    let id = UUID()
     let path: URL
-    let thumbnail: UIImage
+    let thumbnail: UIImage?
 }
