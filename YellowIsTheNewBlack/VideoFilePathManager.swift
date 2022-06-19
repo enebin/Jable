@@ -10,8 +10,6 @@ import UIKit
 
 /// Managing all stuffs related to local disk
 class VideoFilePathManager: NSObject {
-    static let `default` = VideoFilePathManager()
-    
     // Dependencies
     private let fileManager: FileManager
     private let dateFormatter: DateFormatter
