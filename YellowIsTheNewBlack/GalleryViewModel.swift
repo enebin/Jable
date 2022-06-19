@@ -11,12 +11,18 @@ import RxRelay
 
 class GalleryViewModel {
     // Dependencies
+    private let videoFileManager: VideoFileManager
     
     // Public vars and consts
     var thumbnails: [UIImage]
     
-    init() {
+    init(_ videoFileManager: VideoFileManager = VideoFileManager.default) {
+        self.videoFileManager = videoFileManager
+        
         self.thumbnails = [UIImage]()
+        self.thumbnails = videoFileManager.informations.map{
+            return $0.thumbnail ?? UIImage(systemName: "xmark")!
+        }
     }
 }
 

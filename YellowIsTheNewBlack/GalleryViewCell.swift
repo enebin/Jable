@@ -44,5 +44,9 @@ class GalleryViewCell: UICollectionViewCell {
             make.bottom.equalTo(image).inset(15)
         }
     }
+    
+    func setUp(image: UIImage) {
+        self.image.image = image
+    }
 }
 
