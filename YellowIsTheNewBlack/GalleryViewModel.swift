@@ -14,15 +14,14 @@ class GalleryViewModel {
     private let videoFileManager: VideoFileManager
     
     // Public vars and consts
-    var thumbnails: [UIImage]
+    let videoInformationsRelay: BehaviorRelay<[VideoFileInformation]>
+    var videoInformations: [VideoFileInformation] {
+        return self.videoInformationsRelay.value
+    }
     
     init(_ videoFileManager: VideoFileManager = VideoFileManager.default) {
         self.videoFileManager = videoFileManager
-        
-        self.thumbnails = [UIImage]()
-        self.thumbnails = videoFileManager.informations.map{
-            return $0.thumbnail ?? UIImage(systemName: "xmark")!
-        }
+        self.videoInformationsRelay = videoFileManager.informations
     }
 }
 
