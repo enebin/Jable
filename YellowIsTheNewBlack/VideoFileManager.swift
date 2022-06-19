@@ -15,8 +15,10 @@ final class VideoFileManager {
     private let pathManager: VideoFilePathManager
     private let informationMaker: VideoFileInformationMaker
     
+    // Data
     private(set) var informations: [VideoFileInformation]
         
+    
     var fileDiretoryPath: URL {
         return pathManager.fileDiretoryPath
     }
@@ -35,10 +37,42 @@ final class VideoFileManager {
     @discardableResult
     func delete(_ info: VideoFileInformation) -> [VideoFileInformation] {
         guard let index = self.informations.firstIndex(of: info) else {
+            LoggingManager.logger.log(message: "Video doesn't exist")
             return self.informations
         }
         
+        // Delete from disk
+        do {
+            try fileManager.removeItem(at: info.path)
+        }
+        catch let error {
+            LoggingManager.logger.log(error: error)
+            return self.informations
+        }
+        
+        // Delete from memory
         self.informations.remove(at: index)
+        return self.informations
+    }
+    
+    /// Initialize the on memory data to on disk data
+    @discardableResult
+    func refresh() -> [VideoFileInformation] {
+        let directoryPath = self.fileDiretoryPath
+        
+        do {
+            let filePaths = try fileManager.contentsOfDirectory(atPath: directoryPath.path)
+            
+            let infos = filePaths.map { filePath -> VideoFileInformation in
+                let url = URL(fileURLWithPath: filePath)
+                return informationMaker.makeInformationFile(for: url)
+            }
+            
+            self.informations = infos
+        } catch let error {
+            LoggingManager.logger.log(error: error)
+        }
+        
         return self.informations
     }
     
@@ -52,5 +86,6 @@ final class VideoFileManager {
         self.informationMaker = informationMaker
         
         self.informations = [VideoFileInformation]()
+        self.refresh()
     }
 }
