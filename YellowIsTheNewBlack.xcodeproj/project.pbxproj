@@ -14,6 +14,7 @@
 		9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B72859F50B00339D46 /* DemoTest.swift */; };
 		9BA362BA285B31D900339D46 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B9285B31D900339D46 /* Setting.swift */; };
 		9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362BB285B442C00339D46 /* GalleryViewModel.swift */; };
+		9BAF4AD32860019A00B75689 /* GallerySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAF4AD22860019A00B75689 /* GallerySection.swift */; };
 		9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6422843824E00AB77A7 /* AppDelegate.swift */; };
 		9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */; };
 		9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */; };
@@ -57,6 +58,7 @@
 		9BA362B72859F50B00339D46 /* DemoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTest.swift; sourceTree = "<group>"; };
 		9BA362B9285B31D900339D46 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		9BA362BB285B442C00339D46 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
+		9BAF4AD22860019A00B75689 /* GallerySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GallerySection.swift; sourceTree = "<group>"; };
 		9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YellowIsTheNewBlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEAA6422843824E00AB77A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */,
+				9BAF4AD22860019A00B75689 /* GallerySection.swift */,
 				9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */,
 				9BA362BB285B442C00339D46 /* GalleryViewModel.swift */,
 			);
@@ -328,6 +331,7 @@
 				9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */,
 				9BA362BA285B31D900339D46 /* Setting.swift in Sources */,
 				9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */,
+				9BAF4AD32860019A00B75689 /* GallerySection.swift in Sources */,
 				9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */,
 				9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */,
 				9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */,

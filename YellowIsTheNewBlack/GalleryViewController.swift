@@ -12,29 +12,11 @@ import RxDataSources
 import RxSwift
 
 
-struct MySection {
-    var header: String
-    var items: [Item]
-}
-
-extension MySection : AnimatableSectionModelType {
-    typealias Item = Int
-
-    var identity: String {
-        return header
-    }
-
-    init(original: MySection, items: [Item]) {
-        self = original
-        self.items = items
-    }
-}
-
-
 class GalleryViewController: UIViewController {
-    private var viewModel: GalleryViewModel! = nil
+    var viewModel: GalleryViewModel! = nil
+    var dataSource: RxCollectionViewSectionedAnimatedDataSource<GallerySection>! = nil
     let disposeBag = DisposeBag()
-    var dataSource: RxCollectionViewSectionedAnimatedDataSource<MySection>?
+    
     
     lazy var layout = UICollectionViewFlowLayout().then {
         $0.minimumLineSpacing = 1
@@ -75,8 +57,9 @@ class GalleryViewController: UIViewController {
     }
     
     func setDatasource() {
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<MySection>(
-            configureCell: { [weak self] ds, cv, indexPath, item in
+        let sections = [GallerySection(header: "First section", items: viewModel.videoInformations)]
+        self.dataSource = RxCollectionViewSectionedAnimatedDataSource<GallerySection>(
+            configureCell: { [weak self] (dataSource, collectionView, indexPath, item) in
                 guard let self = self else { return UICollectionViewCell() }
                 
                 let cell: GalleryViewCell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
@@ -86,10 +69,7 @@ class GalleryViewController: UIViewController {
             }
         )
         
-        self.dataSource = dataSource
-        
-        let sections = [MySection(header: "First section", items: [1, 2])]
-        
+        // TODO: Make it reactive
         Observable.just(sections)
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
