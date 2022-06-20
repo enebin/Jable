@@ -26,6 +26,7 @@
 		9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */; };
 		9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB502285EC59C006C526C /* VideoFileManager.swift */; };
 		9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */; };
+		9BEFB50A285EFC8A006C526C /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 9BEFB509285EFC8A006C526C /* RxDataSources */; };
 		9C17CD792851C94F00486283 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD782851C94F00486283 /* RxCocoa */; };
 		9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD7A2851C94F00486283 /* RxSwift */; };
 		9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA80728531F5100655A66 /* SettingViewModel.swift */; };
@@ -91,6 +92,7 @@
 				9C17CD792851C94F00486283 /* RxCocoa in Frameworks */,
 				9BEAA6582843828100AB77A7 /* SnapKit in Frameworks */,
 				9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */,
+				9BEFB50A285EFC8A006C526C /* RxDataSources in Frameworks */,
 				9BEAA65B2843829D00AB77A7 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,6 +236,7 @@
 				9BEAA65A2843829D00AB77A7 /* Then */,
 				9C17CD782851C94F00486283 /* RxCocoa */,
 				9C17CD7A2851C94F00486283 /* RxSwift */,
+				9BEFB509285EFC8A006C526C /* RxDataSources */,
 			);
 			productName = YellowIsTheNewBlack;
 			productReference = 9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */;
@@ -272,6 +275,7 @@
 				9BEAA6562843828100AB77A7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9BEAA6592843829D00AB77A7 /* XCRemoteSwiftPackageReference "Then" */,
 				9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				9BEFB508285EFC8A006C526C /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 9BEAA6402843824E00AB77A7 /* Products */;
 			projectDirPath = "";
@@ -635,6 +639,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		9BEFB508285EFC8A006C526C /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -655,6 +667,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9BEAA6592843829D00AB77A7 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		9BEFB509285EFC8A006C526C /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BEFB508285EFC8A006C526C /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 		9C17CD782851C94F00486283 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -8,9 +8,33 @@
 import UIKit
 import SnapKit
 import Then
+import RxDataSources
+import RxSwift
+
+
+struct MySection {
+    var header: String
+    var items: [Item]
+}
+
+extension MySection : AnimatableSectionModelType {
+    typealias Item = Int
+
+    var identity: String {
+        return header
+    }
+
+    init(original: MySection, items: [Item]) {
+        self = original
+        self.items = items
+    }
+}
+
 
 class GalleryViewController: UIViewController {
     private var viewModel: GalleryViewModel! = nil
+    let disposeBag = DisposeBag()
+    var dataSource: RxCollectionViewSectionedAnimatedDataSource<MySection>?
     
     lazy var layout = UICollectionViewFlowLayout().then {
         $0.minimumLineSpacing = 1
@@ -27,10 +51,9 @@ class GalleryViewController: UIViewController {
         $0.backgroundColor = .black
         $0.showsVerticalScrollIndicator = true
         
-        $0.delegate = self
-        $0.dataSource = self
+//        $0.delegate = self
+//        $0.dataSource = self
     }
-    
     
     // Initializers
     init(viewModel: GalleryViewModel = GalleryViewModel()) {
@@ -51,6 +74,30 @@ class GalleryViewController: UIViewController {
         setLayout()
     }
     
+    func setDatasource() {
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<MySection>(
+            configureCell: { [weak self] ds, cv, indexPath, item in
+                guard let self = self else { return UICollectionViewCell() }
+                
+                let cell: GalleryViewCell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
+                cell.setUp(image: (self.viewModel.videoInformations[indexPath.row].thumbnail) ?? UIImage(systemName: "xmark")!)
+                
+                return cell
+            }
+        )
+        
+        self.dataSource = dataSource
+        
+        let sections = [MySection(header: "First section", items: [1, 2])]
+        
+        Observable.just(sections)
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+
+        collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+    }
+    
     func setLayout() {
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
@@ -61,19 +108,18 @@ class GalleryViewController: UIViewController {
 }
 
 extension GalleryViewController: UICollectionViewDelegate {
-    
-}
 
-extension GalleryViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.thumbnails.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: GalleryViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
-        
-        cell.setUp(image: viewModel.thumbnails[indexPath.row])
-        
-        return cell
-    }
 }
+//
+//extension GalleryViewController: UICollectionViewDataSource {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return viewModel.videoInformations.count
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell: GalleryViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
+//        cell.setUp(image: (viewModel.videoInformations[indexPath.row].thumbnail) ?? UIImage(systemName: "xmark")!)
+//
+//        return cell
+//    }
+//}
