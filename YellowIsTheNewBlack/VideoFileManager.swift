@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxRelay
 
 final class VideoFileManager {
     static let `default` = VideoFileManager()
@@ -16,7 +17,7 @@ final class VideoFileManager {
     private let informationMaker: VideoFileInformationMaker
     
     // Data
-    private(set) var informations: [VideoFileInformation]
+    private(set) var informations: BehaviorRelay<[VideoFileInformation]>
         
     
     var fileDiretoryPath: URL {
@@ -30,15 +31,21 @@ final class VideoFileManager {
     /// Path를 이용해서 비디오를 받아오고 내부에서 쓸 수 있게 래퍼로 인코드?함
     func addAfterEncode(at path: URL) {
         let info = informationMaker.makeInformationFile(for: path)
-        self.informations.append(info)
+        
+        var informations = self.informations.value // old values
+        informations.append(info)   // be new values
+        
+        self.informations.accept(informations)
     }
     
     /// 앨범에서 삭제되는 케이스
     @discardableResult
     func delete(_ info: VideoFileInformation) -> [VideoFileInformation] {
-        guard let index = self.informations.firstIndex(of: info) else {
+        var informations = self.informations.value
+        
+        guard let index = informations.firstIndex(of: info) else {
             LoggingManager.logger.log(message: "Video doesn't exist")
-            return self.informations
+            return informations
         }
         
         // Delete from disk
@@ -47,12 +54,13 @@ final class VideoFileManager {
         }
         catch let error {
             LoggingManager.logger.log(error: error)
-            return self.informations
+            return informations
         }
         
         // Delete from memory
-        self.informations.remove(at: index)
-        return self.informations
+        informations.remove(at: index)
+        self.informations.accept(informations)
+        return informations
     }
     
     /// Initialize the on memory data to on disk data
@@ -68,15 +76,17 @@ final class VideoFileManager {
                     return directoryPath.appendingPathComponent(name)
                 }
             
-            self.informations = filePaths
+            let infos = filePaths
                 .map { filePath -> VideoFileInformation in
                     return informationMaker.makeInformationFile(for: filePath)
                 }
+            
+            self.informations.accept(infos)
         } catch let error {
             LoggingManager.logger.log(error: error)
         }
         
-        return self.informations
+        return self.informations.value
     }
     
     init(
@@ -88,7 +98,7 @@ final class VideoFileManager {
         self.pathManager = pathManager
         self.informationMaker = informationMaker
         
-        self.informations = [VideoFileInformation]()
+        self.informations = BehaviorRelay<[VideoFileInformation]>(value: [VideoFileInformation]())
         self.refresh()
     }
 }
