@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxRelay
+import RxDataSources
 
 class GalleryViewModel {
     // Dependencies
@@ -15,6 +16,7 @@ class GalleryViewModel {
     
     // Public vars and consts
     let videoInformationsRelay: BehaviorRelay<[VideoFileInformation]>
+    
     var videoInformations: [VideoFileInformation] {
         return self.videoInformationsRelay.value
     }
