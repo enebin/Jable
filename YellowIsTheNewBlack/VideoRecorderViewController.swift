@@ -19,12 +19,12 @@ class VideoRecorderViewController: UIViewController {
     // Internal vars and const
     var errorMessage = "알 수 없는 오류"
     var isRecording = false
+    var previewLayerSize: PreviewLayerSize = .large
     
     // View components
-    lazy var alert = UIAlertController(title: "오류", message: self.errorMessage, preferredStyle: UIAlertController.Style.alert).then {
-        $0.addAction(UIAlertAction(title: "Ok",
-                                   style: UIAlertAction.Style.default,
-                                   handler: nil))
+    lazy var alert = UIAlertController(title: "오류", message: self.errorMessage,
+                                       preferredStyle: UIAlertController.Style.alert).then {
+        $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
     }
     
     lazy var previewLayer = viewModel.previewLayer.then {
@@ -35,7 +35,12 @@ class VideoRecorderViewController: UIViewController {
         $0.backgroundColor = .white
         $0.sizeToFit()
     }
-
+    
+    lazy var screenSizeButton = UIButton().then {
+        $0.backgroundColor = .white
+        $0.sizeToFit()
+    }
+    
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,29 +63,33 @@ class VideoRecorderViewController: UIViewController {
     
     private func setLayout() {
         self.view.layer.addSublayer(previewLayer)
-        previewLayer.bounds = CGRect(x: 0, y: 0,
-                                     width: self.view.bounds.width,
-                                     height: self.view.bounds.height)
-        previewLayer.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
+        previewLayer.bounds = self.previewLayerSize.bounds
+        previewLayer.position = self.previewLayerSize.position
         
         self.view.addSubview(recordButton)
         self.recordButton.snp.makeConstraints { make in
             make.height.width.equalTo(50)
             make.center.equalToSuperview()
         }
+        
+        self.view.addSubview(screenSizeButton)
+        self.screenSizeButton.snp.makeConstraints { make in
+            make.width.height.equalTo(100)
+            make.left.top.equalToSuperview().inset(30)
+        }
     }
     
     private func bindUIComponents() {
         self.recordButton.rx.tap
-            .bind { [weak self] _ in
+            .bind { [weak self] in
                 guard let self = self else { return }
                 
                 do {
                     if self.isRecording {
-                        self.isRecording.toggle()
-                       try self.viewModel.stopRecordingVideo()
+                        self.isRecording = false
+                        try self.viewModel.stopRecordingVideo()
                     } else {
-                        self.isRecording.toggle()
+                        self.isRecording = true
                         try self.viewModel.startRecordingVideo()
                     }
                 } catch let error {
@@ -90,6 +99,15 @@ class VideoRecorderViewController: UIViewController {
             }
             .disposed(by: self.bag)
         
+        self.screenSizeButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                self.previewLayerSize = self.previewLayerSize.next()
+                self.previewLayer.bounds = self.previewLayerSize.bounds
+                self.previewLayer.position = self.previewLayerSize.position
+                self.view.layoutIfNeeded()
+            }
+            .disposed(by: bag)
     }
     
     // Initializers
@@ -102,5 +120,45 @@ class VideoRecorderViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension VideoRecorderViewController {
+    enum PreviewLayerSize: Double, CaseIterable {
+        // Define screen ratio
+        case large = 1
+        case medium = 0.5
+        case small = 0.3
+        
+        var position: CGPoint {
+            let screenSize = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+            
+            switch self {
+                // -30 is offset constant
+            case .large:
+                return CGPoint(x: screenSize.0/2, y: screenSize.1/2 - 30)   // Center point
+            case .medium:
+                return CGPoint(x: screenSize.0/4 * 3, y: screenSize.1/4 * 3 - 30)   // 3rd quarter of the screen
+            case .small:
+                return CGPoint(x: screenSize.0/8 * 7, y: screenSize.1/8 * 7 - 30)   // 7th over 8 of the screen
+            }
+        }
+        
+        var bounds: CGRect {
+            let screenSize = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+            
+            let layerSize = CGSize(width: screenSize.0 * self.rawValue, height: screenSize.1 * self.rawValue)
+            return CGRect(origin: CGPoint(x: 0, y: 0), size: layerSize)
+        }
+        
+        func next() -> PreviewLayerSize {
+            let all = type(of: self).allCases
+            if self == all.last! {
+                return all.first!
+            } else {
+                let index = all.firstIndex(of: self)!
+                return all[index + 1]
+            }
+        }
     }
 }
