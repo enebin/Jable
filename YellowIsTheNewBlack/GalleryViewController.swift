@@ -8,8 +8,12 @@
 import UIKit
 import SnapKit
 import Then
+
 import RxDataSources
 import RxSwift
+
+import AVFoundation
+import AVKit
 
 
 class GalleryViewController: UIViewController {
@@ -86,4 +90,22 @@ class GalleryViewController: UIViewController {
     }
 }
 
-extension GalleryViewController: UICollectionViewDelegate {}
+extension GalleryViewController: UICollectionViewDelegate {
+    private func playVideo(at path: URL) {
+        let player = AVPlayer(url: URL(fileURLWithPath: path.path))
+        let playerController = AVPlayerViewController()
+        
+        playerController.player = player
+        present(playerController, animated: true) {
+            player.play()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cellIndex = indexPath.last else { return }
+        let item = viewModel.videoInformations[cellIndex]
+        
+        self.playVideo(at: item.path)
+    }
+}
+
