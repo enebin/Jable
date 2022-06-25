@@ -60,7 +60,16 @@ class SettingViewController: UIViewController {
     }
 }
 
-extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+extension SettingViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = SettingOptionsViewController()
+      
+        vc.modalPresentationStyle = .pageSheet
+        present(vc, animated: true, completion: nil)
+    }
+}
+
+extension SettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as UITableViewCell
