@@ -62,10 +62,13 @@ class SettingViewController: UIViewController {
 
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = SettingOptionsViewController()
-      
-        vc.modalPresentationStyle = .pageSheet
-        present(vc, animated: true, completion: nil)
+        let vc = SettingOfVideoQualityViewController()
+        navigationController?.pushViewController(vc, animated: true)
+//        
+//        
+//        vc.modalPresentationStyle = .pageSheet
+//        
+//        present(vc, animated: true, completion: nil)
     }
 }
 
