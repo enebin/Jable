@@ -12,6 +12,10 @@ class SettingOfVideoQualityViewModel {
     var options: [String] {
         return Quality.allCases.map { $0.rawValue }
     }
+    
+    func choose(_ qualityIndex: Int) {
+        currentQuality = Quality.allCases[qualityIndex]
+    }
 }
 
 extension SettingOfVideoQualityViewModel {

@@ -39,7 +39,12 @@ class SettingOfVideoQualityViewController: UIViewController {
     }
 }
 
-extension SettingOfVideoQualityViewController: UITableViewDelegate {}
+extension SettingOfVideoQualityViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.choose(indexPath.row)
+        tableView.reloadData()
+    }
+}
 
 extension SettingOfVideoQualityViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
