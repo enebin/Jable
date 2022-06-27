@@ -22,6 +22,8 @@ class SettingOfVideoQualityViewController: UIViewController {
     override func viewDidLoad() {
         self.view.backgroundColor = .black
         
+        navigationItem.largeTitleDisplayMode = .never
+        
         self.viewModel = SettingOfVideoQualityViewModel()
         self.setLayout()
     }
@@ -38,6 +40,14 @@ class SettingOfVideoQualityViewController: UIViewController {
 extension SettingOfVideoQualityViewController: UITableViewDelegate {}
 
 extension SettingOfVideoQualityViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "화질"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.options.count
     }
