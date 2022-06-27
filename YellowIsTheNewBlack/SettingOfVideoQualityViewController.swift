@@ -8,6 +8,8 @@
 import UIKit
 
 class SettingOfVideoQualityViewController: UIViewController {
+    typealias VideoQuality = SettingOfVideoQualityViewModel.Quality
+    
     // Dependencies
     var viewModel: SettingOfVideoQualityViewModel! = nil
     
@@ -16,7 +18,7 @@ class SettingOfVideoQualityViewController: UIViewController {
         $0.backgroundColor = .black
         $0.delegate = self
         $0.dataSource = self
-        $0.register(UITableViewCell.self, forCellReuseIdentifier: "VQCell")
+        $0.register(SettingVideoQualityCell.self, forCellReuseIdentifier: "VQCell")
     }
     
     override func viewDidLoad() {
@@ -53,11 +55,12 @@ extension SettingOfVideoQualityViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "VQCell", for: indexPath) as UITableViewCell
+        let cell: SettingVideoQualityCell = tableView.dequeueReusableCell(withIdentifier: "VQCell", for: indexPath) as! SettingVideoQualityCell
+        let cellDescription = viewModel.options[indexPath.row]
         
         if #available(iOS 14, *) {
             var content = cell.defaultContentConfiguration()
-            content.text = viewModel.options[indexPath.row]
+            content.text = cellDescription
             content.textProperties.color = .white
             
             var background = UIBackgroundConfiguration.listPlainCell()
@@ -66,11 +69,16 @@ extension SettingOfVideoQualityViewController: UITableViewDataSource {
             cell.contentConfiguration = content
             cell.backgroundConfiguration = background
         } else {
-            cell.textLabel?.text = viewModel.options[indexPath.row]
+            cell.textLabel?.text = cellDescription
             cell.textLabel?.textColor = .white
             
-            cell.backgroundColor = .black
+            cell.backgroundColor = .systemGray6
         }
+        
+        if viewModel.currentQuality == VideoQuality(rawValue: cellDescription) {
+            cell.setUp(image: UIImage(systemName: "checkmark")!)
+        }
+        
         
         return cell
     }

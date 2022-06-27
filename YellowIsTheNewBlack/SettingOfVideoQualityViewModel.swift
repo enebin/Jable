@@ -8,5 +8,16 @@
 import UIKit
 
 class SettingOfVideoQualityViewModel {
-    let options = ["고화질", "중간화질", "저화질"]
+    var currentQuality: Quality = .middle
+    var options: [String] {
+        return Quality.allCases.map { $0.rawValue }
+    }
+}
+
+extension SettingOfVideoQualityViewModel {
+    enum Quality: String, CaseIterable {
+        case high = "고화질"
+        case middle = "중간화질"
+        case low = "저화질"
+    }
 }
