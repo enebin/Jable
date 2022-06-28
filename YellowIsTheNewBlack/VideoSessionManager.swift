@@ -13,17 +13,17 @@ class VideoSessionManager: NSObject {
     
     // Dependencies
     private let videoFileManager: VideoFileManager
-    private let captureSession: AVCaptureSession
+    private var captureSession: AVCaptureSession? = nil
     private var device: AVCaptureDevice? = nil
     private var output: AVCaptureMovieFileOutput? = nil
 
     // MARK: - Public methods and vars
     
     var previewLayer: AVCaptureVideoPreviewLayer {
-        AVCaptureVideoPreviewLayer(session: self.captureSession)
+        AVCaptureVideoPreviewLayer(session: self.captureSession!)
     }
     
-    /// Set up the AV session
+    /// 세션을 만든다
     ///
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
@@ -53,7 +53,7 @@ class VideoSessionManager: NSObject {
     
     /// 카메라를 돌리기 시작함
     func startRunningCamera() {
-        self.captureSession.startRunning()
+        self.captureSession?.startRunning()
     }
     
     /// '녹화'를 시작함
@@ -81,6 +81,10 @@ class VideoSessionManager: NSObject {
             throw VideoRecorderError.invalidDevice
         }
         
+        guard let captureSession = captureSession else {
+            throw VideoRecorderError.notConfigured
+        }
+
         captureSession.beginConfiguration()
         
         let deviceInput = try AVCaptureDeviceInput(device: device)

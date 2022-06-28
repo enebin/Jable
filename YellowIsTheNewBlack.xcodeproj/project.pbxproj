@@ -122,8 +122,8 @@
 		9B51E64528688C8600D3BB82 /* Video quality */ = {
 			isa = PBXGroup;
 			children = (
-				9B51E64628688CFE00D3BB82 /* SettingOfVideoQualityViewModel.swift */,
 				9B51E6432866F69400D3BB82 /* SettingOfVideoQualityViewController.swift */,
+				9B51E64628688CFE00D3BB82 /* SettingOfVideoQualityViewModel.swift */,
 				9B6CF2E92869D4730026D4A8 /* SettingVideoQualityCell.swift */,
 			);
 			name = "Video quality";
