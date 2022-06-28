@@ -19,10 +19,11 @@ class VideoSessionManager: NSObject {
 
     // MARK: - Public methods and vars
     
-    var previewLayer: AVCaptureVideoPreviewLayer {
-        AVCaptureVideoPreviewLayer(session: self.captureSession!)
+    var previewLayer: AVCaptureVideoPreviewLayer? {
+        guard let captureSession = captureSession else { return nil }
+
+        return AVCaptureVideoPreviewLayer(session: captureSession)
     }
-    
     
     /// 세션을 세팅한다
     ///
@@ -119,6 +120,9 @@ class VideoSessionManager: NSObject {
         } else {
             throw VideoRecorderError.unableToSetOutput
         }
+        
+        self.captureSession = captureSession
+        self.device = device
         
         captureSession.commitConfiguration()
     }
