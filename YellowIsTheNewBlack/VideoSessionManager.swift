@@ -23,32 +23,18 @@ class VideoSessionManager: NSObject {
         AVCaptureVideoPreviewLayer(session: self.captureSession!)
     }
     
-    /// 세션을 만든다
+    
+    /// 세션을 세팅한다
     ///
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
-    func setupSession() throws {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            try self.setUpCaptureSession()
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                if granted {
-                    do {
-                        try self.setUpCaptureSession()
-                    }
-                    catch let error {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-        case .denied:
-            return
-        case .restricted:
-            return
-        @unknown default:
-            fatalError()
-        }
+    func setupSession(quality: AVCaptureSession.Preset = .medium,
+                      position: AVCaptureDevice.Position = .back) throws
+    {
+        let captureSession = AVCaptureSession()
+        captureSession.sessionPreset = quality
+        
+        try checkIsSessionConfigurable(session: captureSession, position: position)
     }
     
     /// 카메라를 돌리기 시작함
@@ -76,8 +62,32 @@ class VideoSessionManager: NSObject {
     
     // MARK: - Internal methods
     
-    private func setUpCaptureSession() throws {
-        guard let device = self.device else {
+    private func checkIsSessionConfigurable(session: AVCaptureSession?, position: AVCaptureDevice.Position) throws {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            try self.setUpCaptureSession(session, position: position)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    do {
+                        try self.setUpCaptureSession(session, position: position)
+                    }
+                    catch let error {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        case .denied:
+            return
+        case .restricted:
+            return
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    private func setUpCaptureSession(_ session: AVCaptureSession?, position: AVCaptureDevice.Position) throws {
+        guard let device = findBestCamera(in: position) else {
             throw VideoRecorderError.invalidDevice
         }
         
@@ -117,13 +127,9 @@ class VideoSessionManager: NSObject {
     ///
     /// Only back postion is supported now
     private func findBestCamera(in position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        if let device = AVCaptureDevice.default(.builtInDualCamera,
-                                                for: .video,
-                                                position: position) {
+        if let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: position) {
             return device
-        } else if let device = AVCaptureDevice.default(.builtInWideAngleCamera,
-                                                       for: .video,
-                                                       position: position) {
+        } else if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position) {
             return device
         } else {
             return nil
@@ -132,20 +138,8 @@ class VideoSessionManager: NSObject {
     
     // MARK: - Init
     
-    init(_ captureSession: AVCaptureSession = AVCaptureSession(),
-         _ videoFileManager: VideoFileManager = VideoFileManager.default,
-         quality: AVCaptureSession.Preset = .medium,
-         position: AVCaptureDevice.Position = .back
-    ) {
-        captureSession.sessionPreset = quality
-        
-        self.captureSession = captureSession
+    init(_ videoFileManager: VideoFileManager = VideoFileManager.default) {
         self.videoFileManager = videoFileManager
-        
-        super.init() // Why?
-        
-        let deviceFound = self.findBestCamera(in: position)
-        self.device = deviceFound
     }
 }
 
