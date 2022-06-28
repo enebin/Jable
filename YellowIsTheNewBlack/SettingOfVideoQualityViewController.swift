@@ -62,28 +62,13 @@ extension SettingOfVideoQualityViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: SettingVideoQualityCell = tableView.dequeueReusableCell(withIdentifier: "VQCell", for: indexPath) as! SettingVideoQualityCell
         let cellDescription = viewModel.options[indexPath.row]
-        
-        if #available(iOS 14, *) {
-            var content = cell.defaultContentConfiguration()
-            content.text = cellDescription
-            content.textProperties.color = .white
-            
-            var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .systemGray6
-            
-            cell.contentConfiguration = content
-            cell.backgroundConfiguration = background
-        } else {
-            cell.textLabel?.text = cellDescription
-            cell.textLabel?.textColor = .white
-            
-            cell.backgroundColor = .systemGray6
-        }
+        cell.setLayout(description: cellDescription)
         
         if viewModel.currentQuality == VideoQuality(rawValue: cellDescription) {
-            cell.setUp(image: UIImage(systemName: "checkmark")!)
+            cell.setImage(UIImage(systemName: "checkmark")!)
+        } else {
+            cell.setImage(nil)
         }
-        
         
         return cell
     }

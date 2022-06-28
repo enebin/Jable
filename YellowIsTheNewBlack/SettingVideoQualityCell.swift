@@ -8,18 +8,15 @@
 import UIKit
 
 class SettingVideoQualityCell: UITableViewCell {
-    lazy var image = UIImageView().then {
+    lazy var cellImageView = UIImageView().then {
         $0.tintColor = .yellow
         $0.sizeToFit()
-    }
-    
-    lazy var text = UITextView().then {
-        $0.textColor = .white
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addViews()
+        setLayout(description: "")
     }
     
     
@@ -28,21 +25,35 @@ class SettingVideoQualityCell: UITableViewCell {
     }
     
     private func addViews() {
-        self.addSubview(image)
-        image.snp.makeConstraints { make in
+        self.addSubview(cellImageView)
+        cellImageView.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(20)
         }
+    }
+    
+    func setLayout(description text: String) {
+        let cell = self
         
-        self.addSubview(text)
-        text.snp.makeConstraints { make in
-            make.right.equalTo(image).inset(15)
-            make.bottom.equalTo(image).inset(15)
+        if #available(iOS 14, *) {
+            var content = cell.defaultContentConfiguration()
+            content.textProperties.color = .white
+            content.text = text
+
+            var background = UIBackgroundConfiguration.listPlainCell()
+            background.backgroundColor = .gray.withAlphaComponent(0.2)
+            
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = background
+        } else {
+            cell.textLabel?.text = text
+            cell.textLabel?.textColor = .white
+            cell.backgroundColor = .gray.withAlphaComponent(0.2)
         }
     }
     
-    func setUp(image: UIImage) {
-        self.image.image = image
+    func setImage(_ image: UIImage?) {
+        self.cellImageView.image = image
     }
 }
