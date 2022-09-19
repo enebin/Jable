@@ -19,8 +19,6 @@ protocol AlbumManager {
 class VideoAlbumManager: AlbumManager {
     static let shared = VideoAlbumManager()
     
-    private var album: PHAssetCollection?
-    
     private let albumName: String
     private let photoLibrary: PHPhotoLibrary
 
@@ -28,10 +26,6 @@ class VideoAlbumManager: AlbumManager {
          _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
         self.photoLibrary = photoLibrary
         self.albumName = albumName
-
-        if let album = getAlbum() {
-            self.album = album
-        }
     }
 
     func getAlbum() -> PHAssetCollection? {
@@ -55,40 +49,5 @@ class VideoAlbumManager: AlbumManager {
         }
         
         return album
-    }
-    
-    private func add(_ videoURL: URL) async throws -> Void {
-        async let task: Void = photoLibrary.performChanges {
-            if let assetChangeRequest =
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL),
-               let album = self.album,
-               let placeholder = assetChangeRequest.placeholderForCreatedAsset {
-                let albumChangeRequest = PHAssetCollectionChangeRequest(for: album)
-                let enumeration = NSArray(object: placeholder)
-                albumChangeRequest?.addAssets(enumeration)
-            }
-        }
-        
-        return try await task
-    }
-    
-    /// Recommended to be executed on background queue
-    func save(videoURL: URL) async {
-        PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else {
-                print("앨범 접근 권한이 없습니다.")
-                return
-            }
-        }
-
-        do {
-            if self.album == nil {
-                try await self.createAlbum()
-            }
-            
-            try await self.add(videoURL)
-        } catch let error {
-            print("동영상을 저장하는데 실패했습니다: \(error.localizedDescription)")
-        }
     }
 }

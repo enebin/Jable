@@ -13,7 +13,7 @@ class VideoSessionManager: NSObject {
     
     // Dependencies
     private let videoFileManager: VideoFileManager
-    private let videoAlbumManager: VideoAlbumManager
+    private let videoAlbumSaver: VideoAlbumSaver
     private var captureSession: AVCaptureSession? = nil
     private var device: AVCaptureDevice? = nil
     private var output: AVCaptureMovieFileOutput? = nil
@@ -145,9 +145,9 @@ class VideoSessionManager: NSObject {
     // MARK: - Init
     
     init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
-         _ videoAlbumManager: VideoAlbumManager = VideoAlbumManager.shared) {
+         _ videoAlbumSaver: VideoAlbumSaver = VideoAlbumSaver()) {
         self.videoFileManager = videoFileManager
-        self.videoAlbumManager = videoAlbumManager
+        self.videoAlbumSaver = videoAlbumSaver
     }
 }
 
@@ -170,7 +170,7 @@ extension VideoSessionManager: AVCaptureFileOutputRecordingDelegate {
                 //                videoFileManager.addAfterEncode(at: outputFileURL)
                 
                 Task(priority: .background) {
-                    await self.videoAlbumManager.save(videoURL: outputFileURL)
+                    await self.videoAlbumSaver.save(videoURL: outputFileURL)
                 }
             } else {
                 print("Error while saving movie")
