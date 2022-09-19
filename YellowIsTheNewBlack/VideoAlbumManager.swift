@@ -18,16 +18,14 @@ protocol AlbumManager {
 
 class VideoAlbumManager: AlbumManager {
     static let shared = VideoAlbumManager()
-    
-    private let albumName: String
+        
+    // Dependencies
     private let photoLibrary: PHPhotoLibrary
+    
+    // Consts and vars
+    private let albumName: String
 
-    init(_ albumName: String = "BLBX",
-         _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
-        self.photoLibrary = photoLibrary
-        self.albumName = albumName
-    }
-
+    // Methods
     func getAlbum() -> PHAssetCollection? {
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "title = %@", albumName)
@@ -50,4 +48,11 @@ class VideoAlbumManager: AlbumManager {
         
         return album
     }
+    
+    init(_ albumName: String = "BLBX",
+         _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
+        self.photoLibrary = photoLibrary
+        self.albumName = albumName
+    }
+
 }

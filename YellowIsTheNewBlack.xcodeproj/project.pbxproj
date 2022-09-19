@@ -36,6 +36,7 @@
 		9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F228D825C0001533BF /* VideoAlbumManager.swift */; };
 		9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F528D82A76001533BF /* VideoAlbumError.swift */; };
 		9C4093F828D842FA001533BF /* VideoAlbumSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */; };
+		9C4093FA28D8491C001533BF /* VideoAlbumFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */; };
 		9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA80728531F5100655A66 /* SettingViewModel.swift */; };
 		9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */; };
 		9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */; };
@@ -83,6 +84,7 @@
 		9C4093F228D825C0001533BF /* VideoAlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumManager.swift; sourceTree = "<group>"; };
 		9C4093F528D82A76001533BF /* VideoAlbumError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumError.swift; sourceTree = "<group>"; };
 		9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumSaver.swift; sourceTree = "<group>"; };
+		9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumFetcher.swift; sourceTree = "<group>"; };
 		9C9CA80728531F5100655A66 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderConfiguration.swift; sourceTree = "<group>"; };
 		9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewModel.swift; sourceTree = "<group>"; };
@@ -208,14 +210,12 @@
 		9BEFB4FF285DFBE4006C526C /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				9C4093FB28D84935001533BF /* Album */,
 				9C4093F428D825C9001533BF /* protocols */,
 				9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */,
 				9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */,
 				9CD451982851B167007CF311 /* VideoFilePathManager.swift */,
 				9BEFB502285EC59C006C526C /* VideoFileManager.swift */,
-				9C4093F228D825C0001533BF /* VideoAlbumManager.swift */,
-				9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */,
-				9C4093F528D82A76001533BF /* VideoAlbumError.swift */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -253,6 +253,17 @@
 			children = (
 			);
 			name = protocols;
+			sourceTree = "<group>";
+		};
+		9C4093FB28D84935001533BF /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				9C4093F228D825C0001533BF /* VideoAlbumManager.swift */,
+				9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */,
+				9C4093F528D82A76001533BF /* VideoAlbumError.swift */,
+				9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */,
+			);
+			name = Album;
 			sourceTree = "<group>";
 		};
 		9CD45189284F2BE9007CF311 /* Video */ = {
@@ -409,6 +420,7 @@
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
 				9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */,
 				9B51E6442866F69400D3BB82 /* SettingOfVideoQualityViewController.swift in Sources */,
+				9C4093FA28D8491C001533BF /* VideoAlbumFetcher.swift in Sources */,
 				9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */,
 				9B6CF2EA2869D4730026D4A8 /* SettingVideoQualityCell.swift in Sources */,
 				9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */,

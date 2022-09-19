@@ -17,6 +17,7 @@ class VideoAlbumSaver: AlbumSaver {
     private let albumManager: AlbumManager
     private let photoLibrary: PHPhotoLibrary
     
+    // Methods
     private func add(_ videoURL: URL, to album: PHAssetCollection) async throws -> Void {
         async let task: Void = photoLibrary.performChanges {
             if let assetChangeRequest =
@@ -47,7 +48,6 @@ class VideoAlbumSaver: AlbumSaver {
                 let album = try await albumManager.createAlbum()
                 try await self.add(videoURL, to: album)
             }
-            
         } catch let error {
             print("동영상을 저장하는데 실패했습니다: \(error.localizedDescription)")
         }
