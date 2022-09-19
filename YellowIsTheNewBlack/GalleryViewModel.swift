@@ -13,6 +13,7 @@ import RxDataSources
 class GalleryViewModel {
     // Dependencies
     private let videoFileManager: VideoFileManager
+    private let videoAlbumFetcher: VideoAlbumFetcher
     
     // Public vars and consts
     let videoInformationsRelay: BehaviorRelay<[VideoFileInformation]>
@@ -21,9 +22,16 @@ class GalleryViewModel {
         return self.videoInformationsRelay.value
     }
     
-    init(_ videoFileManager: VideoFileManager = VideoFileManager.default) {
+    init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
+         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher()) {
         self.videoFileManager = videoFileManager
+        self.videoAlbumFetcher = videoAlbumFetcher
         self.videoInformationsRelay = videoFileManager.informations
+        
+        
+        videoAlbumFetcher.fetch { fetchResult in
+            self.videoInformationsRelay.accept(fetchResult)
+        }
     }
 }
 
