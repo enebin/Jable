@@ -149,7 +149,13 @@ class VideoSessionManager: NSObject {
 }
 
 extension VideoSessionManager: AVCaptureFileOutputRecordingDelegate {
+    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
+        print("Record started now")
+    }
+    
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        print("Record finished")
+        
         if let error = error {
             print("Error recording movie: \(error.localizedDescription), \(error)")
         } else {
