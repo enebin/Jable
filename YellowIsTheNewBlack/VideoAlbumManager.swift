@@ -12,7 +12,8 @@ import Photos
 import UIKit
 
 protocol AlbumManager {
-    func save(videoURL: URL) async throws
+    func getAlbum() -> PHAssetCollection?
+    func createAlbum() async throws -> PHAssetCollection
 }
 
 class VideoAlbumManager: AlbumManager {
@@ -30,24 +31,30 @@ class VideoAlbumManager: AlbumManager {
 
         if let album = getAlbum() {
             self.album = album
-            return
         }
     }
 
-    private func getAlbum() -> PHAssetCollection? {
+    func getAlbum() -> PHAssetCollection? {
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "title = %@", albumName)
         let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: options)
+        
         return collection.firstObject ?? nil
     }
     
-    private func createAlbum() async throws -> Void {
-        async let task: Void = photoLibrary.performChanges {
+    func createAlbum() async throws -> PHAssetCollection {
+        var _album: PHAssetCollection?
+        
+        try photoLibrary.performChangesAndWait {
             PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: self.albumName)
-            self.album = self.getAlbum()
+            _album = self.getAlbum()
         }
         
-        return try await task
+        guard let album = _album else {
+            throw VideoAlbumError.unabledToAccessAlbum
+        }
+        
+        return album
     }
     
     private func add(_ videoURL: URL) async throws -> Void {
