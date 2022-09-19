@@ -15,6 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        
+        window?.overrideUserInterfaceStyle = .light // Disable darkmode
         window?.windowScene = windowScene
         window?.rootViewController = MainTabViewController()
         window?.makeKeyAndVisible()
