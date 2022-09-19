@@ -9,6 +9,7 @@ import Foundation
 
 enum VideoRecorderError: LocalizedError {
     case invalidDevice
+    case permissionDenied
     case unableToSetInput
     case unableToSetOutput
     case notConfigured
@@ -17,6 +18,8 @@ enum VideoRecorderError: LocalizedError {
         switch self {
         case .invalidDevice:
             return "카메라 디바이스를 설정할 수 없습니다.\n카메라 사용 권한을 확인해주세요."
+        case .permissionDenied:
+            return "카메라 사용 권한이 거부되어 동영상을 촬영할 수 없습니다."
         case .unableToSetInput:
             return "영상을 저장할 수 없습니다."
         case .unableToSetOutput:

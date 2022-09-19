@@ -19,28 +19,24 @@ class VideoSessionManager: NSObject {
 
     // MARK: - Public methods and vars
     
-    var previewLayer: AVCaptureVideoPreviewLayer? {
-        guard let captureSession = captureSession else { return nil }
-
-        return AVCaptureVideoPreviewLayer(session: captureSession)
-    }
-    
     /// 세션을 세팅한다
     ///
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
     func setupSession(quality: AVCaptureSession.Preset = .medium,
-                      position: AVCaptureDevice.Position = .back) throws
+                      position: AVCaptureDevice.Position = .back) async throws -> AVCaptureSession
     {
         let captureSession = AVCaptureSession()
         captureSession.sessionPreset = quality
         
-        try checkIsSessionConfigurable(session: captureSession, position: position)
+        return try await checkIsSessionConfigurable(session: captureSession, position: position)
     }
     
     /// 카메라를 돌리기 시작함
     func startRunningCamera() {
-        self.captureSession?.startRunning()
+        DispatchQueue.global(qos: .background).async {
+            self.captureSession?.startRunning()
+        }
     }
     
     /// '녹화'를 시작함
@@ -63,36 +59,39 @@ class VideoSessionManager: NSObject {
     
     // MARK: - Internal methods
     
-    private func checkIsSessionConfigurable(session: AVCaptureSession?, position: AVCaptureDevice.Position) throws {
+    private func checkIsSessionConfigurable(session: AVCaptureSession?,
+                                            position: AVCaptureDevice.Position) async throws -> AVCaptureSession {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
-            try self.setUpCaptureSession(session, position: position)
+            return try await self.setUpCaptureSession(session, position: position)
         case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                if granted {
-                    do {
-                        try self.setUpCaptureSession(session, position: position)
-                    }
-                    catch let error {
-                        print(error.localizedDescription)
-                    }
+            let isGranted = await AVCaptureDevice.requestAccess(for: .video)
+            if isGranted {
+                do {
+                    return try await self.setUpCaptureSession(session, position: position)
+                }
+                catch let error {
+                    print(error.localizedDescription)
                 }
             }
+            
         case .denied:
-            return
+            throw VideoRecorderError.permissionDenied
         case .restricted:
-            return
+            throw VideoRecorderError.permissionDenied
         @unknown default:
-            fatalError()
+            throw VideoRecorderError.invalidDevice
         }
+        
+        return AVCaptureSession()
     }
     
-    private func setUpCaptureSession(_ session: AVCaptureSession?, position: AVCaptureDevice.Position) throws {
+    private func setUpCaptureSession(_ session: AVCaptureSession?, position: AVCaptureDevice.Position) async throws -> AVCaptureSession {
         guard let device = findBestCamera(in: position) else {
             throw VideoRecorderError.invalidDevice
         }
         
-        guard let captureSession = captureSession else {
+        guard let captureSession = session else {
             throw VideoRecorderError.notConfigured
         }
 
@@ -125,6 +124,8 @@ class VideoSessionManager: NSObject {
         self.device = device
         
         captureSession.commitConfiguration()
+        
+        return captureSession
     }
     
     /// Finds the best camera among the several cameras

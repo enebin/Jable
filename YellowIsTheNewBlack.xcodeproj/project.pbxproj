@@ -30,9 +30,9 @@
 		9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */; };
 		9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB502285EC59C006C526C /* VideoFileManager.swift */; };
 		9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */; };
-		9BEFB50A285EFC8A006C526C /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 9BEFB509285EFC8A006C526C /* RxDataSources */; };
 		9C17CD792851C94F00486283 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD782851C94F00486283 /* RxCocoa */; };
 		9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD7A2851C94F00486283 /* RxSwift */; };
+		9C4093F128D7F085001533BF /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4093F028D7F085001533BF /* RxDataSources */; };
 		9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA80728531F5100655A66 /* SettingViewModel.swift */; };
 		9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */; };
 		9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */; };
@@ -100,7 +100,7 @@
 				9C17CD792851C94F00486283 /* RxCocoa in Frameworks */,
 				9BEAA6582843828100AB77A7 /* SnapKit in Frameworks */,
 				9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */,
-				9BEFB50A285EFC8A006C526C /* RxDataSources in Frameworks */,
+				9C4093F128D7F085001533BF /* RxDataSources in Frameworks */,
 				9BEAA65B2843829D00AB77A7 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,13 +188,9 @@
 		9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */ = {
 			isa = PBXGroup;
 			children = (
-				9BA362992859EA8900339D46 /* Managers */,
-				9BEFB4FF285DFBE4006C526C /* Files */,
-				9CD45189284F2BE9007CF311 /* Video */,
-				9BA362BD285B464100339D46 /* Gallery */,
-				9B51E6402866EF8500D3BB82 /* Setting */,
+				9C4093ED28D7EF8B001533BF /* Utils */,
+				9C4093EC28D7EF80001533BF /* Sources */,
 				9BEAA6502843825200AB77A7 /* Info.plist */,
-				9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */,
 				9BEAA6422843824E00AB77A7 /* AppDelegate.swift */,
 				9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */,
 				9BEAA64B2843825200AB77A7 /* Assets.xcassets */,
@@ -212,6 +208,34 @@
 				9BEFB502285EC59C006C526C /* VideoFileManager.swift */,
 			);
 			name = Files;
+			sourceTree = "<group>";
+		};
+		9C4093EC28D7EF80001533BF /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				9C4093EE28D7EFB0001533BF /* Main */,
+				9BA362BD285B464100339D46 /* Gallery */,
+				9B51E6402866EF8500D3BB82 /* Setting */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		9C4093ED28D7EF8B001533BF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9BEFB4FF285DFBE4006C526C /* Files */,
+				9CD45189284F2BE9007CF311 /* Video */,
+				9BA362992859EA8900339D46 /* Managers */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		9C4093EE28D7EFB0001533BF /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */,
+			);
+			name = Main;
 			sourceTree = "<group>";
 		};
 		9CD45189284F2BE9007CF311 /* Video */ = {
@@ -264,7 +288,7 @@
 				9BEAA65A2843829D00AB77A7 /* Then */,
 				9C17CD782851C94F00486283 /* RxCocoa */,
 				9C17CD7A2851C94F00486283 /* RxSwift */,
-				9BEFB509285EFC8A006C526C /* RxDataSources */,
+				9C4093F028D7F085001533BF /* RxDataSources */,
 			);
 			productName = YellowIsTheNewBlack;
 			productReference = 9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */;
@@ -303,7 +327,7 @@
 				9BEAA6562843828100AB77A7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9BEAA6592843829D00AB77A7 /* XCRemoteSwiftPackageReference "Then" */,
 				9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */,
-				9BEFB508285EFC8A006C526C /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				9C4093EF28D7F085001533BF /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 9BEAA6402843824E00AB77A7 /* Products */;
 			projectDirPath = "";
@@ -671,20 +695,20 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		9BEFB508285EFC8A006C526C /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 6.0.0;
+			};
+		};
+		9C4093EF28D7F085001533BF /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -700,11 +724,6 @@
 			package = 9BEAA6592843829D00AB77A7 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
 		};
-		9BEFB509285EFC8A006C526C /* RxDataSources */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9BEFB508285EFC8A006C526C /* XCRemoteSwiftPackageReference "RxDataSources" */;
-			productName = RxDataSources;
-		};
 		9C17CD782851C94F00486283 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */;
@@ -714,6 +733,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C17CD772851C94F00486283 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		9C4093F028D7F085001533BF /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C4093EF28D7F085001533BF /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

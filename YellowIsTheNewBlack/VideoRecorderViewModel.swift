@@ -6,21 +6,24 @@
 //
 
 import AVFoundation
+import RxSwift
 import UIKit
 
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
     private let sessionManager: VideoSessionManager
+    var videoSession: AVCaptureSession?
     
     // MARK: - Public methods and vars
     
-    var previewLayer: AVCaptureVideoPreviewLayer {
-        sessionManager.previewLayer
-    }
+    var previewLayer: AVCaptureVideoPreviewLayer?
     
-    func setupSession() throws {
-        try sessionManager.setupSession()
+    func setupSession() async throws {
+        let session = try await sessionManager.setupSession()
+        
+        previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        videoSession = session
     }
     
     func startRunningCamera() {

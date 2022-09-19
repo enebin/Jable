@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AVFoundation
+
 import Then
 import SnapKit
 import RxCocoa
@@ -20,15 +22,12 @@ class VideoRecorderViewController: UIViewController {
     var errorMessage = "알 수 없는 오류"
     var isRecording = false
     var previewLayerSize: PreviewLayerSize = .large
-    
+    var previewLayer: AVCaptureVideoPreviewLayer?
+
     // View components
     lazy var alert = UIAlertController(title: "오류", message: self.errorMessage,
                                        preferredStyle: UIAlertController.Style.alert).then {
         $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-    }
-    
-    lazy var previewLayer = viewModel.previewLayer.then {
-        $0.videoGravity = .resizeAspectFill
     }
     
     lazy var recordButton = UIButton().then {
@@ -41,31 +40,40 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
+    
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setLayout()
         self.bindUIComponents()
         
-        do {
-            try viewModel.setupSession()
+        Task {
+            do {
+                try await viewModel.setupSession()
+                self.previewLayer = viewModel.previewLayer?.then {
+                    $0.videoGravity = .resizeAspect
+                }
+                setLayout()
+            }
+            catch VideoRecorderError.notConfigured {
+                fatalError("비디오 세션이 제대로 초기화되지 않았음")
+            }
+            catch let error {
+                self.errorMessage = error.localizedDescription
+                self.present(self.alert, animated: true, completion: nil)
+            }
+            
+            viewModel.startRunningCamera()
         }
-        catch VideoRecorderError.notConfigured {
-            fatalError("비디오 세션이 제대로 초기화되지 않았음")
-        }
-        catch let error {
-            self.errorMessage = error.localizedDescription
-            self.present(self.alert, animated: true, completion: nil)
-        }
-        
-        viewModel.startRunningCamera()
     }
     
     private func setLayout() {
-        self.view.layer.addSublayer(previewLayer)
-        previewLayer.bounds = self.previewLayerSize.bounds
-        previewLayer.position = self.previewLayerSize.position
-        
+        if let previewLayer = self.previewLayer {
+            self.view.layer.addSublayer(previewLayer)
+            previewLayer.bounds = self.previewLayerSize.bounds
+            previewLayer.position = self.previewLayerSize.position
+        }
+
         self.view.addSubview(recordButton)
         self.recordButton.snp.makeConstraints { make in
             make.height.width.equalTo(50)
@@ -83,7 +91,6 @@ class VideoRecorderViewController: UIViewController {
         self.recordButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                
                 do {
                     if self.isRecording {
                         self.isRecording = false
@@ -103,8 +110,8 @@ class VideoRecorderViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 self.previewLayerSize = self.previewLayerSize.next()
-                self.previewLayer.bounds = self.previewLayerSize.bounds
-                self.previewLayer.position = self.previewLayerSize.position
+                self.previewLayer?.bounds = self.previewLayerSize.bounds
+                self.previewLayer?.position = self.previewLayerSize.position
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
