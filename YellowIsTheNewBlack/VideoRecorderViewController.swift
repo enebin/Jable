@@ -21,6 +21,7 @@ class VideoRecorderViewController: UIViewController {
     // Internal vars and const
     var errorMessage = "알 수 없는 오류"
     var isRecording = false
+    
     var previewLayerSize: PreviewLayerSize = .large
     var previewLayer: AVCaptureVideoPreviewLayer?
 

@@ -33,6 +33,8 @@
 		9C17CD792851C94F00486283 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD782851C94F00486283 /* RxCocoa */; };
 		9C17CD7B2851C94F00486283 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9C17CD7A2851C94F00486283 /* RxSwift */; };
 		9C4093F128D7F085001533BF /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4093F028D7F085001533BF /* RxDataSources */; };
+		9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F228D825C0001533BF /* VideoAlbumManager.swift */; };
+		9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F528D82A76001533BF /* VideoAlbumError.swift */; };
 		9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA80728531F5100655A66 /* SettingViewModel.swift */; };
 		9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */; };
 		9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */; };
@@ -77,6 +79,8 @@
 		9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileInformation.swift; sourceTree = "<group>"; };
 		9BEFB502285EC59C006C526C /* VideoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManager.swift; sourceTree = "<group>"; };
 		9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileInformationMaker.swift; sourceTree = "<group>"; };
+		9C4093F228D825C0001533BF /* VideoAlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumManager.swift; sourceTree = "<group>"; };
+		9C4093F528D82A76001533BF /* VideoAlbumError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumError.swift; sourceTree = "<group>"; };
 		9C9CA80728531F5100655A66 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderConfiguration.swift; sourceTree = "<group>"; };
 		9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewModel.swift; sourceTree = "<group>"; };
@@ -202,10 +206,13 @@
 		9BEFB4FF285DFBE4006C526C /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				9C4093F428D825C9001533BF /* protocols */,
 				9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */,
 				9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */,
 				9CD451982851B167007CF311 /* VideoFilePathManager.swift */,
 				9BEFB502285EC59C006C526C /* VideoFileManager.swift */,
+				9C4093F228D825C0001533BF /* VideoAlbumManager.swift */,
+				9C4093F528D82A76001533BF /* VideoAlbumError.swift */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -214,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				9C4093EE28D7EFB0001533BF /* Main */,
+				9CD45189284F2BE9007CF311 /* Video */,
 				9BA362BD285B464100339D46 /* Gallery */,
 				9B51E6402866EF8500D3BB82 /* Setting */,
 			);
@@ -224,7 +232,6 @@
 			isa = PBXGroup;
 			children = (
 				9BEFB4FF285DFBE4006C526C /* Files */,
-				9CD45189284F2BE9007CF311 /* Video */,
 				9BA362992859EA8900339D46 /* Managers */,
 			);
 			name = Utils;
@@ -236,6 +243,13 @@
 				9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */,
 			);
 			name = Main;
+			sourceTree = "<group>";
+		};
+		9C4093F428D825C9001533BF /* protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = protocols;
 			sourceTree = "<group>";
 		};
 		9CD45189284F2BE9007CF311 /* Video */ = {
@@ -376,6 +390,7 @@
 				9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */,
 				9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */,
 				9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */,
+				9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */,
 				9B51E64728688CFE00D3BB82 /* SettingOfVideoQualityViewModel.swift in Sources */,
 				9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */,
 				9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */,
@@ -389,6 +404,7 @@
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,
 				9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */,
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
+				9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */,
 				9B51E6442866F69400D3BB82 /* SettingOfVideoQualityViewController.swift in Sources */,
 				9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */,
 				9B6CF2EA2869D4730026D4A8 /* SettingVideoQualityCell.swift in Sources */,
@@ -600,6 +616,10 @@
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YellowIsTheNewBlack/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "동영상을 녹화하기 위해서는 카메라 권한을 허용해주세요.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "동영상의 소리를 녹화하기 위해서는 마이크 접근 권한을 허용해주세요";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "영상을 저장하고 확인하기 위해서 앨범 접근 권한을 허용해주세요";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "영상을 저장하고 확인하기 위해서 앨범 접근 권한을 허용해주세요";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -628,6 +648,10 @@
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YellowIsTheNewBlack/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "동영상을 녹화하기 위해서는 카메라 권한을 허용해주세요.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "동영상의 소리를 녹화하기 위해서는 마이크 접근 권한을 허용해주세요";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "영상을 저장하고 확인하기 위해서 앨범 접근 권한을 허용해주세요";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "영상을 저장하고 확인하기 위해서 앨범 접근 권한을 허용해주세요";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

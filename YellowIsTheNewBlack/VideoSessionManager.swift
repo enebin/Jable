@@ -13,6 +13,7 @@ class VideoSessionManager: NSObject {
     
     // Dependencies
     private let videoFileManager: VideoFileManager
+    private let videoAlbumManager: VideoAlbumManager
     private var captureSession: AVCaptureSession? = nil
     private var device: AVCaptureDevice? = nil
     private var output: AVCaptureMovieFileOutput? = nil
@@ -143,8 +144,10 @@ class VideoSessionManager: NSObject {
     
     // MARK: - Init
     
-    init(_ videoFileManager: VideoFileManager = VideoFileManager.default) {
+    init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
+         _ videoAlbumManager: VideoAlbumManager = VideoAlbumManager.shared) {
         self.videoFileManager = videoFileManager
+        self.videoAlbumManager = videoAlbumManager
     }
 }
 
@@ -161,10 +164,14 @@ extension VideoSessionManager: AVCaptureFileOutputRecordingDelegate {
         } else {
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
                 // Save to the album roll
-                UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
+//                UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
                 
                 // Add to the local memory
-                videoFileManager.addAfterEncode(at: outputFileURL)
+                //                videoFileManager.addAfterEncode(at: outputFileURL)
+                
+                Task(priority: .background) {
+                    await self.videoAlbumManager.save(videoURL: outputFileURL)
+                }
             } else {
                 print("Error while saving movie")
                 return
