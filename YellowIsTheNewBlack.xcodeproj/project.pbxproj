@@ -258,9 +258,9 @@
 		9C4093FB28D84935001533BF /* Album */ = {
 			isa = PBXGroup;
 			children = (
+				9C4093F528D82A76001533BF /* VideoAlbumError.swift */,
 				9C4093F228D825C0001533BF /* VideoAlbumManager.swift */,
 				9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */,
-				9C4093F528D82A76001533BF /* VideoAlbumError.swift */,
 				9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */,
 			);
 			name = Album;

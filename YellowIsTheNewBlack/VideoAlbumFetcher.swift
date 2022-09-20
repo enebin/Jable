@@ -7,27 +7,36 @@
 
 import UIKit
 import Photos
+import RxRelay
 
 protocol AlbumFetcher {
-    
+    associatedtype Data
+    func getObserver() -> BehaviorRelay<Data>
 }
 
-class VideoAlbumFetcher {
+class VideoAlbumFetcher: NSObject, AlbumFetcher {
+    typealias VideoRelay = BehaviorRelay<[VideoFileInformation]>
+    
     // Dependencies
     private let albumManager: AlbumManager
     private let photoLibrary: PHPhotoLibrary
+    private let changeObserer = VideoRelay(value: [])
     
-    func fetch(_ completion: @escaping ([VideoFileInformation]) -> Void) {
+    func getObserver() -> VideoRelay {
         guard let album = albumManager.getAlbum() else {
-            return
+            return changeObserer
         }
-
-        self.loadVideosFromAlbum(album) { fetchResult in
-            completion(fetchResult)
-        }
+        
+        // Register observer delegate
+        photoLibrary.register(self)
+        
+        // Fetch initial assets
+        loadVideoInformationsFromAlbum(album, to: changeObserer)
+        
+        return changeObserer
     }
     
-    private func loadVideosFromAlbum(_ album: PHAssetCollection, onCompleted: @escaping ([VideoFileInformation]) -> Void) {
+    private func loadVideoInformationsFromAlbum( _ album: PHAssetCollection, to observer: VideoRelay) {
         DispatchQueue.global(qos: .userInitiated).async {
             let videoAssets = PHAsset.fetchAssets(in: album, options: nil)
             var informations: [VideoFileInformation] = []
@@ -50,7 +59,7 @@ class VideoAlbumFetcher {
                     
                     if count == videoAssets.count - 1 {
                         DispatchQueue.main.async {
-                            onCompleted(informations)
+                            observer.accept(informations)
                         }
                     }
                 }
@@ -62,5 +71,15 @@ class VideoAlbumFetcher {
          _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
         self.albumManager = albumManager
         self.photoLibrary = photoLibrary
+    }
+}
+
+extension VideoAlbumFetcher: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        if let album = albumManager.getAlbum(),
+           let albumChanges = changeInstance.changeDetails(for: album),
+           let newAlbum = albumChanges.objectAfterChanges {
+            loadVideoInformationsFromAlbum(newAlbum, to: self.changeObserer)
+        }
     }
 }
