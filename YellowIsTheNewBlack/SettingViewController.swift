@@ -17,7 +17,7 @@ class SettingViewController: UIViewController {
         $0.backgroundColor = .black
         $0.delegate = self
         $0.dataSource = self
-        $0.register(UITableViewCell.self, forCellReuseIdentifier: "settingCell")
+        $0.register(SettingDropdownCell.self, forCellReuseIdentifier: "settingCell")
     }
     
     // MARK: - Initializers
@@ -73,27 +73,12 @@ extension SettingViewController: UITableViewDelegate {
 }
 
 extension SettingViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->  UITableViewCell {
         
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as UITableViewCell
+        let cell: SettingDropdownCell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as! SettingDropdownCell
         
-        // Design cell's property
-        if #available(iOS 14, *) {
-            var content = cell.defaultContentConfiguration()
-            content.text = items[indexPath.row].name
-            content.textProperties.color = .white
-            
-            var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .black
-            
-            cell.contentConfiguration = content
-            cell.backgroundConfiguration = background
-        } else {
-            cell.textLabel?.text = items[indexPath.row].name
-            cell.textLabel?.textColor = .white
-            
-            cell.backgroundColor = .black
-        }
+        cell.setCellItem(nil)
+        cell.setCellItem(SettingCellItem(title: "화질", image: UIImage(systemName: "person")!, actionType: .dropdown, action: {}))
         
         return cell
     }
