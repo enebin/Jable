@@ -10,6 +10,10 @@ import SnapKit
 import Then
 
 class SettingViewController: UIViewController {
+    // Common constants
+    private var commonConfiguration: VideoRecorderConfiguration
+    
+    // Dependencies
     private var viewModel: SettingViewModel! = nil
     private var items = [Setting]()
     
@@ -20,15 +24,35 @@ class SettingViewController: UIViewController {
         $0.register(SettingDropdownCell.self, forCellReuseIdentifier: "settingCell")
     }
     
-    // MARK: - Initializers
-    init(viewModel: SettingViewModel = SettingViewModel()) {
-        super.init(nibName: nil, bundle: nil)
+    private func showMenu() {
+        self.moreActionTapped()
+    }
+    
+    @objc func moreActionTapped() {
+        let alert = UIAlertController(title: nil, message: "I18N.actionsheetMessage", preferredStyle: .actionSheet)
         
+        let deleteAction = UIAlertAction(title: "I18N.modify", style: .default, handler: { _ in })
+        let saveAction = UIAlertAction(title: "I18N.delete", style: .destructive, handler: { _ in })
+        
+        alert.addAction(deleteAction)
+        alert.addAction(saveAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Initializers
+    init(viewModel: SettingViewModel = SettingViewModel(),
+         videoConfig: VideoRecorderConfiguration) {
         // Update dependencies
         self.viewModel = viewModel
         
         // Update internal vars
         self.items = viewModel.settings
+        
+        //
+        self.commonConfiguration = videoConfig
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -62,19 +86,14 @@ class SettingViewController: UIViewController {
 
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = SettingOfVideoQualityViewController()
-        navigationController?.pushViewController(vc, animated: true)
-//        
-//        
-//        vc.modalPresentationStyle = .pageSheet
-//        
-//        present(vc, animated: true, completion: nil)
+//        let vc = SettingOfVideoQualityViewController()
+        
+        self.showMenu()
     }
 }
 
 extension SettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->  UITableViewCell {
-        
         let cell: SettingDropdownCell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as! SettingDropdownCell
         
         cell.setCellItem(nil)

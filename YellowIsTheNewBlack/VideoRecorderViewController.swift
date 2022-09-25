@@ -14,6 +14,11 @@ import RxCocoa
 import RxSwift
 
 class VideoRecorderViewController: UIViewController {
+    var DEBUG_runCamera = false
+    
+    // Common constants
+    var commonConfiguration: VideoRecorderConfiguration
+    
     // Dependencies
     var viewModel: VideoRecoderViewModel! = nil
     var bag = DisposeBag()
@@ -64,7 +69,9 @@ class VideoRecorderViewController: UIViewController {
                 self.present(self.alert, animated: true, completion: nil)
             }
             
-            viewModel.startRunningCamera()
+            if DEBUG_runCamera {
+                viewModel.startRunningCamera()
+            }
         }
     }
     
@@ -119,11 +126,14 @@ class VideoRecorderViewController: UIViewController {
     }
     
     // Initializers
-    init(viewModel: VideoRecoderViewModel = VideoRecoderViewModel()) {
-        super.init(nibName: nil, bundle: nil)
+    init(viewModel: VideoRecoderViewModel = VideoRecoderViewModel(),
+         videoConfig: VideoRecorderConfiguration) {
+        // Get common setting
+        self.commonConfiguration = videoConfig
         
         // Update dependencies
         self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
