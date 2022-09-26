@@ -14,30 +14,16 @@ class SettingViewController: UIViewController {
     private var commonConfiguration: VideoRecorderConfiguration
     
     // Dependencies
-    private var viewModel: SettingViewModel! = nil
-    private var items = [Setting]()
+    private let viewModel: SettingViewModel
+    
+    // vars and lets
+    private let items: [SettingType]
     
     lazy var tableView = UITableView().then {
         $0.backgroundColor = .black
         $0.delegate = self
         $0.dataSource = self
         $0.register(SettingDropdownCell.self, forCellReuseIdentifier: "settingCell")
-    }
-    
-    private func showMenu() {
-        self.moreActionTapped()
-    }
-    
-    @objc func moreActionTapped() {
-        let alert = UIAlertController(title: nil, message: "I18N.actionsheetMessage", preferredStyle: .actionSheet)
-        
-        let deleteAction = UIAlertAction(title: "I18N.modify", style: .default, handler: { _ in })
-        let saveAction = UIAlertAction(title: "I18N.delete", style: .destructive, handler: { _ in })
-        
-        alert.addAction(deleteAction)
-        alert.addAction(saveAction)
-        
-        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Initializers
@@ -65,7 +51,6 @@ class SettingViewController: UIViewController {
         let largeTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.largeTitleTextAttributes = largeTitleAttributes
         
-        
         let smallTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.titleTextAttributes = smallTitleAttributes
         
@@ -86,9 +71,10 @@ class SettingViewController: UIViewController {
 
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let vc = SettingOfVideoQualityViewController()
+        let item = items[indexPath.row]
+        let menu = item.toActionSheet()
         
-        self.showMenu()
+        present(menu, animated: true)
     }
 }
 
@@ -97,7 +83,9 @@ extension SettingViewController: UITableViewDataSource {
         let cell: SettingDropdownCell = tableView.dequeueReusableCell(withIdentifier: "settingCell", for: indexPath) as! SettingDropdownCell
         
         cell.setCellItem(nil)
-        cell.setCellItem(SettingCellItem(title: "화질", image: UIImage(systemName: "person")!, actionType: .dropdown, action: {}))
+        
+        let item = items[indexPath.row]
+        cell.setCellItem(SettingCellItem(title: item.title, image: item.icon))
         
         return cell
     }

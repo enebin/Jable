@@ -5,16 +5,14 @@
 //  Created by 이영빈 on 2022/06/10.
 //
 
-import Foundation
+import UIKit
 
 class SettingViewModel {
-    let settings: [Setting]
+    let settings: [SettingType]
     
     init() {
         self.settings = [
-            Setting(name: "화질", type: .toggle, action: {
-                print("SS")
-            })
+            VideoQualitySetting()
         ]
     }
 }

@@ -14,7 +14,6 @@ struct SettingCellItem: CellItem {
     var image: UIImage?
     
     var actionType: ActionType?
-    var action: Action?
 }
 
 enum ActionType  {

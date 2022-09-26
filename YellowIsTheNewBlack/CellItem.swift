@@ -14,5 +14,4 @@ protocol CellItem {
     var image: UIImage? { get }
     
     var actionType: ActionType? { get }
-    var action: Action? { get }
-}
+ }
