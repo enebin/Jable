@@ -8,11 +8,16 @@
 import UIKit
 
 class SettingViewModel {
+    // Dependencies
+    private let commonConfig: VideoRecorderConfiguration
+    
     let settings: [SettingType]
     
-    init() {
+    init(_ config: VideoRecorderConfiguration = VideoRecorderConfiguration()) {
+        self.commonConfig = config
+        
         self.settings = [
-            VideoQualitySetting()
+            VideoQualitySetting(with: config)
         ]
     }
 }

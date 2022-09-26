@@ -8,12 +8,20 @@
 import UIKit
 
 struct VideoQualitySetting: SettingType {
+    // Dependencies
+    private let videoConfiguration: VideoRecorderConfiguration
+    
+    // vars and lets
     let title = "비디오 화질"
     let icon = UIImage(systemName: "person")!
+    let options: [SettingOption]
     
-    let options: [SettingOption] = [
-        SettingOption(title: "고화질", action: {  }),
-        SettingOption(title: "중간화질", action: { }),
-        SettingOption(title: "저화질", action: { })
-    ]
+    init(with videoConfiguration: VideoRecorderConfiguration) {
+        self.videoConfiguration = videoConfiguration
+        self.options = [
+           SettingOption(title: "고화질", action: { videoConfiguration.changeVideoQuality(to: .high) }),
+           SettingOption(title: "중간화질", action: { videoConfiguration.changeVideoQuality(to: .medium) }),
+           SettingOption(title: "저화질", action: { videoConfiguration.changeVideoQuality(to: .low) })
+       ]
+    }
 }

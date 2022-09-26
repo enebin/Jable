@@ -17,7 +17,7 @@ class SettingViewController: UIViewController {
     private let viewModel: SettingViewModel
     
     // vars and lets
-    private let items: [SettingType]
+    private let items: [any SettingType]
     
     lazy var tableView = UITableView().then {
         $0.backgroundColor = .black
@@ -30,7 +30,7 @@ class SettingViewController: UIViewController {
     init(viewModel: SettingViewModel = SettingViewModel(),
          videoConfig: VideoRecorderConfiguration) {
         // Update dependencies
-        self.viewModel = viewModel
+        self.viewModel = SettingViewModel(videoConfig)
         
         // Update internal vars
         self.items = viewModel.settings
