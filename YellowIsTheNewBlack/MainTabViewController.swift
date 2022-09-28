@@ -9,7 +9,7 @@ import UIKit
 import Then
 
 class MainTabViewController: UITabBarController {
-    var videoConfiguration = VideoRecorderConfiguration()
+    let videoConfiguration = VideoRecorderConfiguration()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +19,10 @@ class MainTabViewController: UITabBarController {
         
         let firstVC = VideoRecorderViewController(videoConfig: videoConfiguration)
         firstVC.tabBarItem = UITabBarItem(title: "녹화", image: UIImage(systemName: "record.circle"), tag: 0)
+        
         let secondVC = GalleryViewController()
         secondVC.tabBarItem = UITabBarItem(title: "앨범", image: UIImage(systemName: "rectangle.stack"), tag: 1)
+        
         let thirdVC = SettingViewController(videoConfig: self.videoConfiguration)
         thirdVC.tabBarItem = UITabBarItem(title: "세팅", image: UIImage(systemName: "gear"), tag: 2)
         

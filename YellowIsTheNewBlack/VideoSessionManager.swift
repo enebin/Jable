@@ -163,12 +163,6 @@ extension VideoSessionManager: AVCaptureFileOutputRecordingDelegate {
             print("Error recording movie: \(error.localizedDescription), \(error)")
         } else {
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
-                // Save to the album roll
-//                UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
-                
-                // Add to the local memory
-                //                videoFileManager.addAfterEncode(at: outputFileURL)
-                
                 Task(priority: .background) {
                     await self.videoAlbumSaver.save(videoURL: outputFileURL)
                 }

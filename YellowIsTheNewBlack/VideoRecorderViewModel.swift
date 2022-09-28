@@ -16,11 +16,11 @@ class VideoRecoderViewModel: NSObject {
     var videoSession: AVCaptureSession?
     
     // MARK: - Public methods and vars
-    
     var previewLayer: AVCaptureVideoPreviewLayer?
     
-    func setupSession() async throws {
-        let session = try await sessionManager.setupSession()
+    func setupSession(_ quality: AVCaptureSession.Preset = .medium,
+                      _ position: AVCaptureDevice.Position) async throws {
+        let session = try await sessionManager.setupSession(quality: quality, position: position)
         
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
         videoSession = session

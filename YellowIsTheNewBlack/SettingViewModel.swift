@@ -13,7 +13,7 @@ class SettingViewModel {
     
     let settings: [SettingType]
     
-    init(_ config: VideoRecorderConfiguration = VideoRecorderConfiguration()) {
+    init(_ config: VideoRecorderConfiguration) {
         self.commonConfig = config
         
         self.settings = [

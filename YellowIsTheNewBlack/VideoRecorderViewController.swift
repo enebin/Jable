@@ -12,20 +12,19 @@ import Then
 import SnapKit
 import RxCocoa
 import RxSwift
+import RxRelay
 
 class VideoRecorderViewController: UIViewController {
-    var DEBUG_runCamera = false
-    
-    // Common constants
-    var commonConfiguration: VideoRecorderConfiguration
+    var DEBUG_runCamera = true
     
     // Dependencies
-    var viewModel: VideoRecoderViewModel! = nil
-    var bag = DisposeBag()
+    let viewModel: VideoRecoderViewModel
+    let commonConfiguration: VideoRecorderConfiguration
     
     // Internal vars and const
     var errorMessage = "알 수 없는 오류"
     var isRecording = false
+    let bag = DisposeBag()
     
     var previewLayerSize: PreviewLayerSize = .large
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -46,16 +45,16 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
-    
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setLayout()
         self.bindUIComponents()
+        self.connectPublishers()
         
         Task {
             do {
-                try await viewModel.setupSession()
+                try await viewModel.setupSession(.medium, .back)
                 self.previewLayer = viewModel.previewLayer?.then {
                     $0.videoGravity = .resizeAspect
                 }
@@ -74,7 +73,7 @@ class VideoRecorderViewController: UIViewController {
             }
         }
     }
-    
+
     private func setLayout() {
         if let previewLayer = self.previewLayer {
             self.view.layer.addSublayer(previewLayer)
@@ -112,7 +111,7 @@ class VideoRecorderViewController: UIViewController {
                     self.present(self.alert, animated: true)
                 }
             }
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         self.screenSizeButton.rx.tap
             .bind { [weak self] in
@@ -120,8 +119,23 @@ class VideoRecorderViewController: UIViewController {
                 self.previewLayerSize = self.previewLayerSize.next()
                 self.previewLayer?.bounds = self.previewLayerSize.bounds
                 self.previewLayer?.position = self.previewLayerSize.position
+
                 self.view.layoutIfNeeded()
             }
+            .disposed(by: bag)
+    }
+    
+    private func connectPublishers() {
+        commonConfiguration.observable
+            .asObservable()
+            .subscribe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { newSetting in
+                    print(newSetting)
+                },
+                onError: { error in
+                    // TODO: Handle error
+                })
             .disposed(by: bag)
     }
     

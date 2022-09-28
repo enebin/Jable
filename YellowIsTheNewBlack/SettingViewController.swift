@@ -27,8 +27,7 @@ class SettingViewController: UIViewController {
     }
     
     // MARK: - Initializers
-    init(viewModel: SettingViewModel = SettingViewModel(),
-         videoConfig: VideoRecorderConfiguration) {
+    init(videoConfig: VideoRecorderConfiguration) {
         // Update dependencies
         self.viewModel = SettingViewModel(videoConfig)
         
@@ -47,16 +46,8 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let largeTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationController?.navigationBar.largeTitleTextAttributes = largeTitleAttributes
-        
-        let smallTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationController?.navigationBar.titleTextAttributes = smallTitleAttributes
-        
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "녹화"
-        
+
+        self.setNavigation()
         self.setLayout()
     }
     
@@ -66,6 +57,17 @@ class SettingViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.width.height.equalToSuperview()
         }
+    }
+    
+    private func setNavigation() {
+        let largeTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = largeTitleAttributes
+        
+        let smallTitleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = smallTitleAttributes
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.title = "녹화"
     }
 }
 
