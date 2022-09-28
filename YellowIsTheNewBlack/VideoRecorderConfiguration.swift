@@ -22,8 +22,6 @@ class VideoRecorderConfiguration {
         var newSetting = self.setting
         newSetting.quality = quality
         
-        print(quality)
-        
         self.handleSettingChanged(with: newSetting)
     }
     
