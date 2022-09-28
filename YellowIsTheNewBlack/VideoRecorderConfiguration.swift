@@ -13,10 +13,18 @@ import RxSwift
 ///
 /// 그리고 세팅의 변화를 지속적으로 감시하고 싶을 누군가를 위한 싱글-톤 클래스
 class VideoRecorderConfiguration {
+    // MARK: - vars and lets
     private var setting: SettingProperties
-
+    
     /// Subscribe it to catch up with the newest setting
     let observable: BehaviorSubject<SettingProperties>
+    
+    
+    // MARK: - Initializer
+    init(_ setting: SettingProperties = SettingProperties()) {
+        self.setting = setting
+        self.observable = BehaviorSubject<SettingProperties>(value: setting)
+    }
     
     func changeVideoQuality(to quality: AVCaptureSession.Preset) {
         var newSetting = self.setting
@@ -32,14 +40,11 @@ class VideoRecorderConfiguration {
         self.handleSettingChanged(with: newSetting)
     }
     
+    
+    // MARK: - Private methods
     private func handleSettingChanged(with newSetting: SettingProperties) {
         self.observable.onNext(newSetting)
         self.setting = newSetting
-    }
-    
-    init(_ setting: SettingProperties = SettingProperties()) {
-        self.setting = setting
-        self.observable = BehaviorSubject<SettingProperties>(value: setting)
     }
 }
 
