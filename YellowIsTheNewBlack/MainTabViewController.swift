@@ -9,7 +9,6 @@ import UIKit
 import Then
 
 class MainTabViewController: UITabBarController {
-    let videoConfiguration = VideoRecorderConfiguration()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,13 +16,13 @@ class MainTabViewController: UITabBarController {
         tabBar.backgroundColor = .black
         tabBar.unselectedItemTintColor = .white
         
-        let firstVC = VideoRecorderViewController(videoConfig: videoConfiguration)
+        let firstVC = VideoRecorderViewController()
         firstVC.tabBarItem = UITabBarItem(title: "녹화", image: UIImage(systemName: "record.circle"), tag: 0)
         
         let secondVC = GalleryViewController()
         secondVC.tabBarItem = UITabBarItem(title: "앨범", image: UIImage(systemName: "rectangle.stack"), tag: 1)
         
-        let thirdVC = SettingViewController(videoConfig: self.videoConfiguration)
+        let thirdVC = SettingViewController()
         thirdVC.tabBarItem = UITabBarItem(title: "세팅", image: UIImage(systemName: "gear"), tag: 2)
         
         var tabs = [firstVC, secondVC, thirdVC]
@@ -31,7 +30,11 @@ class MainTabViewController: UITabBarController {
             UINavigationController(rootViewController: vc)
         }
         
-        self.setViewControllers(tabs, animated: false)
+//        self.setViewControllers(tabs, animated: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        present(VideoRecorderViewController(), animated: false)
     }
 }
 

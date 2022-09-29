@@ -19,7 +19,6 @@ class VideoRecorderViewController: UIViewController {
     
     // Dependencies
     let viewModel: VideoRecoderViewModel
-    let commonConfiguration: VideoRecorderConfiguration
     
     // Internal vars and const
     var errorMessage = "알 수 없는 오류"
@@ -28,6 +27,7 @@ class VideoRecorderViewController: UIViewController {
     
     var previewLayerSize: PreviewLayerSize = .large
     var previewLayer: AVCaptureVideoPreviewLayer?
+
 
     // View components
     lazy var alert = UIAlertController(title: "오류", message: self.errorMessage,
@@ -45,19 +45,21 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
+    let stackView = VideoRecorderBottomStackView()
+    
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setLayout()
         self.bindUIComponents()
-        self.connectPublishers()
+        self.viewModel.bindObservables()
         
         Task {
             do {
                 try await viewModel.setupSession(.medium, .back)
-                self.previewLayer = viewModel.previewLayer?.then {
-                    $0.videoGravity = .resizeAspect
-                }
+                self.previewLayer = viewModel.previewLayer
+                self.previewLayer!.videoGravity = .resizeAspect
+                
                 setLayout()
             }
             catch VideoRecorderError.notConfigured {
@@ -92,6 +94,13 @@ class VideoRecorderViewController: UIViewController {
             make.width.height.equalTo(100)
             make.left.top.equalToSuperview().inset(30)
         }
+        
+        self.view.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(85)
+            make.bottom.equalToSuperview()
+        }
     }
     
     private func bindUIComponents() {
@@ -116,35 +125,52 @@ class VideoRecorderViewController: UIViewController {
         self.screenSizeButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
+                print("tapped")
+                
                 self.previewLayerSize = self.previewLayerSize.next()
                 self.previewLayer?.bounds = self.previewLayerSize.bounds
                 self.previewLayer?.position = self.previewLayerSize.position
+                
+                DispatchQueue.main.async {
+                    self.hideViews()
+                }
+                
 
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
+        
+//        self.viewModel.previewLayerObservable
+//            .observe(on: MainScheduler.asyncInstance)
+//            .subscribe(
+//                onNext: { [weak self] newPreviewLayer in
+//                    guard let self = self else { return }
+//                    self.previewLayer = newPreviewLayer
+//                })
+//            .disposed(by: bag)
     }
     
-    private func connectPublishers() {
-        commonConfiguration.observable
-            .asObservable()
-            .subscribe(on: MainScheduler.instance)
-            .subscribe(
-                onNext: { newSetting in
-                    print(newSetting)
-                },
-                onError: { error in
-                    // TODO: Handle error
-                })
-            .disposed(by: bag)
+    private func hideViews() {
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
+            if self.stackView.isHidden {
+                self.stackView.isHidden = false
+                self.stackView.alpha = 1
+            } else {
+                self.stackView.alpha = 0
+            }
+        }
+
+        if !self.stackView.isHidden {
+            animator.addCompletion { _ in
+                self.stackView.isHidden = true
+            }
+        }
+        animator.startAnimation()
     }
     
     // Initializers
-    init(viewModel: VideoRecoderViewModel = VideoRecoderViewModel(),
-         videoConfig: VideoRecorderConfiguration) {
+    init(viewModel: VideoRecoderViewModel = VideoRecoderViewModel()) {
         // Get common setting
-        self.commonConfiguration = videoConfig
-        
         // Update dependencies
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)

@@ -27,7 +27,7 @@ class SettingViewController: UIViewController {
     }
     
     // MARK: - Initializers
-    init(videoConfig: VideoRecorderConfiguration) {
+    init(videoConfig: VideoRecorderConfiguration = VideoRecorderConfiguration.shared) {
         // Update dependencies
         self.viewModel = SettingViewModel(videoConfig)
         

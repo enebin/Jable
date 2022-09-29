@@ -13,6 +13,8 @@ import RxSwift
 ///
 /// 그리고 세팅의 변화를 지속적으로 감시하고 싶을 누군가를 위한 싱글-톤 클래스
 class VideoRecorderConfiguration {
+    static let shared = VideoRecorderConfiguration()
+    
     // MARK: - vars and lets
     private var setting: SettingProperties
     

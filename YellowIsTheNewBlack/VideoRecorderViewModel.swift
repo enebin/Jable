@@ -13,16 +13,24 @@ import UIKit
 class VideoRecoderViewModel: NSObject {
     // Dependencies
     private let sessionManager: VideoSessionManager
-    var videoSession: AVCaptureSession?
+    private let videoConfiguration: VideoRecorderConfiguration
+    
+    // vars and lets
+    private var videoSession: AVCaptureSession?
+    private var bag = DisposeBag()
+    private let workQueue = DispatchQueue(label: "videoWorkQueue", qos: .userInitiated)
+    
     
     // MARK: - Public methods and vars
     var previewLayer: AVCaptureVideoPreviewLayer?
+    let previewLayerObservable: PublishSubject<AVCaptureVideoPreviewLayer?>
     
     func setupSession(_ quality: AVCaptureSession.Preset = .medium,
                       _ position: AVCaptureDevice.Position) async throws {
         let session = try await sessionManager.setupSession(quality: quality, position: position)
         
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayerObservable.onNext(previewLayer)
         videoSession = session
     }
     
@@ -38,8 +46,37 @@ class VideoRecoderViewModel: NSObject {
         try sessionManager.stopRecordingVideo()
     }
     
-    init(_ sessionManager: VideoSessionManager = VideoSessionManager.shared
-    ) {
+    func changeSetting(_ setting: VideoRecorderConfiguration.SettingProperties) {
+        Task {
+            do {
+                try await self.setupSession(setting.quality, setting.position)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+    
+    func bindObservables() {
+        videoConfiguration.observable.asObservable()
+            .observe(on: SerialDispatchQueueScheduler(queue: workQueue, internalSerialQueueName: "videoWorkQueue"))
+            .subscribe(
+                onNext: { [weak self] setting in
+                    guard let self = self else { return }
+                    self.workQueue.async {
+                        self.changeSetting(setting)
+                    }
+//                    try await self.setupSession(setting.quality, setting.position)
+                },
+                onError: { error in
+                    // TODO: Handle error
+                })
+            .disposed(by: bag)
+    }
+    
+    init(_ sessionManager: VideoSessionManager = VideoSessionManager.shared,
+         _ videoConfiguration: VideoRecorderConfiguration = VideoRecorderConfiguration.shared) {
         self.sessionManager = sessionManager
+        self.videoConfiguration = videoConfiguration
+        self.previewLayerObservable = PublishSubject<AVCaptureVideoPreviewLayer?>()
     }
 }
