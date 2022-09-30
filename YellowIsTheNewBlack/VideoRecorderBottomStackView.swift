@@ -8,6 +8,7 @@
 import UIKit
 import Then
 import SnapKit
+import RxCocoa
 
 class VideoRecorderBottomStackView: UIStackView {
     lazy var settingButton = UIButton().then {
@@ -24,6 +25,7 @@ class VideoRecorderBottomStackView: UIStackView {
         
         setLayout()
         setSubViewsLayout()
+        bindUIComponents()
     }
     
     required init(coder: NSCoder) {
@@ -44,5 +46,12 @@ class VideoRecorderBottomStackView: UIStackView {
             make.centerX.equalToSuperview()
             make.width.height.equalTo(35)
         }
+    }
+    
+    private func bindUIComponents() {
+        settingButton.rx.tap
+            .bind { [weak self] in
+                
+            }
     }
 }

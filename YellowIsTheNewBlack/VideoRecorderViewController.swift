@@ -14,6 +14,7 @@ import RxCocoa
 import RxSwift
 import RxRelay
 
+@MainActor
 class VideoRecorderViewController: UIViewController {
     var DEBUG_runCamera = true
     
@@ -52,15 +53,14 @@ class VideoRecorderViewController: UIViewController {
         super.viewDidLoad()
         self.setLayout()
         self.bindUIComponents()
-        self.viewModel.bindObservables()
         
-        Task {
+        Task(priority: .userInitiated) {
             do {
                 try await viewModel.setupSession(.medium, .back)
-                self.previewLayer = viewModel.previewLayer
-                self.previewLayer!.videoGravity = .resizeAspect
                 
-                setLayout()
+                DispatchQueue.main.async {
+                    self.setCameraPreviewLayer(self.viewModel.previewLayer)
+                }
             }
             catch VideoRecorderError.notConfigured {
                 fatalError("비디오 세션이 제대로 초기화되지 않았음")
@@ -75,14 +75,23 @@ class VideoRecorderViewController: UIViewController {
             }
         }
     }
+    
+    private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
+        guard let _layer = layer else {
+            return
+        }
+        
+        previewLayer = _layer
+        
+        self.view.layer.addSublayer(previewLayer!)
+        previewLayer!.videoGravity = .resizeAspectFill
+        previewLayer!.bounds = self.previewLayerSize.bounds
+        previewLayer!.position = self.previewLayerSize.position
+        
+        setLayout()
+    }
 
     private func setLayout() {
-        if let previewLayer = self.previewLayer {
-            self.view.layer.addSublayer(previewLayer)
-            previewLayer.bounds = self.previewLayerSize.bounds
-            previewLayer.position = self.previewLayerSize.position
-        }
-
         self.view.addSubview(recordButton)
         self.recordButton.snp.makeConstraints { make in
             make.height.width.equalTo(50)
@@ -125,29 +134,12 @@ class VideoRecorderViewController: UIViewController {
         self.screenSizeButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                print("tapped")
-                
                 self.previewLayerSize = self.previewLayerSize.next()
-                self.previewLayer?.bounds = self.previewLayerSize.bounds
-                self.previewLayer?.position = self.previewLayerSize.position
+                self.setCameraPreviewLayer(self.previewLayer)
                 
-                DispatchQueue.main.async {
-                    self.hideViews()
-                }
-                
-
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
-        
-//        self.viewModel.previewLayerObservable
-//            .observe(on: MainScheduler.asyncInstance)
-//            .subscribe(
-//                onNext: { [weak self] newPreviewLayer in
-//                    guard let self = self else { return }
-//                    self.previewLayer = newPreviewLayer
-//                })
-//            .disposed(by: bag)
     }
     
     private func hideViews() {
@@ -170,7 +162,6 @@ class VideoRecorderViewController: UIViewController {
     
     // Initializers
     init(viewModel: VideoRecoderViewModel = VideoRecoderViewModel()) {
-        // Get common setting
         // Update dependencies
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -194,7 +185,7 @@ extension VideoRecorderViewController {
             switch self {
                 // -30 is offset constant
             case .large:
-                return CGPoint(x: screenSize.0/2, y: screenSize.1/2 - 30)   // Center point
+                return CGPoint(x: screenSize.0/2, y: screenSize.1/2)   // Center point
             case .medium:
                 return CGPoint(x: screenSize.0/4 * 3, y: screenSize.1/4 * 3 - 30)   // 3rd quarter of the screen
             case .small:

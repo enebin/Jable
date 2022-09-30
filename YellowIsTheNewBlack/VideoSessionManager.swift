@@ -25,8 +25,7 @@ class VideoSessionManager: NSObject {
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
     func setupSession(quality: AVCaptureSession.Preset = .medium,
-                      position: AVCaptureDevice.Position = .back) async throws -> AVCaptureSession
-    {
+                      position: AVCaptureDevice.Position = .back) async throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
         captureSession.sessionPreset = quality
         
