@@ -13,6 +13,7 @@
 		0751FD5D28E042D900E01C47 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5C28E042D900E01C47 /* RxCocoa */; };
 		0751FD5F28E042D900E01C47 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5E28E042D900E01C47 /* RxRelay */; };
 		0751FD6128E042D900E01C47 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD6028E042D900E01C47 /* RxSwift */; };
+		0798665828E6FA4C00E698ED /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798665728E6FA4C00E698ED /* ShutterButton.swift */; };
 		9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */; };
 		9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */; };
 		9B543AD0285DAB1600B41CB3 /* VideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0798665728E6FA4C00E698ED /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryThumbnailMakerTests.swift; sourceTree = "<group>"; };
 		9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
 		9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionManager.swift; sourceTree = "<group>"; };
@@ -122,6 +124,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0798665628E6FA3E00E698ED /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				0798665728E6FA4C00E698ED /* ShutterButton.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
 		9B51E6402866EF8500D3BB82 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +245,7 @@
 		9C4093EC28D7EF80001533BF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				0798665628E6FA3E00E698ED /* Components */,
 				9C4093EE28D7EFB0001533BF /* Main */,
 				9CD45189284F2BE9007CF311 /* Video */,
 				9BA362BD285B464100339D46 /* Gallery */,
@@ -446,6 +457,7 @@
 				9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */,
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
 				9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */,
+				0798665828E6FA4C00E698ED /* ShutterButton.swift in Sources */,
 				9CB0D92C28DA93DA009C2CE0 /* SettingCellItem.swift in Sources */,
 				9C4093FA28D8491C001533BF /* VideoAlbumFetcher.swift in Sources */,
 				9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */,

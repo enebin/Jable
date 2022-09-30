@@ -46,7 +46,29 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
-    let stackView = VideoRecorderBottomStackView()
+    
+    lazy var settingButton = UIButton().then {
+        let btnImage = UIImage(systemName: "gear")?
+            .withTintColor(.yellow, renderingMode: .alwaysOriginal)
+        
+        $0.setImage(btnImage, for: .normal)
+        $0.contentVerticalAlignment = .fill
+        $0.contentHorizontalAlignment = .fill
+    }
+    
+    lazy var shutterButton = ShutterButton().then {
+        $0.contentVerticalAlignment = .fill
+        $0.contentHorizontalAlignment = .fill
+    }
+    
+    
+    let bottomStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.alignment = .center
+        $0.distribution = .equalSpacing
+        $0.backgroundColor = .white.withAlphaComponent(0.3)
+        $0.spacing = 8
+    }
     
     // Life cycle related methods
     override func viewDidLoad() {
@@ -104,11 +126,24 @@ class VideoRecorderViewController: UIViewController {
             make.left.top.equalToSuperview().inset(30)
         }
         
-        self.view.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
+        self.view.addSubview(bottomStackView)
+        bottomStackView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(85)
             make.bottom.equalToSuperview()
+        }
+        
+        self.view.addSubview(shutterButton)
+        shutterButton.snp.makeConstraints { make in
+            make.width.height.equalTo(50)
+            make.right.top.equalToSuperview().inset(30)
+        }
+        
+        
+        bottomStackView.addSubview(settingButton)
+        settingButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(35)
         }
     }
     
@@ -140,23 +175,32 @@ class VideoRecorderViewController: UIViewController {
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
+        
+        settingButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+                self.present(SettingViewController(), animated: true)
+            }
+            .disposed(by: bag)
     }
     
     private func hideViews() {
         let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
-            if self.stackView.isHidden {
-                self.stackView.isHidden = false
-                self.stackView.alpha = 1
+            if self.bottomStackView.isHidden {
+                self.bottomStackView.isHidden = false
+                self.bottomStackView.alpha = 1
             } else {
-                self.stackView.alpha = 0
+                self.bottomStackView.alpha = 0
             }
         }
 
-        if !self.stackView.isHidden {
+        if !self.bottomStackView.isHidden {
             animator.addCompletion { _ in
-                self.stackView.isHidden = true
+                self.bottomStackView.isHidden = true
             }
         }
+        
         animator.startAnimation()
     }
     
