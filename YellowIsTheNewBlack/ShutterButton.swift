@@ -9,19 +9,17 @@ import UIKit
 import Then
 
 class ShutterButton: UIButton {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+    private let circleShape = ShutterButtonShape()
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
         setLayout()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private func setLayout() {
-        let circleShape = ShutterButtonShape()
         self.addSubview(circleShape)
+        circleShape.bounds = self.bounds
+        circleShape.isUserInteractionEnabled = false
         circleShape.snp.makeConstraints { make in
             make.width.height.equalToSuperview()
             make.center.equalToSuperview()
@@ -31,7 +29,8 @@ class ShutterButton: UIButton {
 
 
 fileprivate final class ShutterButtonShape: UIView {
-    override func draw(_ rect: CGRect) {
+    override func layoutSubviews() {
+        super.layoutSubviews()
         makeCirclePath()
     }
     

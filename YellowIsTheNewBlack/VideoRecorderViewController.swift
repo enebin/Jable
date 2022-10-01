@@ -56,13 +56,9 @@ class VideoRecorderViewController: UIViewController {
         $0.contentHorizontalAlignment = .fill
     }
     
-    lazy var shutterButton = ShutterButton().then {
-        $0.contentVerticalAlignment = .fill
-        $0.contentHorizontalAlignment = .fill
-    }
+    lazy var shutterButton = ShutterButton()
     
-    
-    let bottomStackView = UIStackView().then {
+    lazy var bottomStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .center
         $0.distribution = .equalSpacing
@@ -114,12 +110,6 @@ class VideoRecorderViewController: UIViewController {
     }
 
     private func setLayout() {
-        self.view.addSubview(recordButton)
-        self.recordButton.snp.makeConstraints { make in
-            make.height.width.equalTo(50)
-            make.center.equalToSuperview()
-        }
-        
         self.view.addSubview(screenSizeButton)
         self.screenSizeButton.snp.makeConstraints { make in
             make.width.height.equalTo(100)
@@ -135,10 +125,9 @@ class VideoRecorderViewController: UIViewController {
         
         self.view.addSubview(shutterButton)
         shutterButton.snp.makeConstraints { make in
-            make.width.height.equalTo(50)
+            make.width.height.equalTo(60)
             make.right.top.equalToSuperview().inset(30)
         }
-        
         
         bottomStackView.addSubview(settingButton)
         settingButton.snp.makeConstraints { make in
@@ -148,9 +137,11 @@ class VideoRecorderViewController: UIViewController {
     }
     
     private func bindUIComponents() {
-        self.recordButton.rx.tap
+        shutterButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
+                HapticManager.shared.generate()
+                
                 do {
                     if self.isRecording {
                         self.isRecording = false
@@ -166,7 +157,7 @@ class VideoRecorderViewController: UIViewController {
             }
             .disposed(by: bag)
         
-        self.screenSizeButton.rx.tap
+        screenSizeButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
                 self.previewLayerSize = self.previewLayerSize.next()

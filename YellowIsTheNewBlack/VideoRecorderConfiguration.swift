@@ -42,7 +42,6 @@ class VideoRecorderConfiguration {
         self.handleSettingChanged(with: newSetting)
     }
     
-    
     // MARK: - Private methods
     private func handleSettingChanged(with newSetting: SettingProperties) {
         self.observable.onNext(newSetting)
