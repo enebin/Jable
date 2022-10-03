@@ -13,7 +13,7 @@ import UIKit
 class VideoRecoderViewModel: NSObject {
     // Dependencies
     private let sessionManager: VideoSessionManager
-    private let videoConfiguration: VideoRecorderConfiguration
+    let videoConfiguration: VideoRecorderConfiguration
     
     // vars and lets
     private var videoSession: AVCaptureSession?

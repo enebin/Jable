@@ -12,7 +12,6 @@ import Then
 import SnapKit
 import RxCocoa
 import RxSwift
-import RxRelay
 
 @MainActor
 class VideoRecorderViewController: UIViewController {
@@ -41,34 +40,32 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
+    lazy var shutterButton = ShutterButton()
+    lazy var settingButton = SettingButton()
+    lazy var spacer = Spacer()
+    lazy var settingVC = SettingToolBarViewController()
+
     lazy var screenSizeButton = UIButton().then {
         $0.backgroundColor = .white
         $0.sizeToFit()
     }
     
-    
-    lazy var settingButton = UIButton().then {
-        let btnImage = UIImage(systemName: "gear")?
-            .withTintColor(.yellow, renderingMode: .alwaysOriginal)
-        
-        $0.setImage(btnImage, for: .normal)
-        $0.contentVerticalAlignment = .fill
-        $0.contentHorizontalAlignment = .fill
-    }
-    
-    lazy var shutterButton = ShutterButton()
-    
-    lazy var bottomStackView = UIStackView().then {
+
+    lazy var toolBarStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.alignment = .center
         $0.distribution = .equalSpacing
-        $0.backgroundColor = .white.withAlphaComponent(0.3)
+        $0.alignment = .center
+        $0.backgroundColor = .clear
         $0.spacing = 8
     }
+    
+    
     
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        self.setChildViewControllers()
         self.setLayout()
         self.bindUIComponents()
         
@@ -102,37 +99,32 @@ class VideoRecorderViewController: UIViewController {
         previewLayer = _layer
         
         self.view.layer.addSublayer(previewLayer!)
-        previewLayer!.videoGravity = .resizeAspectFill
+        previewLayer!.videoGravity = .resizeAspect
         previewLayer!.bounds = self.previewLayerSize.bounds
         previewLayer!.position = self.previewLayerSize.position
         
         setLayout()
     }
+    
+    private func setChildViewControllers() {
+        self.addChild(settingVC)
+        settingVC.didMove(toParent: self)
+    }
 
     private func setLayout() {
-        self.view.addSubview(screenSizeButton)
-        self.screenSizeButton.snp.makeConstraints { make in
-            make.width.height.equalTo(100)
-            make.left.top.equalToSuperview().inset(30)
-        }
-        
-        self.view.addSubview(bottomStackView)
-        bottomStackView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.height.equalTo(85)
-            make.bottom.equalToSuperview()
-        }
-        
         self.view.addSubview(shutterButton)
         shutterButton.snp.makeConstraints { make in
-            make.width.height.equalTo(60)
-            make.right.top.equalToSuperview().inset(30)
+            make.width.height.equalTo(50)
+            make.bottom.equalToSuperview().inset(50)
+            make.centerX.equalToSuperview()
         }
         
-        bottomStackView.addSubview(settingButton)
-        settingButton.snp.makeConstraints { make in
+        self.view.addSubview(settingVC.view)
+        settingVC.view.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(85)
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(35)
+            make.top.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -171,24 +163,28 @@ class VideoRecorderViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.present(SettingViewController(), animated: true)
+                let videoConfiguration = self.viewModel.videoConfiguration
+                let settingViewController = SettingViewController(videoConfig: videoConfiguration)
+                
+                self.present(settingViewController, animated: true)
             }
             .disposed(by: bag)
     }
     
+    
     private func hideViews() {
         let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
-            if self.bottomStackView.isHidden {
-                self.bottomStackView.isHidden = false
-                self.bottomStackView.alpha = 1
+            if self.toolBarStackView.isHidden {
+                self.toolBarStackView.isHidden = false
+                self.toolBarStackView.alpha = 1
             } else {
-                self.bottomStackView.alpha = 0
+                self.toolBarStackView.alpha = 0
             }
         }
 
-        if !self.bottomStackView.isHidden {
+        if !self.toolBarStackView.isHidden {
             animator.addCompletion { _ in
-                self.bottomStackView.isHidden = true
+                self.toolBarStackView.isHidden = true
             }
         }
         
