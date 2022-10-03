@@ -15,6 +15,7 @@ import RxSwift
 class SettingToolBarViewController: UIViewController {
     private let bag = DisposeBag()
     
+    // MARK: Usable buttons
     lazy var settingButton = SystemImageButton().then {
         $0.setSystemImage(name: "gear")
     }
@@ -31,10 +32,12 @@ class SettingToolBarViewController: UIViewController {
         $0.setTitleLabel("음소거")
     }
     
+    // MARK: Child VCs
     lazy var videoQualityVC = VideoQualityToolBarViewController().then {
         $0.view.isHidden = true
     }
     
+    // MARK: Stack views
     lazy var settingTypeStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.backgroundColor = .clear
