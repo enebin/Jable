@@ -10,6 +10,11 @@
 		072B1B9428EA96AC00E362C3 /* SettingToolBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B1B9328EA96AC00E362C3 /* SettingToolBarViewController.swift */; };
 		072B1B9628EA97C200E362C3 /* SettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B1B9528EA97C200E362C3 /* SettingButton.swift */; };
 		072B1B9828EA9AC400E362C3 /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B1B9728EA9AC400E362C3 /* Spacer.swift */; };
+		072B1B9A28EAB41500E362C3 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B1B9928EAB41500E362C3 /* BackButton.swift */; };
+		072B1B9C28EAC34300E362C3 /* VideoQualityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B1B9B28EAC34300E362C3 /* VideoQualityButton.swift */; };
+		072B1B9E28EAC3AC00E362C3 /* SystemImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B1B9D28EAC3AC00E362C3 /* SystemImageButton.swift */; };
+		072B1BA128EAE86A00E362C3 /* VideoQualityToolBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B1BA028EAE86A00E362C3 /* VideoQualityToolBarViewController.swift */; };
+		072B1BA328EAE8CA00E362C3 /* LabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B1BA228EAE8CA00E362C3 /* LabelButton.swift */; };
 		0751FD5428E03BB300E01C47 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5328E03BB300E01C47 /* RxDataSources */; };
 		0751FD5728E03BC200E01C47 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5628E03BC200E01C47 /* Then */; };
 		0751FD5A28E03BD700E01C47 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5928E03BD700E01C47 /* SnapKit */; };
@@ -67,6 +72,11 @@
 		072B1B9328EA96AC00E362C3 /* SettingToolBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToolBarViewController.swift; sourceTree = "<group>"; };
 		072B1B9528EA97C200E362C3 /* SettingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingButton.swift; sourceTree = "<group>"; };
 		072B1B9728EA9AC400E362C3 /* Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacer.swift; sourceTree = "<group>"; };
+		072B1B9928EAB41500E362C3 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
+		072B1B9B28EAC34300E362C3 /* VideoQualityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQualityButton.swift; sourceTree = "<group>"; };
+		072B1B9D28EAC3AC00E362C3 /* SystemImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImageButton.swift; sourceTree = "<group>"; };
+		072B1BA028EAE86A00E362C3 /* VideoQualityToolBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQualityToolBarViewController.swift; sourceTree = "<group>"; };
+		072B1BA228EAE8CA00E362C3 /* LabelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelButton.swift; sourceTree = "<group>"; };
 		0798665728E6FA4C00E698ED /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		0798665B28E7044E00E698ED /* CameraPreviewLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewLayer.swift; sourceTree = "<group>"; };
 		079866D628E843A900E698ED /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
@@ -135,9 +145,18 @@
 		072B1B9228EA968F00E362C3 /* Tool bar */ = {
 			isa = PBXGroup;
 			children = (
+				072B1B9F28EAE84F00E362C3 /* Video quality */,
 				072B1B9328EA96AC00E362C3 /* SettingToolBarViewController.swift */,
 			);
 			name = "Tool bar";
+			sourceTree = "<group>";
+		};
+		072B1B9F28EAE84F00E362C3 /* Video quality */ = {
+			isa = PBXGroup;
+			children = (
+				072B1BA028EAE86A00E362C3 /* VideoQualityToolBarViewController.swift */,
+			);
+			name = "Video quality";
 			sourceTree = "<group>";
 		};
 		0798665628E6FA3E00E698ED /* Components */ = {
@@ -154,7 +173,11 @@
 			isa = PBXGroup;
 			children = (
 				0798665728E6FA4C00E698ED /* ShutterButton.swift */,
+				072B1B9928EAB41500E362C3 /* BackButton.swift */,
+				072B1B9B28EAC34300E362C3 /* VideoQualityButton.swift */,
 				072B1B9528EA97C200E362C3 /* SettingButton.swift */,
+				072B1B9D28EAC3AC00E362C3 /* SystemImageButton.swift */,
+				072B1BA228EAE8CA00E362C3 /* LabelButton.swift */,
 			);
 			name = Button;
 			sourceTree = "<group>";
@@ -472,12 +495,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				072B1B9E28EAC3AC00E362C3 /* SystemImageButton.swift in Sources */,
 				9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */,
 				072B1B9428EA96AC00E362C3 /* SettingToolBarViewController.swift in Sources */,
 				9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */,
 				079866D728E843A900E698ED /* HapticManager.swift in Sources */,
 				9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */,
 				072B1B9828EA9AC400E362C3 /* Spacer.swift in Sources */,
+				072B1BA328EAE8CA00E362C3 /* LabelButton.swift in Sources */,
 				9CB0D92928DA91BC009C2CE0 /* SettingDropdownCell.swift in Sources */,
 				9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */,
 				9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */,
@@ -491,9 +516,12 @@
 				9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */,
 				9C0B2B4228E1992800BD9C81 /* VideoQualitySetting.swift in Sources */,
 				9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */,
+				072B1BA128EAE86A00E362C3 /* VideoQualityToolBarViewController.swift in Sources */,
+				072B1B9A28EAB41500E362C3 /* BackButton.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,
 				9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */,
 				072B1B9628EA97C200E362C3 /* SettingButton.swift in Sources */,
+				072B1B9C28EAC34300E362C3 /* VideoQualityButton.swift in Sources */,
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
 				0798665C28E7044E00E698ED /* CameraPreviewLayer.swift in Sources */,
 				9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */,

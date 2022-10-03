@@ -122,7 +122,7 @@ class VideoRecorderViewController: UIViewController {
         self.view.addSubview(settingVC.view)
         settingVC.view.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.height.equalTo(85)
+            make.height.equalTo(50)
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
         }

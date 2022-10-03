@@ -15,7 +15,33 @@ import RxSwift
 class SettingToolBarViewController: UIViewController {
     private let bag = DisposeBag()
     
-    lazy var settingButton = SettingButton()
+    lazy var settingButton = SystemImageButton().then {
+        $0.setSystemImage(name: "gear")
+    }
+    
+    lazy var backButton = SystemImageButton().then {
+        $0.setSystemImage(name: "chevron.left")
+    }
+    
+    lazy var qualityButton = LabelButton().then {
+        $0.setTitleLabel("화질")
+    }
+    
+    lazy var muteButton = LabelButton().then {
+        $0.setTitleLabel("화질")
+    }
+    
+    lazy var settingTypeStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.backgroundColor = .clear
+        $0.alignment = .center
+        $0.distribution = .fillEqually
+        
+        $0.layoutMargins = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 60)
+        $0.isLayoutMarginsRelativeArrangement = true
+
+        $0.isHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +51,39 @@ class SettingToolBarViewController: UIViewController {
     }
     
     func setLayout() {
+        // MARK: Setting type stack view
+        view.addSubview(settingTypeStackView)
+        settingTypeStackView.snp.makeConstraints { make in
+            make.width.height.equalToSuperview()
+            make.center.equalToSuperview()
+        }
+        
+        settingTypeStackView.addArrangedSubview(qualityButton)
+        qualityButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+            make.centerY.equalToSuperview()
+        }
+        
+        settingTypeStackView.addArrangedSubview(muteButton)
+        muteButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+            make.centerY.equalToSuperview()
+        }
+        
+        settingTypeStackView.addSubview(backButton)
+        backButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+            make.left.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview()
+        }
+        
+        // MARK: Video quality stack view
+        
+        
+        // MARK: Mute stack view
+        
+        
+        // MARK: Setting button
         view.addSubview(settingButton)
         settingButton.snp.makeConstraints { make in
             make.width.height.equalTo(35)
@@ -34,8 +93,20 @@ class SettingToolBarViewController: UIViewController {
     
     func bindButtons() {
         settingButton.rx.tap
-            .bind { _ in
-                print("Tapped")
+            .bind { [weak self] in
+                guard let self = self else { return }
+
+                self.settingButton.isHidden = true
+                self.settingTypeStackView.isHidden = false
+            }
+            .disposed(by: bag)
+        
+        backButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+
+                self.settingButton.isHidden = false
+                self.settingTypeStackView.isHidden = true
             }
             .disposed(by: bag)
     }
