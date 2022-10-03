@@ -28,7 +28,11 @@ class SettingToolBarViewController: UIViewController {
     }
     
     lazy var muteButton = LabelButton().then {
-        $0.setTitleLabel("화질")
+        $0.setTitleLabel("음소거")
+    }
+    
+    lazy var videoQualityVC = VideoQualityToolBarViewController().then {
+        $0.view.isHidden = true
     }
     
     lazy var settingTypeStackView = UIStackView().then {
@@ -48,6 +52,11 @@ class SettingToolBarViewController: UIViewController {
         
         setLayout()
         bindButtons()
+    }
+    
+    func addSubViewControllers() {
+        addChild(videoQualityVC)
+        videoQualityVC.didMove(toParent: self)
     }
     
     func setLayout() {
@@ -78,7 +87,12 @@ class SettingToolBarViewController: UIViewController {
         }
         
         // MARK: Video quality stack view
-        
+        view.addSubview(videoQualityVC.view)
+        videoQualityVC.view.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(settingTypeStackView)
+            make.center.equalTo(settingTypeStackView)
+        }
         
         // MARK: Mute stack view
         
@@ -107,6 +121,16 @@ class SettingToolBarViewController: UIViewController {
 
                 self.settingButton.isHidden = false
                 self.settingTypeStackView.isHidden = true
+            }
+            .disposed(by: bag)
+        
+        qualityButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+                self.settingButton.isHidden = true
+                self.settingTypeStackView.isHidden = true
+                self.videoQualityVC.view.isHidden = false
             }
             .disposed(by: bag)
     }
