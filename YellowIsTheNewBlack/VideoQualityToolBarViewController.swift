@@ -9,8 +9,13 @@ import UIKit
 
 import Then
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class VideoQualityToolBarViewController: UIViewController {
+    private var recorderConfiguration: VideoConfiguration? = nil
+    private let bag = DisposeBag()
+    
     lazy var highButton = LabelButton().then {
         $0.setTitleLabel("고화질")
     }
@@ -21,6 +26,10 @@ class VideoQualityToolBarViewController: UIViewController {
 
     lazy var lowButton = LabelButton().then {
         $0.setTitleLabel("낮은화질")
+    }
+    
+    lazy var backButton = SystemImageButton().then {
+        $0.setSystemImage(name: "chevron.left")
     }
     
     lazy var qualityTypeStackView = UIStackView().then {
@@ -37,22 +46,62 @@ class VideoQualityToolBarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setLayout()
+        bindButtons()
+    }
+    
+    private func setLayout() {
+        let childButtons = [lowButton, mediumButton, highButton]
+        
         view.addSubview(qualityTypeStackView)
         qualityTypeStackView.snp.makeConstraints { make in
             make.width.height.equalToSuperview()
             make.center.equalToSuperview()
         }
         
-        addButtons(lowButton)
-        addButtons(mediumButton)
-        addButtons(highButton)
+        qualityTypeStackView.addSubview(backButton)
+        backButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+            make.left.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview()
+        }
+        
+        childButtons.forEach({ addButton($0) })
     }
     
-    private func addButtons(_ button: UIButton) {
+    private func addButton(_ button: UIButton) {
         qualityTypeStackView.addArrangedSubview(button)
         button.snp.makeConstraints { make in
             make.width.height.equalTo(35)
             make.centerY.equalToSuperview()
         }
+    }
+    
+    private func bindButtons() {
+        lowButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+                self.recorderConfiguration?.videoQuality = .low
+            }
+            .disposed(by: bag)
+        
+        
+        mediumButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+                self.recorderConfiguration?.videoQuality = .medium
+            }
+            .disposed(by: bag)
+        
+        
+        highButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+                self.recorderConfiguration?.videoQuality = .high
+            }
+            .disposed(by: bag)
     }
 }

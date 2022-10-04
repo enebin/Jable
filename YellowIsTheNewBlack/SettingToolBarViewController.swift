@@ -33,6 +33,7 @@ class SettingToolBarViewController: UIViewController {
     }
     
     // MARK: Child VCs
+    let recorderConfig = RecorderConfiguration()
     lazy var videoQualityVC = VideoQualityToolBarViewController().then {
         $0.view.isHidden = true
     }

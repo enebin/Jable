@@ -47,6 +47,7 @@
 		9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F528D82A76001533BF /* VideoAlbumError.swift */; };
 		9C4093F828D842FA001533BF /* VideoAlbumSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */; };
 		9C4093FA28D8491C001533BF /* VideoAlbumFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */; };
+		9C64E9F228EBBF1F00FB1DBE /* VideoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */; };
 		9C9CA80828531F5100655A66 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA80728531F5100655A66 /* SettingViewModel.swift */; };
 		9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */; };
 		9CB0D92928DA91BC009C2CE0 /* SettingDropdownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92828DA91BC009C2CE0 /* SettingDropdownCell.swift */; };
@@ -107,6 +108,7 @@
 		9C4093F528D82A76001533BF /* VideoAlbumError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumError.swift; sourceTree = "<group>"; };
 		9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumSaver.swift; sourceTree = "<group>"; };
 		9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumFetcher.swift; sourceTree = "<group>"; };
+		9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoConfiguration.swift; sourceTree = "<group>"; };
 		9C9CA80728531F5100655A66 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderConfiguration.swift; sourceTree = "<group>"; };
 		9CB0D92828DA91BC009C2CE0 /* SettingDropdownCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDropdownCell.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 		0798665628E6FA3E00E698ED /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9C64E9F028EBBF1600FB1DBE /* Protocol */,
 				0798665A28E7016200E698ED /* Camera */,
 				0798665928E7015D00E698ED /* Button */,
 				072B1B9728EA9AC400E362C3 /* Spacer.swift */,
@@ -351,6 +354,14 @@
 			name = Album;
 			sourceTree = "<group>";
 		};
+		9C64E9F028EBBF1600FB1DBE /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */,
+			);
+			name = Protocol;
+			sourceTree = "<group>";
+		};
 		9CB0D92A28DA91C3009C2CE0 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,6 +508,7 @@
 			files = (
 				072B1B9E28EAC3AC00E362C3 /* SystemImageButton.swift in Sources */,
 				9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */,
+				9C64E9F228EBBF1F00FB1DBE /* VideoConfiguration.swift in Sources */,
 				072B1B9428EA96AC00E362C3 /* SettingToolBarViewController.swift in Sources */,
 				9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */,
 				079866D728E843A900E698ED /* HapticManager.swift in Sources */,
