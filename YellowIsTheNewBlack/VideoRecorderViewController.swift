@@ -171,7 +171,6 @@ class VideoRecorderViewController: UIViewController {
             .disposed(by: bag)
     }
     
-    
     private func hideViews() {
         let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
             if self.toolBarStackView.isHidden {

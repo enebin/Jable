@@ -42,12 +42,23 @@ class VideoQualityToolBarViewController: UIViewController {
         $0.layoutMargins = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 60)
         $0.isLayoutMarginsRelativeArrangement = true
     }
+    
+    var completion: (() -> Void)?
+    
+    func setViewCompletion(_ action: @escaping () -> Void) {
+        self.completion = action
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setLayout()
         bindButtons()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        print("@@@")
+        completion?()
     }
     
     private func setLayout() {
@@ -101,6 +112,15 @@ class VideoQualityToolBarViewController: UIViewController {
                 guard let self = self else { return }
                 
                 self.recorderConfiguration?.videoQuality = .high
+            }
+            .disposed(by: bag)
+        
+        backButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+//                self.completion?()
+                self.view.isHidden = true
             }
             .disposed(by: bag)
     }

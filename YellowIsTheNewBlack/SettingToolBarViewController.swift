@@ -35,6 +35,10 @@ class SettingToolBarViewController: UIViewController {
     // MARK: Child VCs
     let recorderConfig = RecorderConfiguration()
     lazy var videoQualityVC = VideoQualityToolBarViewController().then {
+        $0.setViewCompletion {
+            self.settingTypeStackView.isHidden = false
+            print("@@@")
+        }
         $0.view.isHidden = true
     }
     
@@ -113,7 +117,6 @@ class SettingToolBarViewController: UIViewController {
         settingButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-
                 self.settingButton.isHidden = true
                 self.settingTypeStackView.isHidden = false
             }
@@ -138,4 +141,16 @@ class SettingToolBarViewController: UIViewController {
             }
             .disposed(by: bag)
     }
+    
+    private func selectSetting(_ type: Settings) {
+        
+    }
+}
+
+fileprivate enum Settings {
+    case first
+    case quality(UIViewController)
+    case mute(UIViewController)
+    
+    
 }
