@@ -57,6 +57,7 @@
 		9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */; };
 		9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518E284F335B007CF311 /* VideoRecorderError.swift */; };
 		9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD451982851B167007CF311 /* VideoFilePathManager.swift */; };
+		9CE6ED4628ED14870009744D /* SettingTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6ED4528ED14870009744D /* SettingTypeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewController.swift; sourceTree = "<group>"; };
 		9CD4518E284F335B007CF311 /* VideoRecorderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderError.swift; sourceTree = "<group>"; };
 		9CD451982851B167007CF311 /* VideoFilePathManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFilePathManager.swift; sourceTree = "<group>"; };
+		9CE6ED4528ED14870009744D /* SettingTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTypeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			children = (
 				072B1B9F28EAE84F00E362C3 /* Video quality */,
 				072B1B9328EA96AC00E362C3 /* SettingToolBarViewController.swift */,
+				9CE6ED4528ED14870009744D /* SettingTypeViewController.swift */,
 			);
 			name = "Tool bar";
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				9BEAA65F28438A0800AB77A7 /* SettingViewController.swift in Sources */,
 				9BAF4AD32860019A00B75689 /* GallerySection.swift in Sources */,
 				9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */,
+				9CE6ED4628ED14870009744D /* SettingTypeViewController.swift in Sources */,
 				9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */,
 				9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */,
 				9C0B2B4228E1992800BD9C81 /* VideoQualitySetting.swift in Sources */,

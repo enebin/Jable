@@ -13,8 +13,12 @@ import RxSwift
 import RxCocoa
 
 class VideoQualityToolBarViewController: UIViewController {
+    typealias Action = () -> Void
+    
     private var recorderConfiguration: VideoConfiguration? = nil
     private let bag = DisposeBag()
+    
+    var backButtonAction: Action?
     
     lazy var highButton = LabelButton().then {
         $0.setTitleLabel("고화질")
@@ -43,10 +47,8 @@ class VideoQualityToolBarViewController: UIViewController {
         $0.isLayoutMarginsRelativeArrangement = true
     }
     
-    var completion: (() -> Void)?
-    
-    func setViewCompletion(_ action: @escaping () -> Void) {
-        self.completion = action
+    func setBackButtonAction(_ action: @escaping Action) {
+        backButtonAction = action
     }
 
     override func viewDidLoad() {
@@ -54,11 +56,6 @@ class VideoQualityToolBarViewController: UIViewController {
         
         setLayout()
         bindButtons()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        print("@@@")
-        completion?()
     }
     
     private func setLayout() {
@@ -97,7 +94,6 @@ class VideoQualityToolBarViewController: UIViewController {
             }
             .disposed(by: bag)
         
-        
         mediumButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
@@ -105,7 +101,6 @@ class VideoQualityToolBarViewController: UIViewController {
                 self.recorderConfiguration?.videoQuality = .medium
             }
             .disposed(by: bag)
-        
         
         highButton.rx.tap
             .bind { [weak self] in
@@ -119,8 +114,9 @@ class VideoQualityToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-//                self.completion?()
                 self.view.isHidden = true
+                self.parent?.view.isHidden = true
+//                self.backButtonAction?()
             }
             .disposed(by: bag)
     }

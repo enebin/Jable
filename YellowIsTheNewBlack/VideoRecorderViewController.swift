@@ -50,17 +50,6 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
-
-    lazy var toolBarStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .equalSpacing
-        $0.alignment = .center
-        $0.backgroundColor = .clear
-        $0.spacing = 8
-    }
-    
-    
-    
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -169,25 +158,6 @@ class VideoRecorderViewController: UIViewController {
                 self.present(settingViewController, animated: true)
             }
             .disposed(by: bag)
-    }
-    
-    private func hideViews() {
-        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
-            if self.toolBarStackView.isHidden {
-                self.toolBarStackView.isHidden = false
-                self.toolBarStackView.alpha = 1
-            } else {
-                self.toolBarStackView.alpha = 0
-            }
-        }
-
-        if !self.toolBarStackView.isHidden {
-            animator.addCompletion { _ in
-                self.toolBarStackView.isHidden = true
-            }
-        }
-        
-        animator.startAnimation()
     }
     
     // Initializers
