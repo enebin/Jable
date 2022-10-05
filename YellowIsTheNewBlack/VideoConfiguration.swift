@@ -13,11 +13,3 @@ protocol VideoConfiguration {
     var cameraPosition: AVCaptureDevice.Position { get set }
     var silentMode: Bool { get set }
 }
-
-class RecorderConfiguration: VideoConfiguration {
-    var videoQuality: AVCaptureSession.Preset = .high
-    
-    var cameraPosition: AVCaptureDevice.Position = .back
-    
-    var silentMode: Bool = true
-}

@@ -14,6 +14,17 @@ import RxSwift
 
 class SettingToolBarViewController: UIViewController {
     private let bag = DisposeBag()
+    private(set) var recorderConfiguration: RecorderConfiguration
+    
+    init(configuration: RecorderConfiguration) {
+        self.recorderConfiguration = configuration
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     private var viewStack = [UIView]() {
         didSet {
@@ -27,8 +38,6 @@ class SettingToolBarViewController: UIViewController {
         $0.setSystemImage(name: "gear")
         self.pushView($0)
     }
-
-    let recorderConfig = RecorderConfiguration()
     
     // MARK: Child VCs
     lazy var settingTypeVC = SettingTypeViewController().then { [weak self] in
@@ -38,12 +47,13 @@ class SettingToolBarViewController: UIViewController {
         $0.onElementButtonTapped { setting in self.pushView(by: setting) }
     }
     
-    lazy var videoQualityVC = VideoQualityToolBarViewController().then { [weak self] in
-        guard let self = self else { return }
-        
-        $0.onBackButtonTapped { self.popView() }
-        $0.onElementButtonTapped { setting in self.pushView(by: setting) }
-    }
+    lazy var videoQualityVC = VideoQualityToolBarViewController(configuration: self.recorderConfiguration)
+        .then { [weak self] in
+            guard let self = self else { return }
+            
+            $0.onBackButtonTapped { self.popView() }
+            $0.onElementButtonTapped { setting in self.pushView(by: setting) }
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()

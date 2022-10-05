@@ -16,8 +16,17 @@ class VideoQualityToolBarViewController: UIViewController {
     typealias Action = () -> Void
     typealias SettingAction = (Setting) -> Void
     
-    private var recorderConfiguration: VideoConfiguration? = nil
     private let bag = DisposeBag()
+    private(set) var recorderConfiguration: VideoConfiguration
+    init(configuration: some VideoConfiguration) {
+        self.recorderConfiguration = configuration
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     lazy var highButton = LabelButton().then {
         $0.setTitleLabel("고화질")
@@ -45,6 +54,7 @@ class VideoQualityToolBarViewController: UIViewController {
         elementButtonAction = action
     }
     
+    
     lazy var qualityTypeStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .fillEqually
@@ -56,9 +66,6 @@ class VideoQualityToolBarViewController: UIViewController {
         $0.isLayoutMarginsRelativeArrangement = true
     }
     
-    func setBackButtonAction(_ action: @escaping Action) {
-        backButtonAction = action
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +73,7 @@ class VideoQualityToolBarViewController: UIViewController {
         setLayout()
         bindButtons()
     }
+    
     
     private func setLayout() {
         let childButtons = [lowButton, mediumButton, highButton]
@@ -99,7 +107,7 @@ class VideoQualityToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration?.videoQuality = .low
+                self.recorderConfiguration.videoQuality = .low
             }
             .disposed(by: bag)
         
@@ -107,7 +115,7 @@ class VideoQualityToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration?.videoQuality = .medium
+                self.recorderConfiguration.videoQuality = .medium
             }
             .disposed(by: bag)
         
@@ -115,7 +123,7 @@ class VideoQualityToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration?.videoQuality = .high
+                self.recorderConfiguration.videoQuality = .high
             }
             .disposed(by: bag)
         

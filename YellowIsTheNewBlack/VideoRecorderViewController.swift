@@ -43,7 +43,7 @@ class VideoRecorderViewController: UIViewController {
     lazy var shutterButton = ShutterButton()
     lazy var settingButton = SettingButton()
     lazy var spacer = Spacer()
-    lazy var settingVC = SettingToolBarViewController()
+    lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
 
     lazy var screenSizeButton = UIButton().then {
         $0.backgroundColor = .white
@@ -145,17 +145,6 @@ class VideoRecorderViewController: UIViewController {
                 self.setCameraPreviewLayer(self.previewLayer)
                 
                 self.view.layoutIfNeeded()
-            }
-            .disposed(by: bag)
-        
-        settingButton.rx.tap
-            .bind { [weak self] in
-                guard let self = self else { return }
-                
-                let videoConfiguration = self.viewModel.videoConfiguration
-                let settingViewController = SettingViewController(videoConfig: videoConfiguration)
-                
-                self.present(settingViewController, animated: true)
             }
             .disposed(by: bag)
     }

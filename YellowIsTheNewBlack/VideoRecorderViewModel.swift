@@ -13,7 +13,7 @@ import UIKit
 class VideoRecoderViewModel: NSObject {
     // Dependencies
     private let sessionManager: VideoSessionManager
-    let videoConfiguration: VideoRecorderConfiguration
+    let videoConfiguration: RecorderConfiguration
     
     // vars and lets
     private var videoSession: AVCaptureSession?
@@ -46,35 +46,8 @@ class VideoRecoderViewModel: NSObject {
         try sessionManager.stopRecordingVideo()
     }
     
-    func changeSetting(_ setting: VideoRecorderConfiguration.SettingProperties) {
-        Task {
-            do {
-                try await self.setupSession(setting.quality, setting.position)
-            } catch let error {
-                print(error)
-            }
-        }
-    }
-    
-    func bindObservables() {
-        videoConfiguration.observable.asObservable()
-            .observe(on: SerialDispatchQueueScheduler(queue: workQueue, internalSerialQueueName: "videoWorkQueue"))
-            .subscribe(
-                onNext: { [weak self] setting in
-                    guard let self = self else { return }
-                    self.workQueue.async {
-                        self.changeSetting(setting)
-                    }
-//                    try await self.setupSession(setting.quality, setting.position)
-                },
-                onError: { error in
-                    // TODO: Handle error
-                })
-            .disposed(by: bag)
-    }
-    
     init(_ sessionManager: VideoSessionManager = VideoSessionManager.shared,
-         _ videoConfiguration: VideoRecorderConfiguration = VideoRecorderConfiguration.shared) {
+         _ videoConfiguration: RecorderConfiguration = RecorderConfiguration.shared) {
         self.sessionManager = sessionManager
         self.videoConfiguration = videoConfiguration
         self.previewLayerObservable = PublishSubject<AVCaptureVideoPreviewLayer?>()
