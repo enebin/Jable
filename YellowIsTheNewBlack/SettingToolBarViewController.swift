@@ -15,20 +15,35 @@ import RxSwift
 class SettingToolBarViewController: UIViewController {
     private let bag = DisposeBag()
     
+    private var viewStack = [UIView]() {
+        didSet {
+            oldValue.last?.isHidden = true
+            viewStack.last?.isHidden = false
+        }
+    }
+    
     // MARK: Usable buttons
     lazy var settingButton = SystemImageButton().then {
         $0.setSystemImage(name: "gear")
+        self.pushView($0)
     }
-    
-    lazy var backButton = SystemImageButton().then {
-        $0.setSystemImage(name: "chevron.left")
-    }
-    
+
     let recorderConfig = RecorderConfiguration()
     
     // MARK: Child VCs
-    lazy var settingTypeVC = SettingTypeViewController()
-    lazy var videoQualityVC = VideoQualityToolBarViewController()
+    lazy var settingTypeVC = SettingTypeViewController().then { [weak self] in
+        guard let self = self else { return }
+        
+        $0.onBackButtonTapped { self.popView() }
+        $0.onElementButtonTapped { setting in self.pushView(by: setting) }
+    }
+    
+    lazy var videoQualityVC = VideoQualityToolBarViewController().then { [weak self] in
+        guard let self = self else { return }
+        
+        $0.onBackButtonTapped { self.popView() }
+        $0.onElementButtonTapped { setting in self.pushView(by: setting) }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,30 +90,41 @@ class SettingToolBarViewController: UIViewController {
         settingButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                self.settingButton.isHidden = true
-                self.multiplexer(self.settingTypeVC)
+                
+                self.pushView(self.settingTypeVC.view)
             }
             .disposed(by: bag)
     }
     
-    private func multiplexer(_ child: UIViewController?) {
-        if let child = child {
-            children.forEach { vc in
-                if vc != child {
-                    vc.view.isHidden = true
-                }
-            }
-            
-            child.view.isHidden = false
-        } else {
-            children.forEach { $0.view.isHidden = true }
-            settingButton.isHidden = false
+    func pushView(by settingType: Setting) {
+        switch settingType {
+        case .quality:
+            pushView(videoQualityVC.view)
+        case .mute:
+            break
+        }
+    }
+    
+    private func pushView(_ view: UIView) {
+        viewStack.append(view)
+    }
+    
+    private func popView() {
+        if viewStack.count > 1 {
+            viewStack = viewStack.dropLast(1)
         }
     }
 }
 
-fileprivate enum Settings {
-    case first
+protocol SettingStack: UIViewController {
+    var backButton: UIButton { get set }
+    func onBackButtonTapped(_ action: @escaping () -> Void)
+
+    var elementButton: UIButton { get set }
+    func onElementButtonTapped(_ action: @escaping (Setting) -> Void)
+}
+
+enum Setting {
     case quality
     case mute
 }

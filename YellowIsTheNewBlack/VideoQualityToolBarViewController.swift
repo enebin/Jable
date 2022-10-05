@@ -14,11 +14,10 @@ import RxCocoa
 
 class VideoQualityToolBarViewController: UIViewController {
     typealias Action = () -> Void
+    typealias SettingAction = (Setting) -> Void
     
     private var recorderConfiguration: VideoConfiguration? = nil
     private let bag = DisposeBag()
-    
-    var backButtonAction: Action?
     
     lazy var highButton = LabelButton().then {
         $0.setTitleLabel("고화질")
@@ -34,6 +33,16 @@ class VideoQualityToolBarViewController: UIViewController {
     
     lazy var backButton = SystemImageButton().then {
         $0.setSystemImage(name: "chevron.left")
+    }
+    
+    var backButtonAction: Action?
+    func onBackButtonTapped(_ action: @escaping Action) {
+        backButtonAction = action
+    }
+    
+    var elementButtonAction: SettingAction?
+    func onElementButtonTapped(_ action: @escaping SettingAction) {
+        elementButtonAction = action
     }
     
     lazy var qualityTypeStackView = UIStackView().then {
@@ -114,9 +123,7 @@ class VideoQualityToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.view.isHidden = true
-                self.parent?.view.isHidden = true
-//                self.backButtonAction?()
+                self.backButtonAction?()
             }
             .disposed(by: bag)
     }

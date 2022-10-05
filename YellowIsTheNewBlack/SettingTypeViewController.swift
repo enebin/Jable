@@ -13,6 +13,9 @@ import RxCocoa
 import RxSwift
 
 class SettingTypeViewController: UIViewController {
+    typealias Action = () -> Void
+    typealias SettingAction = (Setting) -> Void
+    
     private let bag = DisposeBag()
     
     lazy var backButton = SystemImageButton().then {
@@ -24,7 +27,7 @@ class SettingTypeViewController: UIViewController {
     }
     
     lazy var muteButton = LabelButton().then {
-        $0.setTitleLabel("음소거")
+        $0.setTitleLabel("소리 녹음")
     }
         
     // MARK: Stack views
@@ -36,6 +39,16 @@ class SettingTypeViewController: UIViewController {
         
         $0.layoutMargins = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 60)
         $0.isLayoutMarginsRelativeArrangement = true
+    }
+    
+    var backButtonAction: Action?
+    func onBackButtonTapped(_ action: @escaping Action) {
+        backButtonAction = action
+    }
+    
+    var elementButtonAction: SettingAction?
+    func onElementButtonTapped(_ action: @escaping SettingAction) {
+        elementButtonAction = action
     }
     
     override func viewDidLoad() {
@@ -78,6 +91,7 @@ class SettingTypeViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
+                self.backButtonAction?()
             }
             .disposed(by: bag)
         
@@ -85,6 +99,15 @@ class SettingTypeViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
+                self.elementButtonAction?(.quality)
+            }
+            .disposed(by: bag)
+        
+        muteButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+                print("녹음 기능 끄기")
             }
             .disposed(by: bag)
     }
