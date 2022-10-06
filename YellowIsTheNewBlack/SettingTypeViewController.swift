@@ -68,19 +68,19 @@ class SettingTypeViewController: UIViewController {
         
         settingTypeStackView.addArrangedSubview(qualityButton)
         qualityButton.snp.makeConstraints { make in
-            make.width.height.equalTo(35)
+            make.height.equalTo(35)
             make.centerY.equalToSuperview()
         }
         
         settingTypeStackView.addArrangedSubview(muteButton)
         muteButton.snp.makeConstraints { make in
-            make.width.height.equalTo(35)
+            make.height.equalTo(35)
             make.centerY.equalToSuperview()
         }
-        
+
         settingTypeStackView.addSubview(backButton)
         backButton.snp.makeConstraints { make in
-            make.width.height.equalTo(35)
+            make.height.equalTo(35)
             make.left.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
         }

@@ -80,13 +80,13 @@ class VideoQualityToolBarViewController: UIViewController {
         
         view.addSubview(qualityTypeStackView)
         qualityTypeStackView.snp.makeConstraints { make in
-            make.width.height.equalToSuperview()
+            make.height.width.equalToSuperview()
             make.center.equalToSuperview()
         }
         
         qualityTypeStackView.addSubview(backButton)
         backButton.snp.makeConstraints { make in
-            make.width.height.equalTo(35)
+            make.height.equalTo(35)
             make.left.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
         }
@@ -97,7 +97,7 @@ class VideoQualityToolBarViewController: UIViewController {
     private func addButton(_ button: UIButton) {
         qualityTypeStackView.addArrangedSubview(button)
         button.snp.makeConstraints { make in
-            make.width.height.equalTo(35)
+            make.height.equalTo(35)
             make.centerY.equalToSuperview()
         }
     }
