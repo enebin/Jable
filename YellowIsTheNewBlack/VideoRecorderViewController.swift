@@ -54,9 +54,9 @@ class VideoRecorderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.setChildViewControllers()
+        self.setChildViewControllers()
         self.setLayout()
-        self.bindUIComponents()
+        self.bindButtons()
         
         Task(priority: .userInitiated) {
             do {
@@ -117,7 +117,7 @@ class VideoRecorderViewController: UIViewController {
         }
     }
     
-    private func bindUIComponents() {
+    private func bindButtons() {
         shutterButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
