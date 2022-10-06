@@ -11,6 +11,7 @@ class LabelButton: UIButton {
     func setTitleLabel(_ text: String) {
         self.setTitle(text, for: .normal)
         self.setTitleColor(.white, for: .normal)
+        self.setTitleColor(.gray, for: .highlighted)
     }
     
     override func layoutSubviews() {

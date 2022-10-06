@@ -7,7 +7,7 @@
 
 import Foundation
 import AVFoundation
-import RxSwift
+import RxRelay
 
 /// 인스턴스 생성에 세팅이 필요한 클래스를 위한 것
 ///
@@ -15,9 +15,7 @@ import RxSwift
 class RecorderConfiguration: VideoConfiguration {
     static let shared = RecorderConfiguration()
 
-    var videoQuality: AVCaptureSession.Preset = .high
-    
-    var cameraPosition: AVCaptureDevice.Position = .back
-    
-    var silentMode: Bool = false
+    var videoQuality = BehaviorRelay<AVCaptureSession.Preset>(value: .high)
+    var cameraPosition = BehaviorRelay<AVCaptureDevice.Position>(value: .back)
+    var silentMode = BehaviorRelay<Bool>(value: false)
 }

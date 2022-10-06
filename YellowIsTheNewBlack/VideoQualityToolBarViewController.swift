@@ -107,7 +107,7 @@ class VideoQualityToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration.videoQuality = .low
+                self.recorderConfiguration.videoQuality.accept(.low)
             }
             .disposed(by: bag)
         
@@ -115,7 +115,7 @@ class VideoQualityToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration.videoQuality = .medium
+                self.recorderConfiguration.videoQuality.accept(.medium)
             }
             .disposed(by: bag)
         
@@ -123,7 +123,7 @@ class VideoQualityToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration.videoQuality = .high
+                self.recorderConfiguration.videoQuality.accept(.high)
             }
             .disposed(by: bag)
         

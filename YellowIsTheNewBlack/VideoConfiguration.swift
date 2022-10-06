@@ -5,11 +5,11 @@
 //  Created by 이영빈 on 2022/10/04.
 //
 
-import Foundation
+import RxRelay
 import AVFoundation
 
 protocol VideoConfiguration {
-    var videoQuality: AVCaptureSession.Preset  { get set }
-    var cameraPosition: AVCaptureDevice.Position { get set }
-    var silentMode: Bool { get set }
+    var videoQuality: BehaviorRelay<AVCaptureSession.Preset>  { get }
+    var cameraPosition: BehaviorRelay<AVCaptureDevice.Position> { get }
+    var silentMode: BehaviorRelay<Bool> { get }
 }

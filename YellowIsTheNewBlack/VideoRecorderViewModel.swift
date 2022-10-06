@@ -18,8 +18,6 @@ class VideoRecoderViewModel: NSObject {
     // vars and lets
     private var videoSession: AVCaptureSession?
     private var bag = DisposeBag()
-    private let workQueue = DispatchQueue(label: "videoWorkQueue", qos: .userInitiated)
-    
     
     // MARK: - Public methods and vars
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -46,10 +44,27 @@ class VideoRecoderViewModel: NSObject {
         try sessionManager.stopRecordingVideo()
     }
     
+    private func bindObservables() {
+        videoConfiguration.videoQuality
+            .bind { [weak self] quality in
+                guard let self = self else { return }
+                
+                Task {
+                    let position = self.videoConfiguration.cameraPosition.value
+                    try await self.setupSession(quality, position)
+                }
+            }
+            .disposed(by: bag)
+    }
+    
     init(_ sessionManager: VideoSessionManager = VideoSessionManager.shared,
          _ videoConfiguration: RecorderConfiguration = RecorderConfiguration.shared) {
         self.sessionManager = sessionManager
         self.videoConfiguration = videoConfiguration
         self.previewLayerObservable = PublishSubject<AVCaptureVideoPreviewLayer?>()
+        
+        super.init()
+        
+        self.bindObservables()
     }
 }
