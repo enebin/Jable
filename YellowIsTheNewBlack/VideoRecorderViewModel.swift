@@ -6,8 +6,10 @@
 //
 
 import AVFoundation
-import RxSwift
 import UIKit
+
+import RxSwift
+import RxRelay
 
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
@@ -20,16 +22,25 @@ class VideoRecoderViewModel: NSObject {
     private var bag = DisposeBag()
     
     // MARK: - Public methods and vars
-    var previewLayer: AVCaptureVideoPreviewLayer?
-    let previewLayerObservable: PublishSubject<AVCaptureVideoPreviewLayer?>
+    let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     
+    @discardableResult
     func setupSession(_ quality: AVCaptureSession.Preset = .medium,
-                      _ position: AVCaptureDevice.Position) async throws {
+                      _ position: AVCaptureDevice.Position) async throws -> AVCaptureSession {
+        print("session in ")
         let session = try await sessionManager.setupSession(quality: quality, position: position)
-        
-        previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        previewLayerObservable.onNext(previewLayer)
         videoSession = session
+        
+        let layer = setupPreviewLayer(session: session)
+        previewLayer.accept(layer)
+        
+        return session
+    }
+    
+    private func setupPreviewLayer(session: AVCaptureSession) -> AVCaptureVideoPreviewLayer {
+        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        
+        return previewLayer
     }
     
     func startRunningCamera() {
@@ -48,10 +59,14 @@ class VideoRecoderViewModel: NSObject {
         videoConfiguration.videoQuality
             .bind { [weak self] quality in
                 guard let self = self else { return }
-                
+
                 Task {
                     let position = self.videoConfiguration.cameraPosition.value
-                    try await self.setupSession(quality, position)
+                    let session = try await self.setupSession(quality, position)
+                    let previewLayer = self.setupPreviewLayer(session: session)
+                    
+                    self.previewLayer.accept(previewLayer)
+                    self.startRunningCamera()
                 }
             }
             .disposed(by: bag)
@@ -61,10 +76,31 @@ class VideoRecoderViewModel: NSObject {
          _ videoConfiguration: RecorderConfiguration = RecorderConfiguration.shared) {
         self.sessionManager = sessionManager
         self.videoConfiguration = videoConfiguration
-        self.previewLayerObservable = PublishSubject<AVCaptureVideoPreviewLayer?>()
         
         super.init()
         
         self.bindObservables()
+        
+//        Task(priority: .userInitiated) {
+//            print("Session go")
+//
+//            do {
+//                let session = try await setupSession(.medium, .back)
+//                print("Session done, \(session)")
+//            }
+//            catch VideoRecorderError.notConfigured {
+//                fatalError("비디오 세션이 제대로 초기화되지 않았음")
+//            }
+//            catch let error {
+//                print(error)
+////                self.errorMessage = error.localizedDescription
+////                self.present(self.alert, animated: true, completion: nil)
+//            }
+//
+//            var DEBUG_runCamera = true
+//            if DEBUG_runCamera {
+//                startRunningCamera()
+//            }
+//        }
     }
 }

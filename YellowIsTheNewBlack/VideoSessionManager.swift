@@ -94,9 +94,9 @@ class VideoSessionManager: NSObject {
         guard let captureSession = session else {
             throw VideoRecorderError.notConfigured
         }
-
-        captureSession.beginConfiguration()
         
+        captureSession.beginConfiguration()
+
         let deviceInput = try AVCaptureDeviceInput(device: device)
         if captureSession.canAddInput(deviceInput) {
             captureSession.addInput(deviceInput)
@@ -112,6 +112,8 @@ class VideoSessionManager: NSObject {
             throw VideoRecorderError.unableToSetInput
         }
         
+        print("a")
+
         let fileOutput = AVCaptureMovieFileOutput()
         if captureSession.canAddOutput(fileOutput) {
             self.output = fileOutput
@@ -119,6 +121,8 @@ class VideoSessionManager: NSObject {
         } else {
             throw VideoRecorderError.unableToSetOutput
         }
+        
+        print("b")
         
         self.captureSession = captureSession
         self.device = device

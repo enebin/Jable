@@ -14,9 +14,7 @@ import RxCocoa
 import RxSwift
 
 @MainActor
-class VideoRecorderViewController: UIViewController {
-    var DEBUG_runCamera = true
-    
+class VideoRecorderViewController: UIViewController {    
     // Dependencies
     let viewModel: VideoRecoderViewModel
     
@@ -26,7 +24,7 @@ class VideoRecorderViewController: UIViewController {
     let bag = DisposeBag()
     
     var previewLayerSize: PreviewLayerSize = .large
-    var previewLayer: AVCaptureVideoPreviewLayer?
+    var preview: AVCaptureVideoPreviewLayer?
 
 
     // View components
@@ -54,30 +52,10 @@ class VideoRecorderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setChildViewControllers()
-        self.setLayout()
-        self.bindButtons()
-        
-        Task(priority: .userInitiated) {
-            do {
-                try await viewModel.setupSession(.medium, .back)
-                
-                DispatchQueue.main.async {
-                    self.setCameraPreviewLayer(self.viewModel.previewLayer)
-                }
-            }
-            catch VideoRecorderError.notConfigured {
-                fatalError("비디오 세션이 제대로 초기화되지 않았음")
-            }
-            catch let error {
-                self.errorMessage = error.localizedDescription
-                self.present(self.alert, animated: true, completion: nil)
-            }
-            
-            if DEBUG_runCamera {
-                viewModel.startRunningCamera()
-            }
-        }
+        setChildViewControllers()
+        setLayout()
+        bindButtons()
+        bindPublishers()
     }
     
     private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
@@ -85,12 +63,12 @@ class VideoRecorderViewController: UIViewController {
             return
         }
         
-        previewLayer = _layer
+        preview = _layer
         
-        self.view.layer.addSublayer(previewLayer!)
-        previewLayer!.videoGravity = .resizeAspect
-        previewLayer!.bounds = self.previewLayerSize.bounds
-        previewLayer!.position = self.previewLayerSize.position
+        self.view.layer.addSublayer(preview!)
+        preview!.videoGravity = .resizeAspect
+        preview!.bounds = self.previewLayerSize.bounds
+        preview!.position = self.previewLayerSize.position
         
         setLayout()
     }
@@ -139,10 +117,27 @@ class VideoRecorderViewController: UIViewController {
             .disposed(by: bag)
         
         screenSizeButton.rx.tap
+            .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
                 self.previewLayerSize = self.previewLayerSize.next()
-                self.setCameraPreviewLayer(self.previewLayer)
+                self.setCameraPreviewLayer(self.preview)
+                
+                self.view.layoutIfNeeded()
+            }
+            .disposed(by: bag)
+    }
+    
+    private func bindPublishers() {
+        viewModel.previewLayer.asObservable()
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] layer in
+                guard let self = self else { return }
+                
+                self.setCameraPreviewLayer(layer)
+                print("@", layer?.session?.sessionPreset)
+                
+                
                 
                 self.view.layoutIfNeeded()
             }
