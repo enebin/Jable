@@ -65,6 +65,7 @@ class GalleryViewController: UIViewController {
                 guard let self = self else { return UICollectionViewCell() }
                 let cell: GalleryViewCell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
                 
+                
                 cell.setUp(image: (item.thumbnail) ?? UIImage(systemName: "xmark")!)
                 
                 return cell

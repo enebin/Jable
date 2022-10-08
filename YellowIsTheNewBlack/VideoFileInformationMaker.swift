@@ -13,14 +13,14 @@ class VideoFileInformationMaker {
     /// none
     
     // MARK: - Public methods
-    func makeInformationFile(for path: URL) -> VideoFileInformation {
+    static func makeInformationFile(for path: URL) -> VideoFileInformation {
         let thumbnail = self.generateThumbnail(for: path)
         
         return VideoFileInformation(path: path, thumbnail: thumbnail)
     }
     
     // MARK: - Internal methods
-    private func generateThumbnail(for path: URL) -> UIImage? {
+    static private func generateThumbnail(for path: URL) -> UIImage? {
         let asset = AVURLAsset(url: path, options: nil)
         
         let imgGenerator = AVAssetImageGenerator(asset: asset)

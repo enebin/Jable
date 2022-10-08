@@ -10,7 +10,7 @@ import Then
 import SnapKit
 
 class GalleryViewCell: UICollectionViewCell {
-    lazy var image = UIImageView().then {
+    lazy var imageView = UIImageView().then {
         $0.image = UIImage(systemName: "person")
         $0.tintColor = .white
         $0.sizeToFit()
@@ -32,21 +32,21 @@ class GalleryViewCell: UICollectionViewCell {
     }
     
     private func addViews() {
-        self.addSubview(image)
-        image.snp.makeConstraints { make in
+        self.addSubview(imageView)
+        imageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.height.equalToSuperview()
         }
         
         self.addSubview(text)
         text.snp.makeConstraints { make in
-            make.right.equalTo(image).inset(15)
-            make.bottom.equalTo(image).inset(15)
+            make.right.equalTo(imageView).inset(15)
+            make.bottom.equalTo(imageView).inset(15)
         }
     }
     
     func setUp(image: UIImage) {
-        self.image.image = image
+        self.imageView.image = image
     }
 }
 
