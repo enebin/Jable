@@ -26,14 +26,10 @@ class VideoRecoderViewModel: NSObject {
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     
     @discardableResult
-    func setupSession(_ quality: AVCaptureSession.Preset = .medium,
-                      _ position: AVCaptureDevice.Position) async throws -> AVCaptureSession {
-        print("session in ")
+    func updateSession(_ quality: AVCaptureSession.Preset = .medium,
+                       _ position: AVCaptureDevice.Position) async throws -> AVCaptureSession {
         let session = try await sessionManager.setupSession(quality: quality, position: position)
         videoSession = session
-        
-        let layer = setupPreviewLayer(session: session)
-        previewLayer.accept(layer)
         
         return session
     }
@@ -68,7 +64,7 @@ class VideoRecoderViewModel: NSObject {
                 
                 Task {
                     let position = self.videoConfiguration.cameraPosition.value
-                    let session = try await self.setupSession(quality, position)
+                    let session = try await self.updateSession(quality, position)
                     let previewLayer = self.setupPreviewLayer(session: session)
                     
                     self.previewLayer.accept(previewLayer)

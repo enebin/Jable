@@ -62,9 +62,12 @@ class VideoRecorderViewController: UIViewController {
         guard let _layer = layer else {
             return
         }
+
+        if preview != nil {
+            preview?.removeFromSuperlayer()
+        }
         
         preview = _layer
-        
         self.view.layer.addSublayer(preview!)
         preview!.videoGravity = .resizeAspect
         preview!.bounds = self.previewLayerSize.bounds
@@ -131,14 +134,11 @@ class VideoRecorderViewController: UIViewController {
     private func bindPublishers() {
         viewModel.previewLayer.asObservable()
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] layer in
+            .bind { [weak self] newLayer in
                 guard let self = self else { return }
                 
-                self.setCameraPreviewLayer(layer)
-                print("@", layer?.session?.sessionPreset)
-                
-                
-                
+                self.setCameraPreviewLayer(newLayer)
+                print(newLayer)
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)

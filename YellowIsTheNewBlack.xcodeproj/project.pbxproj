@@ -190,6 +190,13 @@
 			name = Camera;
 			sourceTree = "<group>";
 		};
+		07DE1E5F28F12D8B0080AC0B /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		9B51E6402866EF8500D3BB82 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +367,7 @@
 		9CD45189284F2BE9007CF311 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				07DE1E5F28F12D8B0080AC0B /* New Group */,
 				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
 				9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */,
 				9CD4518E284F335B007CF311 /* VideoRecorderError.swift */,
