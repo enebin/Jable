@@ -6,7 +6,7 @@
 - Swift 5.6 ~
 - iOS 13.0 ~
 
-## Dependencies
+## 🛠 Dependencies
 ### UI Framework
 - UIKit
 
