@@ -20,6 +20,7 @@ class VideoRecoderViewModel: NSObject {
     // vars and lets
     private var videoSession: AVCaptureSession?
     private var bag = DisposeBag()
+    private var isObservablesBound = false
     
     // MARK: - Public methods and vars
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
@@ -56,10 +57,15 @@ class VideoRecoderViewModel: NSObject {
     }
     
     private func bindObservables() {
+        if isObservablesBound {
+            fatalError("Observables have already been bound!")
+        }
+        
         videoConfiguration.videoQuality
             .bind { [weak self] quality in
                 guard let self = self else { return }
-
+                self.isObservablesBound = true
+                
                 Task {
                     let position = self.videoConfiguration.cameraPosition.value
                     let session = try await self.setupSession(quality, position)
