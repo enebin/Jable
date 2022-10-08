@@ -138,7 +138,6 @@ class VideoRecorderViewController: UIViewController {
                 guard let self = self else { return }
                 
                 self.setCameraPreviewLayer(newLayer)
-                print(newLayer)
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)

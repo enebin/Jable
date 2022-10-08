@@ -18,6 +18,7 @@ class VideoQualityToolBarViewController: UIViewController {
     
     private let bag = DisposeBag()
     private(set) var recorderConfiguration: VideoConfiguration
+    
     init(configuration: some VideoConfiguration) {
         self.recorderConfiguration = configuration
         super.init(nibName: nil, bundle: nil)

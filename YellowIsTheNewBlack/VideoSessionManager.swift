@@ -24,12 +24,13 @@ class VideoSessionManager: NSObject {
     ///
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
-    func setupSession(quality: AVCaptureSession.Preset = .medium,
-                      position: AVCaptureDevice.Position = .back) async throws -> AVCaptureSession {
-        let captureSession = AVCaptureSession()
-        captureSession.sessionPreset = quality
-        
-        return try await checkIsSessionConfigurable(session: captureSession, position: position)
+    func setupSession(configuration: some VideoConfiguration) async throws -> AVCaptureSession {
+        do {
+            try await checkSessionConfigurable()
+            return try await configureCaptureSession(configuration: configuration)
+        } catch let error {
+            throw error
+        }
     }
     
     /// 카메라를 돌리기 시작함
@@ -58,23 +59,17 @@ class VideoSessionManager: NSObject {
     }
     
     // MARK: - Internal methods
-    
-    private func checkIsSessionConfigurable(session: AVCaptureSession?,
-                                            position: AVCaptureDevice.Position) async throws -> AVCaptureSession {
+    private func checkSessionConfigurable() async throws {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
-            return try await self.setUpCaptureSession(session, position: position)
+            return
         case .notDetermined:
             let isGranted = await AVCaptureDevice.requestAccess(for: .video)
             if isGranted {
-                do {
-                    return try await self.setUpCaptureSession(session, position: position)
-                }
-                catch let error {
-                    print(error.localizedDescription)
-                }
+                return
+            } else {
+                throw VideoRecorderError.permissionDenied
             }
-            
         case .denied:
             throw VideoRecorderError.permissionDenied
         case .restricted:
@@ -82,17 +77,17 @@ class VideoSessionManager: NSObject {
         @unknown default:
             throw VideoRecorderError.invalidDevice
         }
-        
-        return AVCaptureSession()
     }
     
-    private func setUpCaptureSession(_ session: AVCaptureSession?, position: AVCaptureDevice.Position) async throws -> AVCaptureSession {
+    private func configureCaptureSession(configuration: some VideoConfiguration) async throws -> AVCaptureSession {
+        let position = configuration.cameraPosition.value
+        let silentMode = configuration.silentMode.value
+        
+        let captureSession = AVCaptureSession()
+        captureSession.sessionPreset = configuration.videoQuality.value
+        
         guard let device = findBestCamera(in: position) else {
             throw VideoRecorderError.invalidDevice
-        }
-        
-        guard let captureSession = session else {
-            throw VideoRecorderError.notConfigured
         }
         
         captureSession.beginConfiguration()
@@ -104,15 +99,15 @@ class VideoSessionManager: NSObject {
             throw VideoRecorderError.unableToSetInput
         }
         
-        let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
-        let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-        if captureSession.canAddInput(audioInput) {
-            captureSession.addInput(audioInput)
-        } else {
-            throw VideoRecorderError.unableToSetInput
+        if silentMode {
+            let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
+            let audioInput = try AVCaptureDeviceInput(device: audioDevice)
+            if captureSession.canAddInput(audioInput) {
+                captureSession.addInput(audioInput)
+            } else {
+                throw VideoRecorderError.unableToSetInput
+            }
         }
-        
-        print("a")
 
         let fileOutput = AVCaptureMovieFileOutput()
         if captureSession.canAddOutput(fileOutput) {
@@ -121,8 +116,6 @@ class VideoSessionManager: NSObject {
         } else {
             throw VideoRecorderError.unableToSetOutput
         }
-        
-        print("b")
         
         self.captureSession = captureSession
         self.device = device
