@@ -2,8 +2,9 @@
 ### _Still working on it..._ 🪛
 
 ## 🎨 Environment
-Xcode 13.0 ~
-iOS 13.0 ~
+- Xcode 13.0 ~
+- Swift 5.6 ~
+- iOS 13.0 ~
 
 ## Dependencies
 ### UI Framework
