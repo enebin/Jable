@@ -61,6 +61,7 @@ class VideoRecoderViewModel: NSObject {
         self.isObservablesBound = true
 
         videoConfiguration.videoQuality
+            .debounce(.milliseconds(500), scheduler: workQueue)
             .subscribe(on: workQueue)
             .bind { [weak self] quality in
                 guard let self = self else { return }
