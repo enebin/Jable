@@ -107,7 +107,7 @@ class SettingTypeViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                print("녹음 기능 끄기")
+                self.elementButtonAction?(.mute)
             }
             .disposed(by: bag)
     }

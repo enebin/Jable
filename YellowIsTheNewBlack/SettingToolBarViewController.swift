@@ -25,7 +25,7 @@ class SettingToolBarViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    // MARK: View stack
     private var viewStack = [UIView]() {
         didSet {
             oldValue.last?.isHidden = true
@@ -40,6 +40,8 @@ class SettingToolBarViewController: UIViewController {
     }
     
     // MARK: Child VCs
+    private var childVCs = [UIViewController]()
+    
     lazy var settingTypeVC = SettingTypeViewController().then { [weak self] in
         guard let self = self else { return }
         
@@ -55,22 +57,30 @@ class SettingToolBarViewController: UIViewController {
             $0.onElementButtonTapped { setting in self.pushView(by: setting) }
         }
     
+    lazy var muteTypeVC = MuteToolBarViewController(configuration: self.recorderConfiguration)
+        .then { [weak self] in
+            guard let self = self else { return }
+            
+            $0.onBackButtonTapped { self.popView() }
+            $0.onElementButtonTapped { setting in self.pushView(by: setting) }
+        }
+    
+    // MARK: -
     override func viewDidLoad() {
         super.viewDidLoad()
+        childVCs = [settingTypeVC, videoQualityVC, muteTypeVC]
         
-        addSubViewControllers()
+        addSubViewControllers(childVCs)
         setLayout()
         bindButtons()
     }
     
-    func addSubViewControllers() {
-        addChild(settingTypeVC)
-        settingTypeVC.didMove(toParent: self)
-        
-        addChild(videoQualityVC)
-        videoQualityVC.didMove(toParent: self)
-        
-        children.forEach{ $0.view.isHidden = true }
+    func addSubViewControllers(_ viewControllers: [UIViewController]) {
+        viewControllers.forEach {
+            addChild($0)
+            $0.didMove(toParent: self)
+            $0.view.isHidden = true
+        }
     }
     
     func setLayout() {
@@ -80,9 +90,16 @@ class SettingToolBarViewController: UIViewController {
             make.height.equalTo(50)
             make.center.equalToSuperview()
         }
-//
+        
         view.addSubview(videoQualityVC.view)
         videoQualityVC.view.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+            make.center.equalToSuperview()
+        }
+        
+        view.addSubview(muteTypeVC.view)
+        muteTypeVC.view.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(50)
             make.center.equalToSuperview()
@@ -111,7 +128,7 @@ class SettingToolBarViewController: UIViewController {
         case .quality:
             pushView(videoQualityVC.view)
         case .mute:
-            break
+            pushView(muteTypeVC.view)
         }
     }
     

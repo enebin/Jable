@@ -24,6 +24,7 @@
 		0798665828E6FA4C00E698ED /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798665728E6FA4C00E698ED /* ShutterButton.swift */; };
 		0798665C28E7044E00E698ED /* CameraPreviewLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798665B28E7044E00E698ED /* CameraPreviewLayer.swift */; };
 		079866D728E843A900E698ED /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079866D628E843A900E698ED /* HapticManager.swift */; };
+		07DE1E6228F149180080AC0B /* MuteToolBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DE1E6128F149180080AC0B /* MuteToolBarViewController.swift */; };
 		9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */; };
 		9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */; };
 		9B543AD0285DAB1600B41CB3 /* VideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */; };
@@ -79,6 +80,7 @@
 		0798665728E6FA4C00E698ED /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		0798665B28E7044E00E698ED /* CameraPreviewLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewLayer.swift; sourceTree = "<group>"; };
 		079866D628E843A900E698ED /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		07DE1E6128F149180080AC0B /* MuteToolBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteToolBarViewController.swift; sourceTree = "<group>"; };
 		9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryThumbnailMakerTests.swift; sourceTree = "<group>"; };
 		9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
 		9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionManager.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 		072B1B9228EA968F00E362C3 /* Tool bar */ = {
 			isa = PBXGroup;
 			children = (
+				07DE1E6028F148F80080AC0B /* Mute */,
 				072B1B9F28EAE84F00E362C3 /* Video quality */,
 				072B1B9328EA96AC00E362C3 /* SettingToolBarViewController.swift */,
 				9CE6ED4528ED14870009744D /* SettingTypeViewController.swift */,
@@ -195,6 +198,14 @@
 			children = (
 			);
 			name = "New Group";
+			sourceTree = "<group>";
+		};
+		07DE1E6028F148F80080AC0B /* Mute */ = {
+			isa = PBXGroup;
+			children = (
+				07DE1E6128F149180080AC0B /* MuteToolBarViewController.swift */,
+			);
+			name = Mute;
 			sourceTree = "<group>";
 		};
 		9B51E6402866EF8500D3BB82 /* Setting */ = {
@@ -505,6 +516,7 @@
 				9C64E9F228EBBF1F00FB1DBE /* VideoConfiguration.swift in Sources */,
 				072B1B9428EA96AC00E362C3 /* SettingToolBarViewController.swift in Sources */,
 				9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */,
+				07DE1E6228F149180080AC0B /* MuteToolBarViewController.swift in Sources */,
 				079866D728E843A900E698ED /* HapticManager.swift in Sources */,
 				9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */,
 				072B1B9828EA9AC400E362C3 /* Spacer.swift in Sources */,

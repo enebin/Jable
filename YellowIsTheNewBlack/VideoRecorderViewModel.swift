@@ -21,14 +21,16 @@ class VideoRecoderViewModel: NSObject {
     private var videoSession: AVCaptureSession?
     private var bag = DisposeBag()
     private var isObservablesBound = false
+    private var isSessionInProgress = false
+    
+    private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
     
     // MARK: - Public methods and vars
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     
     @discardableResult
-    func updateSession(_ quality: AVCaptureSession.Preset = .medium,
-                       _ position: AVCaptureDevice.Position) async throws -> AVCaptureSession {
-        let session = try await sessionManager.setupSession(quality: quality, position: position)
+    func updateSession(configuration: RecorderConfiguration) async throws -> AVCaptureSession {
+        let session = try await sessionManager.setupSession(configuration: configuration)
         videoSession = session
         
         return session
@@ -56,17 +58,34 @@ class VideoRecoderViewModel: NSObject {
         if isObservablesBound {
             fatalError("Observables have already been bound!")
         }
-        
+
+        self.isObservablesBound = true
+
         videoConfiguration.videoQuality
+            .debounce(.milliseconds(500), scheduler: workQueue)
+            .subscribe(on: workQueue)
             .bind { [weak self] quality in
                 guard let self = self else { return }
-                self.isObservablesBound = true
                 
                 Task {
-                    let position = self.videoConfiguration.cameraPosition.value
-                    let session = try await self.updateSession(quality, position)
+                    let session = try await self.updateSession(configuration: self.videoConfiguration)
                     let previewLayer = self.setupPreviewLayer(session: session)
                     
+                    self.previewLayer.accept(previewLayer)
+                    self.startRunningCamera()
+                }
+            }
+            .disposed(by: bag)
+        
+        videoConfiguration.silentMode
+            .subscribe(on: workQueue)
+            .bind { [weak self] isMuted in
+                guard let self = self else { return }
+
+                Task {
+                    let session = try await self.updateSession(configuration: self.videoConfiguration)
+                    let previewLayer = self.setupPreviewLayer(session: session)
+
                     self.previewLayer.accept(previewLayer)
                     self.startRunningCamera()
                 }
@@ -82,27 +101,5 @@ class VideoRecoderViewModel: NSObject {
         super.init()
         
         self.bindObservables()
-        
-//        Task(priority: .userInitiated) {
-//            print("Session go")
-//
-//            do {
-//                let session = try await setupSession(.medium, .back)
-//                print("Session done, \(session)")
-//            }
-//            catch VideoRecorderError.notConfigured {
-//                fatalError("비디오 세션이 제대로 초기화되지 않았음")
-//            }
-//            catch let error {
-//                print(error)
-////                self.errorMessage = error.localizedDescription
-////                self.present(self.alert, animated: true, completion: nil)
-//            }
-//
-//            var DEBUG_runCamera = true
-//            if DEBUG_runCamera {
-//                startRunningCamera()
-//            }
-//        }
     }
 }
