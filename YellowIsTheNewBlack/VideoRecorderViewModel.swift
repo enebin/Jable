@@ -22,6 +22,7 @@ class VideoRecoderViewModel: NSObject {
     private var bag = DisposeBag()
     private var isObservablesBound = false
     private var isSessionInProgress = false
+    
     private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
     
     // MARK: - Public methods and vars
@@ -76,19 +77,20 @@ class VideoRecoderViewModel: NSObject {
             }
             .disposed(by: bag)
         
-//        videoConfiguration.silentMode
-//            .bind { [weak self] isMuted in
-//                guard let self = self else { return }
-//
-//                Task {
-//                    let session = try await self.updateSession(configuration: self.videoConfiguration)
-//                    let previewLayer = self.setupPreviewLayer(session: session)
-//
-//                    self.previewLayer.accept(previewLayer)
-//                    self.startRunningCamera()
-//                }
-//            }
-//            .disposed(by: bag)
+        videoConfiguration.silentMode
+            .subscribe(on: workQueue)
+            .bind { [weak self] isMuted in
+                guard let self = self else { return }
+
+                Task {
+                    let session = try await self.updateSession(configuration: self.videoConfiguration)
+                    let previewLayer = self.setupPreviewLayer(session: session)
+
+                    self.previewLayer.accept(previewLayer)
+                    self.startRunningCamera()
+                }
+            }
+            .disposed(by: bag)
     }
     
     init(_ sessionManager: VideoSessionManager = VideoSessionManager.shared,
