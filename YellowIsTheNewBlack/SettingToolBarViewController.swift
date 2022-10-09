@@ -80,7 +80,7 @@ class SettingToolBarViewController: UIViewController {
             make.height.equalTo(50)
             make.center.equalToSuperview()
         }
-//
+
         view.addSubview(videoQualityVC.view)
         videoQualityVC.view.snp.makeConstraints { make in
             make.width.equalToSuperview()
