@@ -103,7 +103,7 @@ class MuteToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration.silentMode = true
+                self.recorderConfiguration.silentMode.accept(true)
             }
             .disposed(by: bag)
         
@@ -111,7 +111,7 @@ class MuteToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration.silentMode = false
+                self.recorderConfiguration.silentMode.accept(false)
             }
             .disposed(by: bag)
         

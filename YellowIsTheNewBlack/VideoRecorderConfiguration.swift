@@ -12,8 +12,9 @@ import RxRelay
 /// 인스턴스 생성에 세팅이 필요한 클래스를 위한 것
 ///
 /// 그리고 세팅의 변화를 지속적으로 감시하고 싶을 누군가를 위한 싱글-톤 클래스
-class RecorderConfiguration: VideoConfiguration {
-    static let shared = RecorderConfiguration()
+struct RecorderConfiguration: VideoConfiguration {
+    // Now on testing
+    let observable = PublishRelay<RecorderConfiguration>()
 
     var videoQuality = BehaviorRelay<AVCaptureSession.Preset>(value: .high)
     var cameraPosition = BehaviorRelay<AVCaptureDevice.Position>(value: .back)
