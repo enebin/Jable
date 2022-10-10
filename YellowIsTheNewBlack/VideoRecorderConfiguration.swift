@@ -12,7 +12,7 @@ import RxRelay
 /// 인스턴스 생성에 세팅이 필요한 클래스를 위한 것
 ///
 /// 그리고 세팅의 변화를 지속적으로 감시하고 싶을 누군가를 위한 싱글-톤 클래스
-struct RecorderConfiguration: VideoConfiguration {
+struct RecorderConfiguration: VideoConfigurable {
     // Now on testing
     static let observable = BehaviorRelay<RecorderConfiguration>(value: RecorderConfiguration())
     static let shared = RecorderConfiguration()

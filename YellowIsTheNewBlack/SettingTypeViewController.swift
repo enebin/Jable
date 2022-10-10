@@ -12,7 +12,7 @@ import Then
 import RxCocoa
 import RxSwift
 
-class SettingTypeViewController: UIViewController {
+class SettingTypeViewController: UIViewController, ToolbarItem {
     typealias Action = () -> Void
     typealias SettingAction = (Setting) -> Void
     

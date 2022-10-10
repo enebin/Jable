@@ -25,7 +25,7 @@ class SettingToolBarViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: View stack
+    // MARK: - View stack
     private var viewStack = [UIView]() {
         didSet {
             oldValue.last?.isHidden = true
@@ -33,13 +33,13 @@ class SettingToolBarViewController: UIViewController {
         }
     }
     
-    // MARK: Usable buttons
+    // MARK: - Usable buttons
     lazy var settingButton = SystemImageButton().then {
         $0.setSystemImage(name: "gear")
         self.pushView($0)
     }
     
-    // MARK: Child VCs
+    // MARK: - Child VCs
     private var childVCs = [UIViewController]()
     
     lazy var settingTypeVC = SettingTypeViewController().then { [weak self] in
@@ -104,6 +104,8 @@ class SettingToolBarViewController: UIViewController {
             make.height.equalTo(50)
             make.center.equalToSuperview()
         }
+        
+        
         
         // MARK: Setting button
         view.addSubview(settingButton)

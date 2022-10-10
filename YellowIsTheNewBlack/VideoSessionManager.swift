@@ -24,7 +24,7 @@ class VideoSessionManager: NSObject {
     ///
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
-    func setupSession(configuration: some VideoConfiguration) async throws -> AVCaptureSession {
+    func setupSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
         do {
             try await checkSessionConfigurable()
             return try await configureCaptureSession(configuration: configuration)
@@ -79,7 +79,7 @@ class VideoSessionManager: NSObject {
         }
     }
     
-    private func configureCaptureSession(configuration: some VideoConfiguration) async throws -> AVCaptureSession {
+    private func configureCaptureSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
         let position = configuration.cameraPosition.value
         let silentMode = configuration.silentMode.value
         

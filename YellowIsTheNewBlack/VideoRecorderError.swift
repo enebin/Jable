@@ -13,6 +13,8 @@ enum VideoRecorderError: LocalizedError {
     case unableToSetInput
     case unableToSetOutput
     case notConfigured
+    case notSupportedDevice
+    case notSupportedOS
     
     var errorDescription: String? {
         switch self {
@@ -26,6 +28,10 @@ enum VideoRecorderError: LocalizedError {
             return "영상을 녹화할 수 없습니다."
         case .notConfigured:
             return "카메라 세션이 생성되지 않았습니다."
+        case .notSupportedOS:
+            return "지원되지 않는 iOS 버전입니다(iOS 15 이상에서 지원)"
+        case .notSupportedDevice:
+            return "지원되지 않는 디바이스입니다.(아이폰 XR 이상의 기기에서 지원)"
         }
     }
 }
