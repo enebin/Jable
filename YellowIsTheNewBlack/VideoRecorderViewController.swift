@@ -38,8 +38,11 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
+    lazy var thumbnailButton = CustomImageButton().then {
+        let image = UIImage(named: "holand")!
+        $0.setCustomImage(image)
+    }
     lazy var shutterButton = ShutterButton()
-    lazy var settingButton = SettingButton()
     lazy var spacer = Spacer()
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
 
@@ -89,6 +92,12 @@ class VideoRecorderViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
+        self.view.addSubview(thumbnailButton)
+        thumbnailButton.snp.makeConstraints { make in
+            make.centerY.equalTo(shutterButton.snp.centerY)
+            make.left.equalToSuperview().inset(15)
+        }
+        
         self.view.addSubview(settingVC.view)
         settingVC.view.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -116,6 +125,16 @@ class VideoRecorderViewController: UIViewController {
                     self.errorMessage = error.localizedDescription
                     self.present(self.alert, animated: true)
                 }
+            }
+            .disposed(by: bag)
+        
+        thumbnailButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                HapticManager.shared.generate()
+                
+                let albumVC = GalleryViewController()
+                self.present(albumVC, animated: true)
             }
             .disposed(by: bag)
         

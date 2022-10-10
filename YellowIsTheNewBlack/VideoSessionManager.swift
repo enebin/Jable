@@ -99,7 +99,7 @@ class VideoSessionManager: NSObject {
             throw VideoRecorderError.unableToSetInput
         }
         
-        if silentMode {
+        if silentMode == false {
             let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
             let audioInput = try AVCaptureDeviceInput(device: audioDevice)
             if captureSession.canAddInput(audioInput) {
@@ -116,7 +116,7 @@ class VideoSessionManager: NSObject {
         } else {
             throw VideoRecorderError.unableToSetOutput
         }
-        
+                
         self.captureSession = captureSession
         self.device = device
         

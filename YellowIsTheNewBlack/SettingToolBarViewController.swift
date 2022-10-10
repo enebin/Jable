@@ -117,7 +117,7 @@ class SettingToolBarViewController: UIViewController {
         settingButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                
+                                
                 self.pushView(self.settingTypeVC.view)
             }
             .disposed(by: bag)
