@@ -22,6 +22,10 @@ class GalleryViewController: UIViewController {
     let bag = DisposeBag()
     
     // View components
+    lazy var closeButton = SystemImageButton().then {
+        $0.setSystemImage(name: "xmark")
+    }
+    
     lazy var layout = UICollectionViewFlowLayout().then {
         $0.minimumLineSpacing = 1
         $0.minimumInteritemSpacing = 0
@@ -57,9 +61,10 @@ class GalleryViewController: UIViewController {
         
         setDatasource()
         setLayout()
+        bindButtons()
     }
     
-    func setDatasource() {
+    private func setDatasource() {
         self.dataSource = RxCollectionViewSectionedAnimatedDataSource<GallerySection>(
             configureCell: { [weak self] (dataSource, collectionView, indexPath, item) in
                 guard let self = self else { return UICollectionViewCell() }
@@ -82,12 +87,29 @@ class GalleryViewController: UIViewController {
             .disposed(by: bag)
     }
     
-    func setLayout() {
+    private func setLayout() {
+        view.addSubview(closeButton)
+        closeButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.right.equalToSuperview().inset(10)
+        }
+        
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.top.equalTo(closeButton.snp.bottom).offset(10)
             make.width.height.equalToSuperview()
         }
+    }
+    
+    private func bindButtons() {
+        closeButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self  else { return }
+                
+                self.dismiss(animated: true)
+            }
+            .disposed(by: bag)
     }
 }
 
