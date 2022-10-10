@@ -12,6 +12,8 @@ xcuserdata/
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
 *.xccheckout
+*.DS_Store
+*.xcuserstate
 
 ## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
 build/
@@ -54,7 +56,9 @@ playground.xcworkspace
 # We recommend against adding the Pods directory to your .gitignore. However
 # you should judge for yourself, the pros and cons are mentioned at:
 # https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-# Pods/
+Pods/
+./Podfile.lock
+
 # Add this line if you want to avoid checking in source code from the Xcode workspace
 # *.xcworkspace
 
@@ -85,4 +89,7 @@ fastlane/test_output
 
 iOSInjectionProject/
 
+# Custom files
+ignored/
 # End of https://www.toptal.com/developers/gitignore/api/swift
+Podfile.lock

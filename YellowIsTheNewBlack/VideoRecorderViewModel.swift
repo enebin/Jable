@@ -21,7 +21,6 @@ class VideoRecoderViewModel: NSObject {
     private var videoSession: AVCaptureSession?
     private var bag = DisposeBag()
     private var isObservablesBound = false
-    private var isSessionInProgress = false
     
     private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
     
