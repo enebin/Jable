@@ -57,6 +57,7 @@ class GalleryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .black
         self.view.addSubview(collectionView)
         
         setDatasource()
@@ -70,8 +71,7 @@ class GalleryViewController: UIViewController {
                 guard let self = self else { return UICollectionViewCell() }
                 let cell: GalleryViewCell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
                 
-                
-                cell.setUp(image: (item.thumbnail) ?? UIImage(systemName: "xmark")!)
+                cell.setThumbnailImage(((item.thumbnail) ?? UIImage(systemName: "xmark")!))
                 
                 return cell
             }
