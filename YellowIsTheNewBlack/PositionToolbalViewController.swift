@@ -78,7 +78,6 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
     
     
     private func setLayout() {
-        
         view.addSubview(cameraPositionStackView)
         cameraPositionStackView.snp.makeConstraints { make in
             make.height.width.equalToSuperview()
@@ -92,7 +91,7 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
             make.centerY.equalToSuperview()
         }
         
-        let childButtons = [rearButton, frontButton, simultaneousButton, backButton]
+        let childButtons = [rearButton, frontButton, simultaneousButton]
         childButtons.forEach({ addButton($0) })
     }
     

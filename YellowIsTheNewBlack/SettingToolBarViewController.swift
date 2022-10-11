@@ -39,9 +39,7 @@ class SettingToolBarViewController: UIViewController {
         self.pushView($0)
     }
     
-    // MARK: - Child VCs
-    private var childVCs = [UIViewController]()
-    
+
     lazy var settingTypeVC = SettingTypeViewController().then { [weak self] in
         guard let self = self else { return }
         
@@ -49,7 +47,7 @@ class SettingToolBarViewController: UIViewController {
         $0.onElementButtonTapped { setting in self.pushView(by: setting) }
     }
     
-    lazy var videoQualityVC = VideoQualityToolBarViewController(configuration: self.recorderConfiguration)
+    lazy var videoQualityVC = VideoQualityToolBarViewController(configuration: recorderConfiguration)
         .then { [weak self] in
             guard let self = self else { return }
             
@@ -57,7 +55,15 @@ class SettingToolBarViewController: UIViewController {
             $0.onElementButtonTapped { setting in self.pushView(by: setting) }
         }
     
-    lazy var muteTypeVC = MuteToolBarViewController(configuration: self.recorderConfiguration)
+    lazy var muteTypeVC = MuteToolBarViewController(configuration: recorderConfiguration)
+        .then { [weak self] in
+            guard let self = self else { return }
+            
+            $0.onBackButtonTapped { self.popView() }
+            $0.onElementButtonTapped { setting in self.pushView(by: setting) }
+        }
+    
+    lazy var positionVC = PositionToolbalViewController(configuration: recorderConfiguration)
         .then { [weak self] in
             guard let self = self else { return }
             
@@ -66,9 +72,10 @@ class SettingToolBarViewController: UIViewController {
         }
     
     // MARK: -
+    private var childVCs = [UIViewController]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        childVCs = [settingTypeVC, videoQualityVC, muteTypeVC]
+        childVCs = [settingTypeVC, videoQualityVC, muteTypeVC, positionVC]
         
         addSubViewControllers(childVCs)
         setLayout()
@@ -105,7 +112,12 @@ class SettingToolBarViewController: UIViewController {
             make.center.equalToSuperview()
         }
         
-        
+        view.addSubview(positionVC.view)
+        positionVC.view.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+            make.center.equalToSuperview()
+        }
         
         // MARK: Setting button
         view.addSubview(settingButton)
@@ -131,6 +143,8 @@ class SettingToolBarViewController: UIViewController {
             pushView(videoQualityVC.view)
         case .mute:
             pushView(muteTypeVC.view)
+        case .position:
+            pushView(positionVC.view)
         }
     }
     
@@ -156,4 +170,5 @@ protocol SettingStack: UIViewController {
 enum Setting {
     case quality
     case mute
+    case position
 }

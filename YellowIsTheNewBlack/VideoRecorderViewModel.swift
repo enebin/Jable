@@ -53,25 +53,28 @@ class VideoRecoderViewModel: NSObject {
         try sessionManager.stopRecordingVideo()
     }
     
+    private func updateSessionAndPreview() async throws {
+        let session = try await self.updateSession(configuration: self.videoConfiguration)
+        let previewLayer = self.setupPreviewLayer(session: session)
+        
+        self.previewLayer.accept(previewLayer)
+        self.startRunningCamera()
+    }
+    
     private func bindObservables() {
         if isObservablesBound {
             fatalError("Observables have already been bound!")
         }
 
         self.isObservablesBound = true
-
         videoConfiguration.videoQuality
-            .debounce(.milliseconds(500), scheduler: workQueue)
+            .debounce(.milliseconds(150), scheduler: workQueue)
             .subscribe(on: workQueue)
             .bind { [weak self] quality in
                 guard let self = self else { return }
                 
                 Task {
-                    let session = try await self.updateSession(configuration: self.videoConfiguration)
-                    let previewLayer = self.setupPreviewLayer(session: session)
-                    
-                    self.previewLayer.accept(previewLayer)
-                    self.startRunningCamera()
+                    try await self.updateSessionAndPreview()
                 }
             }
             .disposed(by: bag)
@@ -82,11 +85,18 @@ class VideoRecoderViewModel: NSObject {
                 guard let self = self else { return }
 
                 Task {
-                    let session = try await self.updateSession(configuration: self.videoConfiguration)
-                    let previewLayer = self.setupPreviewLayer(session: session)
+                    try await self.updateSessionAndPreview()
+                }
+            }
+            .disposed(by: bag)
+        
+        videoConfiguration.cameraPosition
+            .subscribe(on: workQueue)
+            .bind { [weak self] isMuted in
+                guard let self = self else { return }
 
-                    self.previewLayer.accept(previewLayer)
-                    self.startRunningCamera()
+                Task {
+                    try await self.updateSessionAndPreview()
                 }
             }
             .disposed(by: bag)

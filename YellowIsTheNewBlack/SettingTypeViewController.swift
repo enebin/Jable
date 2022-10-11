@@ -29,6 +29,10 @@ class SettingTypeViewController: UIViewController, ToolbarItem {
     lazy var muteButton = LabelButton().then {
         $0.setTitleLabel("소리 녹음")
     }
+    
+    lazy var positionButton = LabelButton().then {
+        $0.setTitleLabel("카메라 변경")
+    }
         
     // MARK: Stack views
     lazy var settingTypeStackView = UIStackView().then {
@@ -77,6 +81,12 @@ class SettingTypeViewController: UIViewController, ToolbarItem {
             make.height.equalTo(35)
             make.centerY.equalToSuperview()
         }
+        
+        settingTypeStackView.addArrangedSubview(positionButton)
+        positionButton.snp.makeConstraints { make in
+            make.height.equalTo(35)
+            make.centerY.equalToSuperview()
+        }
 
         settingTypeStackView.addSubview(backButton)
         backButton.snp.makeConstraints { make in
@@ -108,6 +118,14 @@ class SettingTypeViewController: UIViewController, ToolbarItem {
                 guard let self = self else { return }
                 
                 self.elementButtonAction?(.mute)
+            }
+            .disposed(by: bag)
+        
+        positionButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                
+                self.elementButtonAction?(.position)
             }
             .disposed(by: bag)
     }
