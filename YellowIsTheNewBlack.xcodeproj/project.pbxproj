@@ -46,6 +46,9 @@
 		9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB502285EC59C006C526C /* VideoFileManager.swift */; };
 		9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */; };
 		9C0B2B4428E1B52000BD9C81 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B2B4328E1B52000BD9C81 /* SettingType.swift */; };
+		9C27CD2728F63DCD00F98E08 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2628F63DCD00F98E08 /* SessionManager.swift */; };
+		9C27CD2928F63DF400F98E08 /* MultiVideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2828F63DF400F98E08 /* MultiVideoSessionManager.swift */; };
+		9C27CD2B28F63EDC00F98E08 /* SessionManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2A28F63EDC00F98E08 /* SessionManager+Extension.swift */; };
 		9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F228D825C0001533BF /* VideoAlbumManager.swift */; };
 		9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F528D82A76001533BF /* VideoAlbumError.swift */; };
 		9C4093F828D842FA001533BF /* VideoAlbumSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */; };
@@ -110,6 +113,9 @@
 		9BEFB502285EC59C006C526C /* VideoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManager.swift; sourceTree = "<group>"; };
 		9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileInformationMaker.swift; sourceTree = "<group>"; };
 		9C0B2B4328E1B52000BD9C81 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		9C27CD2628F63DCD00F98E08 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		9C27CD2828F63DF400F98E08 /* MultiVideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiVideoSessionManager.swift; sourceTree = "<group>"; };
+		9C27CD2A28F63EDC00F98E08 /* SessionManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager+Extension.swift"; sourceTree = "<group>"; };
 		9C4093F228D825C0001533BF /* VideoAlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumManager.swift; sourceTree = "<group>"; };
 		9C4093F528D82A76001533BF /* VideoAlbumError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumError.swift; sourceTree = "<group>"; };
 		9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumSaver.swift; sourceTree = "<group>"; };
@@ -249,7 +255,6 @@
 			isa = PBXGroup;
 			children = (
 				9BA3629A2859EA9900339D46 /* LoggingManager.swift */,
-				9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */,
 				079866D628E843A900E698ED /* HapticManager.swift */,
 			);
 			name = Managers;
@@ -329,6 +334,25 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		9C27CD2528F63DBF00F98E08 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */,
+				9C27CD2828F63DF400F98E08 /* MultiVideoSessionManager.swift */,
+				9C27CD2628F63DCD00F98E08 /* SessionManager.swift */,
+				9C27CD2A28F63EDC00F98E08 /* SessionManager+Extension.swift */,
+			);
+			name = Session;
+			sourceTree = "<group>";
+		};
+		9C27CD2C28F63F4F00F98E08 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				9CD4518E284F335B007CF311 /* VideoRecorderError.swift */,
+			);
+			name = Error;
+			sourceTree = "<group>";
+		};
 		9C4093EC28D7EF80001533BF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,7 +368,6 @@
 			isa = PBXGroup;
 			children = (
 				9C4093F428D825C9001533BF /* Protocols */,
-				9BEFB4FF285DFBE4006C526C /* Files */,
 				9BA362992859EA8900339D46 /* Managers */,
 			);
 			name = Utils;
@@ -391,9 +414,11 @@
 		9CD45189284F2BE9007CF311 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				9BEFB4FF285DFBE4006C526C /* Files */,
+				9C27CD2C28F63F4F00F98E08 /* Error */,
+				9C27CD2528F63DBF00F98E08 /* Session */,
 				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
 				9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */,
-				9CD4518E284F335B007CF311 /* VideoRecorderError.swift */,
 				9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */,
 			);
 			name = Video;
@@ -533,8 +558,10 @@
 				9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */,
 				072B1B9828EA9AC400E362C3 /* Spacer.swift in Sources */,
 				072B1BA328EAE8CA00E362C3 /* LabelButton.swift in Sources */,
+				9C27CD2728F63DCD00F98E08 /* SessionManager.swift in Sources */,
 				9CB0D92928DA91BC009C2CE0 /* SettingDropdownCell.swift in Sources */,
 				9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */,
+				9C27CD2928F63DF400F98E08 /* MultiVideoSessionManager.swift in Sources */,
 				9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */,
 				9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */,
 				9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */,
@@ -547,6 +574,7 @@
 				9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */,
 				07A4302128F3FA3200B6E182 /* PositionToolbalViewController.swift in Sources */,
 				072B1BA128EAE86A00E362C3 /* VideoQualityToolBarViewController.swift in Sources */,
+				9C27CD2B28F63EDC00F98E08 /* SessionManager+Extension.swift in Sources */,
 				072B1B9A28EAB41500E362C3 /* BackButton.swift in Sources */,
 				07DE1E7128F3ECCA0080AC0B /* GalleryCellItem.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,

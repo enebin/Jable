@@ -1,29 +1,21 @@
 //
-//  VideoSessionManager.swift
+//  MultiVideoSessionManager.swift
 //  YellowIsTheNewBlack
 //
-//  Created by 프라이빗 on 2022/06/18.
+//  Created by 이영빈 on 2022/10/12.
 //
 
-import UIKit
 import AVFoundation
-
-class VideoSessionManager: NSObject, SessionManager {
-    static let shared = VideoSessionManager()
+//
+class MultiVideoSessionManager: NSObject, SessionManager {
     
     // Dependencies
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
-    private var captureSession: AVCaptureSession? = nil
-    private var device: AVCaptureDevice? = nil
-    private var output: AVCaptureMovieFileOutput? = nil
-
-    // MARK: - Public methods and vars
+    private var session: AVCaptureMultiCamSession?
+    private var device: AVCaptureDevice?
+    private var output: AVCaptureMovieFileOutput?
     
-    /// 세션을 세팅한다
-    ///
-    /// init안에서 안 돌리고 밖에서 실행하는 이유는
-    /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
     func setupSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
         do {
             try await checkSessionConfigurable()
@@ -33,14 +25,12 @@ class VideoSessionManager: NSObject, SessionManager {
         }
     }
     
-    /// 카메라를 돌리기 시작함
     func startRunningCamera() {
         DispatchQueue.global(qos: .background).async {
-            self.captureSession?.startRunning()
+            self.session?.startRunning()
         }
     }
     
-    /// '녹화'를 시작함
     func startRecordingVideo() throws {
         guard let output = self.output else {
             throw VideoRecorderError.notConfigured
@@ -63,8 +53,7 @@ class VideoSessionManager: NSObject, SessionManager {
         let position = configuration.cameraPosition.value
         let silentMode = configuration.silentMode.value
         
-        let captureSession = AVCaptureSession()
-        captureSession.sessionPreset = configuration.videoQuality.value
+        let captureSession = AVCaptureMultiCamSession()
         
         guard let device = findBestCamera(in: position) else {
             throw VideoRecorderError.invalidDevice
@@ -97,42 +86,17 @@ class VideoSessionManager: NSObject, SessionManager {
             throw VideoRecorderError.unableToSetOutput
         }
                 
-        self.captureSession = captureSession
+        self.session = captureSession
         self.device = device
         
         captureSession.commitConfiguration()
         
         return captureSession
     }
-    
-    // MARK: - Init
-    
-    init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
-         _ videoAlbumSaver: VideoAlbumSaver = VideoAlbumSaver()) {
-        self.videoFileManager = videoFileManager
-        self.videoAlbumSaver = videoAlbumSaver
-    }
 }
 
-extension VideoSessionManager: AVCaptureFileOutputRecordingDelegate {
-    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
-        print("Record started now")
-    }
-    
+extension MultiVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        print("Record finished")
         
-        if let error = error {
-            print("Error recording movie: \(error.localizedDescription), \(error)")
-        } else {
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
-                Task(priority: .background) {
-                    await self.videoAlbumSaver.save(videoURL: outputFileURL)
-                }
-            } else {
-                print("Error while saving movie")
-                return
-            }
-        }
     }
 }
