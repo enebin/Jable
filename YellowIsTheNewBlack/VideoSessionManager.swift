@@ -106,9 +106,8 @@ class VideoSessionManager: NSObject, SessionManager {
     }
     
     // MARK: - Init
-    
     init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
-         _ videoAlbumSaver: VideoAlbumSaver = VideoAlbumSaver()) {
+         _ videoAlbumSaver: VideoAlbumSaver = VideoAlbumSaver.shared) {
         self.videoFileManager = videoFileManager
         self.videoAlbumSaver = videoAlbumSaver
     }
