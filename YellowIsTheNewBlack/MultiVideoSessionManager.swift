@@ -280,7 +280,6 @@ class MultiVideoSessionManager: NSObject, VideoSessionManager {
         }
         session.addConnection(frontMicrophoneAudioDataOutputConnection)
     }
-    
 }
 
 extension MultiVideoSessionManager: AVCaptureFileOutputRecordingDelegate {

@@ -14,11 +14,10 @@ import RxRelay
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
-    private let sessionManager: SingleVideoSessionManager
+    private let sessionManager: VideoSessionManager
     let videoConfiguration: VideoSessionConfiguration
     
     // vars and lets
-    private var videoSession: AVCaptureSession?
     private var bag = DisposeBag()
     private var isObservablesBound = false
     
@@ -30,7 +29,6 @@ class VideoRecoderViewModel: NSObject {
     @discardableResult
     func updateSession(configuration: VideoSessionConfiguration) async throws -> AVCaptureSession {
         let session = try await sessionManager.setupSession(configuration: configuration)
-        videoSession = session
         
         return session
     }
@@ -102,7 +100,7 @@ class VideoRecoderViewModel: NSObject {
             .disposed(by: bag)
     }
     
-    init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
+    init(_ sessionManager: VideoSessionManager = SingleVideoSessionManager.shared,
          _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration.shared) {
         self.sessionManager = sessionManager
         self.videoConfiguration = videoConfiguration
