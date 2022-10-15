@@ -7,7 +7,7 @@
 
 import AVFoundation
 
-extension SessionManager {
+extension VideoSessionManager {
     func checkSessionConfigurable() async throws {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:

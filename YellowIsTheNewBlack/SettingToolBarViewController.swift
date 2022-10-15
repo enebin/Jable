@@ -14,9 +14,9 @@ import RxSwift
 
 class SettingToolBarViewController: UIViewController {
     private let bag = DisposeBag()
-    private(set) var recorderConfiguration: RecorderConfiguration
+    private(set) var recorderConfiguration: VideoSessionConfiguration
     
-    init(configuration: RecorderConfiguration) {
+    init(configuration: VideoSessionConfiguration) {
         self.recorderConfiguration = configuration
         super.init(nibName: nil, bundle: nil)
     }

@@ -7,13 +7,17 @@
 
 import AVFoundation
 //
-class MultiVideoSessionManager: NSObject, SessionManager {
+class MultiVideoSessionManager: NSObject, VideoSessionManager {
     // Dependencies
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
+    
     private var session: AVCaptureMultiCamSession?
     private var device: AVCaptureDevice?
     private var output: AVCaptureMovieFileOutput?
+    
+    private var backCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?
+    private var frontCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?
     
     private let dataOutputQueue = DispatchQueue(label: "data output queue")
     
@@ -26,7 +30,7 @@ class MultiVideoSessionManager: NSObject, SessionManager {
     func setupSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
         do {
             try await checkSessionConfigurable()
-            return try await configureSessoion(configuration)
+            return try configureSessoion(configuration)
         } catch let error {
             throw error
         }
@@ -139,16 +143,15 @@ class MultiVideoSessionManager: NSObject, SessionManager {
         backCameraVideoDataOutputConnection.videoOrientation = .portrait
         
         // Connect the back camera device input to the back camera video preview layer
-        // TODO:
-        //        guard let backCameraVideoPreviewLayer = backCameraVideoPreviewLayer else {
-        //            throw VideoRecorderError.unableToSetOutput
-        //        }
-        //        let backCameraVideoPreviewLayerConnection = AVCaptureConnection(inputPort: backCameraVideoPort, videoPreviewLayer: backCameraVideoPreviewLayer)
-        //        guard session.canAddConnection(backCameraVideoPreviewLayerConnection) else {
-        //            print("Could not add a connection to the back camera video preview layer")
-        //            throw VideoRecorderError.unableToSetOutput
-        //        }
-        //        session.addConnection(backCameraVideoPreviewLayerConnection)
+        backCameraVideoPreviewLayer = AVCaptureVideoPreviewLayer()
+        let backCameraVideoPreviewLayerConnection = AVCaptureConnection(inputPort: backCameraVideoPort,
+                                                                        videoPreviewLayer: backCameraVideoPreviewLayer!)
+        guard session.canAddConnection(backCameraVideoPreviewLayerConnection) else {
+            print("Could not add a connection to the back camera video preview layer")
+            throw VideoRecorderError.unableToSetOutput
+        }
+        
+        session.addConnection(backCameraVideoPreviewLayerConnection)
     }
     
     private func configureFrontCamera(_ session: AVCaptureMultiCamSession) throws {
@@ -210,19 +213,16 @@ class MultiVideoSessionManager: NSObject, SessionManager {
         frontCameraVideoDataOutputConnection.isVideoMirrored = true
         
         // Connect the front camera device input to the front camera video preview layer
-        
-        // TODO:
-//        guard let frontCameraVideoPreviewLayer = frontCameraVideoPreviewLayer else {
-//            throw VideoRecorderError.unableToSetOutput
-//        }
-//        let frontCameraVideoPreviewLayerConnection = AVCaptureConnection(inputPort: frontCameraVideoPort, videoPreviewLayer: frontCameraVideoPreviewLayer)
-//        guard session.canAddConnection(frontCameraVideoPreviewLayerConnection) else {
-//            print("Could not add a connection to the front camera video preview layer")
-//            throw VideoRecorderError.unableToSetOutput
-//        }
-//        session.addConnection(frontCameraVideoPreviewLayerConnection)
-//        frontCameraVideoPreviewLayerConnection.automaticallyAdjustsVideoMirroring = false
-//        frontCameraVideoPreviewLayerConnection.isVideoMirrored = true
+        frontCameraVideoPreviewLayer = AVCaptureVideoPreviewLayer()
+        let frontCameraVideoPreviewLayerConnection = AVCaptureConnection(inputPort: frontCameraVideoPort,
+                                                                         videoPreviewLayer: frontCameraVideoPreviewLayer!)
+        guard session.canAddConnection(frontCameraVideoPreviewLayerConnection) else {
+            print("Could not add a connection to the front camera video preview layer")
+            throw VideoRecorderError.unableToSetOutput
+        }
+        session.addConnection(frontCameraVideoPreviewLayerConnection)
+        frontCameraVideoPreviewLayerConnection.automaticallyAdjustsVideoMirroring = false
+        frontCameraVideoPreviewLayerConnection.isVideoMirrored = true
     }
     
     private func configureMicrophone(_ session: AVCaptureMultiCamSession) throws {
@@ -245,15 +245,6 @@ class MultiVideoSessionManager: NSObject, SessionManager {
             throw VideoRecorderError.unableToSetInput
         }
         session.addInputWithNoConnections(microphoneDeviceInput)
-        
-        
-        // Find the audio device input's back audio port
-        guard let backMicrophonePort = microphoneDeviceInput.ports(for: .audio,
-                                                                   sourceDeviceType: microphone.deviceType,
-                                                                   sourceDevicePosition: .back).first else {
-            print("Could not find the back camera device input's audio port")
-            throw VideoRecorderError.unableToSetInput
-        }
         
         // Find the audio device input's front audio port
         guard let frontMicrophonePort = microphoneDeviceInput.ports(for: .audio,
@@ -281,23 +272,13 @@ class MultiVideoSessionManager: NSObject, SessionManager {
         session.addOutputWithNoConnections(frontMicrophoneAudioDataOutput)
         frontMicrophoneAudioDataOutput.setSampleBufferDelegate(self, queue: dataOutputQueue)
         
-        // Connect the back microphone to the back audio data output
-        
-        // TODO:
-//        let backMicrophoneAudioDataOutputConnection = AVCaptureConnection(inputPorts: [backMicrophonePort], output: backMicrophoneAudioDataOutput)
-//        guard session.canAddConnection(backMicrophoneAudioDataOutputConnection) else {
-//            print("Could not add a connection to the back microphone audio data output")
-//            throw VideoRecorderError.unableToSetInput
-//        }
-//        session.addConnection(backMicrophoneAudioDataOutputConnection)
-//
-//        // Connect the front microphone to the back audio data output
-//        let frontMicrophoneAudioDataOutputConnection = AVCaptureConnection(inputPorts: [frontMicrophonePort], output: frontMicrophoneAudioDataOutput)
-//        guard session.canAddConnection(frontMicrophoneAudioDataOutputConnection) else {
-//            print("Could not add a connection to the front microphone audio data output")
-//            throw VideoRecorderError.unableToSetInput
-//        }
-//        session.addConnection(frontMicrophoneAudioDataOutputConnection)
+        // Connect the front microphone to the back audio data output
+        let frontMicrophoneAudioDataOutputConnection = AVCaptureConnection(inputPorts: [frontMicrophonePort], output: frontMicrophoneAudioDataOutput)
+        guard session.canAddConnection(frontMicrophoneAudioDataOutputConnection) else {
+            print("Could not add a connection to the front microphone audio data output")
+            throw VideoRecorderError.unableToSetInput
+        }
+        session.addConnection(frontMicrophoneAudioDataOutputConnection)
     }
     
 }
@@ -308,6 +289,14 @@ extension MultiVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
     }
 }
 
-extension MultiVideoSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate {
-    
+extension MultiVideoSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
+        
+    }
+}
+
+extension MultiVideoSessionManager: AVCaptureAudioDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
+    }
 }

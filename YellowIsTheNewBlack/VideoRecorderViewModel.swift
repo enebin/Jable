@@ -14,8 +14,8 @@ import RxRelay
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
-    private let sessionManager: VideoSessionManager
-    let videoConfiguration: RecorderConfiguration
+    private let sessionManager: SingleVideoSessionManager
+    let videoConfiguration: VideoSessionConfiguration
     
     // vars and lets
     private var videoSession: AVCaptureSession?
@@ -28,7 +28,7 @@ class VideoRecoderViewModel: NSObject {
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     
     @discardableResult
-    func updateSession(configuration: RecorderConfiguration) async throws -> AVCaptureSession {
+    func updateSession(configuration: VideoSessionConfiguration) async throws -> AVCaptureSession {
         let session = try await sessionManager.setupSession(configuration: configuration)
         videoSession = session
         
@@ -102,8 +102,8 @@ class VideoRecoderViewModel: NSObject {
             .disposed(by: bag)
     }
     
-    init(_ sessionManager: VideoSessionManager = VideoSessionManager.shared,
-         _ videoConfiguration: RecorderConfiguration = RecorderConfiguration.shared) {
+    init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
+         _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration.shared) {
         self.sessionManager = sessionManager
         self.videoConfiguration = videoConfiguration
         
