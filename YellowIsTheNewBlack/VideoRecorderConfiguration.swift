@@ -20,4 +20,5 @@ struct VideoSessionConfiguration: VideoConfigurable {
     var videoQuality = BehaviorRelay<AVCaptureSession.Preset>(value: .high)
     var cameraPosition = BehaviorRelay<AVCaptureDevice.Position>(value: .back)
     var silentMode = BehaviorRelay<Bool>(value: true)
+    var stealthMode = BehaviorRelay<Bool>(value: false)
 }

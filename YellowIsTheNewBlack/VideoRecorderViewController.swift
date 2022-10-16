@@ -58,7 +58,7 @@ class VideoRecorderViewController: UIViewController {
         setChildViewControllers()
         setLayout()
         bindButtons()
-        bindPublishers()
+        bindObservables()
     }
     
     private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
@@ -150,13 +150,22 @@ class VideoRecorderViewController: UIViewController {
             .disposed(by: bag)
     }
     
-    private func bindPublishers() {
+    private func bindObservables() {
         viewModel.previewLayer.asObservable()
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newLayer in
                 guard let self = self else { return }
                 
                 self.setCameraPreviewLayer(newLayer)
+                self.view.layoutIfNeeded()
+            }
+            .disposed(by: bag)
+        
+        viewModel.videoConfiguration.stealthMode
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] newValue in
+                guard let self = self else { return }
+                self.preview?.isHidden = newValue
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)

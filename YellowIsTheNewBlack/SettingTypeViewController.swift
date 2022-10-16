@@ -33,6 +33,7 @@ class SettingTypeViewController: UIViewController, ToolbarItem {
     lazy var positionButton = LabelButton().then {
         $0.setTitleLabel("카메라 변경")
     }
+    
         
     // MARK: Stack views
     lazy var settingTypeStackView = UIStackView().then {

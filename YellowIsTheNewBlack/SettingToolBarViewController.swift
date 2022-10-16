@@ -34,12 +34,24 @@ class SettingToolBarViewController: UIViewController {
     }
     
     // MARK: - Usable buttons
-    lazy var settingButton = SystemImageButton().then {
-        $0.setSystemImage(name: "gear")
-        self.pushView($0)
+    lazy var toolBarStack = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually
     }
     
+    lazy var settingButton = SystemImageButton().then {
+        $0.setSystemImage(name: "gear")
+    }
+    
+    lazy var screenShowButton = SystemImageButton().then {
+        $0.setSystemImage(name: "eye")
+    }
+    
+    lazy var screenHiddenButton = SystemImageButton().then {
+        $0.setSystemImage(name: "eye.slash")
+    }
 
+    // MARK: Child VCs
     lazy var settingTypeVC = SettingTypeViewController().then { [weak self] in
         guard let self = self else { return }
         
@@ -80,6 +92,8 @@ class SettingToolBarViewController: UIViewController {
         addSubViewControllers(childVCs)
         setLayout()
         bindButtons()
+        
+        pushView(toolBarStack)
     }
     
     func addSubViewControllers(_ viewControllers: [UIViewController]) {
@@ -119,12 +133,24 @@ class SettingToolBarViewController: UIViewController {
             make.center.equalToSuperview()
         }
         
-        // MARK: Setting button
-        view.addSubview(settingButton)
+        // MARK: - Setting button
+        view.addSubview(toolBarStack)
+        toolBarStack.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalToSuperview()
+        }
+        
+        toolBarStack.addArrangedSubview(screenShowButton)
+        screenShowButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+        }
+        
+        toolBarStack.addArrangedSubview(settingButton)
         settingButton.snp.makeConstraints { make in
             make.width.height.equalTo(35)
-            make.center.equalToSuperview()
         }
+        
+        toolBarStack.addArrangedSubview(UIView.spacer)
     }
     
     func bindButtons() {
@@ -133,6 +159,14 @@ class SettingToolBarViewController: UIViewController {
                 guard let self = self else { return }
                                 
                 self.pushView(self.settingTypeVC.view)
+            }
+            .disposed(by: bag)
+        
+        screenShowButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                                
+                self.recorderConfiguration.stealthMode.accept(true)
             }
             .disposed(by: bag)
     }

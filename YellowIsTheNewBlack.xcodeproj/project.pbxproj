@@ -26,6 +26,7 @@
 		079866D728E843A900E698ED /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079866D628E843A900E698ED /* HapticManager.swift */; };
 		07A4302128F3FA3200B6E182 /* PositionToolbalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A4302028F3FA3200B6E182 /* PositionToolbalViewController.swift */; };
 		07A4302328F3FA6100B6E182 /* ToolBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A4302228F3FA6100B6E182 /* ToolBarItem.swift */; };
+		07A4302528FBCFD200B6E182 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A4302428FBCFD200B6E182 /* UIView+Extension.swift */; };
 		07DE1E6228F149180080AC0B /* MuteToolBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DE1E6128F149180080AC0B /* MuteToolBarViewController.swift */; };
 		07DE1E6E28F2E63F0080AC0B /* CustomImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DE1E6D28F2E63F0080AC0B /* CustomImageButton.swift */; };
 		07DE1E7128F3ECCA0080AC0B /* GalleryCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DE1E7028F3ECCA0080AC0B /* GalleryCellItem.swift */; };
@@ -89,6 +90,7 @@
 		079866D628E843A900E698ED /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		07A4302028F3FA3200B6E182 /* PositionToolbalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionToolbalViewController.swift; sourceTree = "<group>"; };
 		07A4302228F3FA6100B6E182 /* ToolBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItem.swift; sourceTree = "<group>"; };
+		07A4302428FBCFD200B6E182 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		07DE1E6128F149180080AC0B /* MuteToolBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteToolBarViewController.swift; sourceTree = "<group>"; };
 		07DE1E6D28F2E63F0080AC0B /* CustomImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageButton.swift; sourceTree = "<group>"; };
 		07DE1E7028F3ECCA0080AC0B /* GalleryCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCellItem.swift; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 			children = (
 				9C4093F428D825C9001533BF /* Protocols */,
 				9BA362992859EA8900339D46 /* Managers */,
+				07A4302428FBCFD200B6E182 /* UIView+Extension.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -608,6 +611,7 @@
 				072B1BA128EAE86A00E362C3 /* VideoQualityToolBarViewController.swift in Sources */,
 				9C27CD2B28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift in Sources */,
 				072B1B9A28EAB41500E362C3 /* BackButton.swift in Sources */,
+				07A4302528FBCFD200B6E182 /* UIView+Extension.swift in Sources */,
 				07DE1E7128F3ECCA0080AC0B /* GalleryCellItem.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,
 				9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */,
