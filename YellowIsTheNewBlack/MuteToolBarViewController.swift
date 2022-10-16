@@ -1,8 +1,8 @@
 //
-//  VideoQualityToolBarViewController.swift
+//  MuteToolBarViewController.swift
 //  YellowIsTheNewBlack
 //
-//  Created by Young Bin on 2022/10/03.
+//  Created by Young Bin on 2022/10/08.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
+class MuteToolBarViewController: UIViewController {
     typealias Action = () -> Void
     typealias SettingAction = (Setting) -> Void
     
@@ -28,17 +28,12 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    lazy var highButton = LabelButton().then {
-        $0.setTitleLabel("고화질")
+    lazy var muteButton = LabelButton().then {
+        $0.setTitleLabel("음소거")
     }
     
-    lazy var mediumButton = LabelButton().then {
-        $0.setTitleLabel("중간화질")
-    }
-
-    lazy var lowButton = LabelButton().then {
-        $0.setTitleLabel("낮은화질")
+    lazy var unmuteButton = LabelButton().then {
+        $0.setTitleLabel("음소거 해제")
     }
     
     lazy var backButton = SystemImageButton().then {
@@ -56,7 +51,7 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
     }
     
     
-    lazy var qualityTypeStackView = UIStackView().then {
+    lazy var muteTypeStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .fillEqually
         
@@ -77,15 +72,15 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
     
     
     private func setLayout() {
-        let childButtons = [lowButton, mediumButton, highButton]
+        let childButtons = [muteButton, unmuteButton]
         
-        view.addSubview(qualityTypeStackView)
-        qualityTypeStackView.snp.makeConstraints { make in
+        view.addSubview(muteTypeStackView)
+        muteTypeStackView.snp.makeConstraints { make in
             make.height.width.equalToSuperview()
             make.center.equalToSuperview()
         }
         
-        qualityTypeStackView.addSubview(backButton)
+        muteTypeStackView.addSubview(backButton)
         backButton.snp.makeConstraints { make in
             make.height.equalTo(35)
             make.left.equalToSuperview().inset(10)
@@ -96,7 +91,7 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
     }
     
     private func addButton(_ button: UIButton) {
-        qualityTypeStackView.addArrangedSubview(button)
+        muteTypeStackView.addArrangedSubview(button)
         button.snp.makeConstraints { make in
             make.height.equalTo(35)
             make.centerY.equalToSuperview()
@@ -104,27 +99,19 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
     }
     
     private func bindButtons() {
-        lowButton.rx.tap
+        muteButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration.videoQuality.accept(.low)
+                self.recorderConfiguration.silentMode.accept(true)
             }
             .disposed(by: bag)
         
-        mediumButton.rx.tap
+        unmuteButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration.videoQuality.accept(.medium)
-            }
-            .disposed(by: bag)
-        
-        highButton.rx.tap
-            .bind { [weak self] in
-                guard let self = self else { return }
-                
-                self.recorderConfiguration.videoQuality.accept(.high)
+                self.recorderConfiguration.silentMode.accept(false)
             }
             .disposed(by: bag)
         

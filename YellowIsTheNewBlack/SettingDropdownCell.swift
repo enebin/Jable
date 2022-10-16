@@ -9,7 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
-class SettingDropdownCell: UITableViewCell {
+class SettingDropdownCell: UITableViewCell, CustomCell {
+    typealias Item = SettingCellItem
+    
     private var cellItem: SettingCellItem? {
         didSet {
             if let cellItem = cellItem {
@@ -39,39 +41,5 @@ class SettingDropdownCell: UITableViewCell {
     
     func setCellItem(_ cellItem: SettingCellItem?) {
         self.cellItem = cellItem
-    }
-    
-    private func setLayout() {
-        let cell = self
-        
-        if #available(iOS 14, *) {
-            var content = cell.defaultContentConfiguration()
-            content.textProperties.color = .white
-            
-            var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .gray.withAlphaComponent(0.2)
-            
-            cell.contentConfiguration = content
-            cell.backgroundConfiguration = background
-        } else {
-            cell.textLabel?.textColor = .white
-            cell.backgroundColor = .gray.withAlphaComponent(0.2)
-        }
-    }
-    
-    private func setLayout(with cellItem: SettingCellItem) {
-        let cell = self
-        let text = cellItem.title
-        
-        if #available(iOS 14, *) {
-            var configuration = cell.contentConfiguration as! UIListContentConfiguration
-            
-            configuration.text = cellItem.title
-            configuration.image = cellItem.image
-            
-            cell.contentConfiguration = configuration
-        } else {
-            cell.textLabel?.text = text
-        }
     }
 }

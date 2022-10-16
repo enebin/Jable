@@ -38,8 +38,11 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
+    lazy var thumbnailButton = CustomImageButton().then {
+        let image = UIImage(named: "holand")!
+        $0.setCustomImage(image)
+    }
     lazy var shutterButton = ShutterButton()
-    lazy var settingButton = SettingButton()
     lazy var spacer = Spacer()
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
 
@@ -55,7 +58,7 @@ class VideoRecorderViewController: UIViewController {
         setChildViewControllers()
         setLayout()
         bindButtons()
-        bindPublishers()
+        bindObservables()
     }
     
     private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
@@ -89,6 +92,12 @@ class VideoRecorderViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
+        self.view.addSubview(thumbnailButton)
+        thumbnailButton.snp.makeConstraints { make in
+            make.centerY.equalTo(shutterButton.snp.centerY)
+            make.left.equalToSuperview().inset(15)
+        }
+        
         self.view.addSubview(settingVC.view)
         settingVC.view.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -119,6 +128,16 @@ class VideoRecorderViewController: UIViewController {
             }
             .disposed(by: bag)
         
+        thumbnailButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                HapticManager.shared.generate()
+                
+                let albumVC = GalleryViewController()
+                self.present(albumVC, animated: true)
+            }
+            .disposed(by: bag)
+        
         screenSizeButton.rx.tap
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
@@ -131,14 +150,22 @@ class VideoRecorderViewController: UIViewController {
             .disposed(by: bag)
     }
     
-    private func bindPublishers() {
+    private func bindObservables() {
         viewModel.previewLayer.asObservable()
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newLayer in
                 guard let self = self else { return }
                 
                 self.setCameraPreviewLayer(newLayer)
-                print(newLayer)
+                self.view.layoutIfNeeded()
+            }
+            .disposed(by: bag)
+        
+        viewModel.videoConfiguration.stealthMode
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] newValue in
+                guard let self = self else { return }
+                self.preview?.isHidden = newValue
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)

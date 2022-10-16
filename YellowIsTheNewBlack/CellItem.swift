@@ -8,10 +8,6 @@
 import UIKit
 
 protocol CellItem {
-    associatedtype Action
-    
     var title: String? { get }
     var image: UIImage? { get }
-    
-    var actionType: ActionType? { get }
  }

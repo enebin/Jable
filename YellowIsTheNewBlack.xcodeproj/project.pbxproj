@@ -24,16 +24,22 @@
 		0798665828E6FA4C00E698ED /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798665728E6FA4C00E698ED /* ShutterButton.swift */; };
 		0798665C28E7044E00E698ED /* CameraPreviewLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0798665B28E7044E00E698ED /* CameraPreviewLayer.swift */; };
 		079866D728E843A900E698ED /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079866D628E843A900E698ED /* HapticManager.swift */; };
+		07A4302128F3FA3200B6E182 /* PositionToolbalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A4302028F3FA3200B6E182 /* PositionToolbalViewController.swift */; };
+		07A4302328F3FA6100B6E182 /* ToolBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A4302228F3FA6100B6E182 /* ToolBarItem.swift */; };
+		07A4302528FBCFD200B6E182 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A4302428FBCFD200B6E182 /* UIView+Extension.swift */; };
+		07DE1E6228F149180080AC0B /* MuteToolBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DE1E6128F149180080AC0B /* MuteToolBarViewController.swift */; };
+		07DE1E6E28F2E63F0080AC0B /* CustomImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DE1E6D28F2E63F0080AC0B /* CustomImageButton.swift */; };
+		07DE1E7128F3ECCA0080AC0B /* GalleryCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DE1E7028F3ECCA0080AC0B /* GalleryCellItem.swift */; };
+		07DE1E7328F3EDF00080AC0B /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DE1E7228F3EDF00080AC0B /* CustomCell.swift */; };
 		9B543AC3285C8CCA00B41CB3 /* GalleryThumbnailMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */; };
 		9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */; };
-		9B543AD0285DAB1600B41CB3 /* VideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */; };
+		9B543AD0285DAB1600B41CB3 /* SingleVideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B543ACF285DAB1600B41CB3 /* SingleVideoSessionManager.swift */; };
 		9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3629A2859EA9900339D46 /* LoggingManager.swift */; };
 		9BA362B82859F50B00339D46 /* DemoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362B72859F50B00339D46 /* DemoTest.swift */; };
 		9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA362BB285B442C00339D46 /* GalleryViewModel.swift */; };
 		9BAF4AD32860019A00B75689 /* GallerySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAF4AD22860019A00B75689 /* GallerySection.swift */; };
 		9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6422843824E00AB77A7 /* AppDelegate.swift */; };
 		9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */; };
-		9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */; };
 		9BEAA64C2843825200AB77A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BEAA64B2843825200AB77A7 /* Assets.xcassets */; };
 		9BEAA64F2843825200AB77A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BEAA64D2843825200AB77A7 /* LaunchScreen.storyboard */; };
 		9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */; };
@@ -41,11 +47,14 @@
 		9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB502285EC59C006C526C /* VideoFileManager.swift */; };
 		9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */; };
 		9C0B2B4428E1B52000BD9C81 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B2B4328E1B52000BD9C81 /* SettingType.swift */; };
+		9C27CD2728F63DCD00F98E08 /* VideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */; };
+		9C27CD2928F63DF400F98E08 /* MultiVideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2828F63DF400F98E08 /* MultiVideoSessionManager.swift */; };
+		9C27CD2B28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */; };
 		9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F228D825C0001533BF /* VideoAlbumManager.swift */; };
 		9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F528D82A76001533BF /* VideoAlbumError.swift */; };
 		9C4093F828D842FA001533BF /* VideoAlbumSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */; };
 		9C4093FA28D8491C001533BF /* VideoAlbumFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */; };
-		9C64E9F228EBBF1F00FB1DBE /* VideoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */; };
+		9C64E9F228EBBF1F00FB1DBE /* VideoConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C64E9F128EBBF1F00FB1DBE /* VideoConfigurable.swift */; };
 		9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */; };
 		9CB0D92928DA91BC009C2CE0 /* SettingDropdownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92828DA91BC009C2CE0 /* SettingDropdownCell.swift */; };
 		9CB0D92C28DA93DA009C2CE0 /* SettingCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92B28DA93DA009C2CE0 /* SettingCellItem.swift */; };
@@ -79,9 +88,16 @@
 		0798665728E6FA4C00E698ED /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		0798665B28E7044E00E698ED /* CameraPreviewLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewLayer.swift; sourceTree = "<group>"; };
 		079866D628E843A900E698ED /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		07A4302028F3FA3200B6E182 /* PositionToolbalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionToolbalViewController.swift; sourceTree = "<group>"; };
+		07A4302228F3FA6100B6E182 /* ToolBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItem.swift; sourceTree = "<group>"; };
+		07A4302428FBCFD200B6E182 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		07DE1E6128F149180080AC0B /* MuteToolBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteToolBarViewController.swift; sourceTree = "<group>"; };
+		07DE1E6D28F2E63F0080AC0B /* CustomImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageButton.swift; sourceTree = "<group>"; };
+		07DE1E7028F3ECCA0080AC0B /* GalleryCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCellItem.swift; sourceTree = "<group>"; };
+		07DE1E7228F3EDF00080AC0B /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		9B543AC2285C8CC900B41CB3 /* GalleryThumbnailMakerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryThumbnailMakerTests.swift; sourceTree = "<group>"; };
 		9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
-		9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionManager.swift; sourceTree = "<group>"; };
+		9B543ACF285DAB1600B41CB3 /* SingleVideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleVideoSessionManager.swift; sourceTree = "<group>"; };
 		9BA3629A2859EA9900339D46 /* LoggingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		9BA362AD2859F4DE00339D46 /* YellowIsTheNewBlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YellowIsTheNewBlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BA362B62859F50B00339D46 /* YellowIsTheNewBlackTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YellowIsTheNewBlackTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -91,7 +107,6 @@
 		9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YellowIsTheNewBlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEAA6422843824E00AB77A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BEAA6442843824E00AB77A7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
 		9BEAA64B2843825200AB77A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9BEAA64E2843825200AB77A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9BEAA6502843825200AB77A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -100,11 +115,14 @@
 		9BEFB502285EC59C006C526C /* VideoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManager.swift; sourceTree = "<group>"; };
 		9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileInformationMaker.swift; sourceTree = "<group>"; };
 		9C0B2B4328E1B52000BD9C81 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionManager.swift; sourceTree = "<group>"; };
+		9C27CD2828F63DF400F98E08 /* MultiVideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiVideoSessionManager.swift; sourceTree = "<group>"; };
+		9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleVideoSessionManager+Extension.swift"; sourceTree = "<group>"; };
 		9C4093F228D825C0001533BF /* VideoAlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumManager.swift; sourceTree = "<group>"; };
 		9C4093F528D82A76001533BF /* VideoAlbumError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumError.swift; sourceTree = "<group>"; };
 		9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumSaver.swift; sourceTree = "<group>"; };
 		9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumFetcher.swift; sourceTree = "<group>"; };
-		9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoConfiguration.swift; sourceTree = "<group>"; };
+		9C64E9F128EBBF1F00FB1DBE /* VideoConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoConfigurable.swift; sourceTree = "<group>"; };
 		9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderConfiguration.swift; sourceTree = "<group>"; };
 		9CB0D92828DA91BC009C2CE0 /* SettingDropdownCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDropdownCell.swift; sourceTree = "<group>"; };
 		9CB0D92B28DA93DA009C2CE0 /* SettingCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellItem.swift; sourceTree = "<group>"; };
@@ -143,8 +161,10 @@
 		072B1B9228EA968F00E362C3 /* Tool bar */ = {
 			isa = PBXGroup;
 			children = (
-				072B1B9F28EAE84F00E362C3 /* Video quality */,
 				072B1B9328EA96AC00E362C3 /* SettingToolBarViewController.swift */,
+				07DE1E7428F3F9BE0080AC0B /* Position */,
+				07DE1E6028F148F80080AC0B /* Mute */,
+				072B1B9F28EAE84F00E362C3 /* Video quality */,
 				9CE6ED4528ED14870009744D /* SettingTypeViewController.swift */,
 			);
 			name = "Tool bar";
@@ -158,7 +178,7 @@
 			name = "Video quality";
 			sourceTree = "<group>";
 		};
-		0798665628E6FA3E00E698ED /* Components */ = {
+		0798665628E6FA3E00E698ED /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				9C64E9F028EBBF1600FB1DBE /* Protocol */,
@@ -166,7 +186,7 @@
 				0798665928E7015D00E698ED /* Button */,
 				072B1B9728EA9AC400E362C3 /* Spacer.swift */,
 			);
-			name = Components;
+			name = Common;
 			sourceTree = "<group>";
 		};
 		0798665928E7015D00E698ED /* Button */ = {
@@ -178,6 +198,7 @@
 				072B1B9528EA97C200E362C3 /* SettingButton.swift */,
 				072B1B9D28EAC3AC00E362C3 /* SystemImageButton.swift */,
 				072B1BA228EAE8CA00E362C3 /* LabelButton.swift */,
+				07DE1E6D28F2E63F0080AC0B /* CustomImageButton.swift */,
 			);
 			name = Button;
 			sourceTree = "<group>";
@@ -190,11 +211,63 @@
 			name = Camera;
 			sourceTree = "<group>";
 		};
-		07DE1E5F28F12D8B0080AC0B /* New Group */ = {
+		07DE1E6028F148F80080AC0B /* Mute */ = {
 			isa = PBXGroup;
 			children = (
+				07DE1E6128F149180080AC0B /* MuteToolBarViewController.swift */,
 			);
-			name = "New Group";
+			name = Mute;
+			sourceTree = "<group>";
+		};
+		07DE1E6F28F3ECAE0080AC0B /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */,
+				07DE1E7028F3ECCA0080AC0B /* GalleryCellItem.swift */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		07DE1E7428F3F9BE0080AC0B /* Position */ = {
+			isa = PBXGroup;
+			children = (
+				07A4302028F3FA3200B6E182 /* PositionToolbalViewController.swift */,
+			);
+			name = Position;
+			sourceTree = "<group>";
+		};
+		9B05DFA728FACD5200DE5927 /* Multi Camera */ = {
+			isa = PBXGroup;
+			children = (
+				9C27CD2828F63DF400F98E08 /* MultiVideoSessionManager.swift */,
+			);
+			name = "Multi Camera";
+			sourceTree = "<group>";
+		};
+		9B05DFA828FACE3600DE5927 /* Single Camera */ = {
+			isa = PBXGroup;
+			children = (
+				9B543ACF285DAB1600B41CB3 /* SingleVideoSessionManager.swift */,
+				9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */,
+			);
+			name = "Single Camera";
+			sourceTree = "<group>";
+		};
+		9B05DFA928FACE8A00DE5927 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9B05DFAA28FACE9600DE5927 /* Video Recorder */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		9B05DFAA28FACE9600DE5927 /* Video Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
+				9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */,
+			);
+			name = "Video Recorder";
 			sourceTree = "<group>";
 		};
 		9B51E6402866EF8500D3BB82 /* Setting */ = {
@@ -218,7 +291,6 @@
 			isa = PBXGroup;
 			children = (
 				9BA3629A2859EA9900339D46 /* LoggingManager.swift */,
-				9B543ACF285DAB1600B41CB3 /* VideoSessionManager.swift */,
 				079866D628E843A900E698ED /* HapticManager.swift */,
 			);
 			name = Managers;
@@ -237,9 +309,9 @@
 		9BA362BD285B464100339D46 /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
+				07DE1E6F28F3ECAE0080AC0B /* Cell */,
 				9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */,
 				9BAF4AD22860019A00B75689 /* GallerySection.swift */,
-				9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */,
 				9BA362BB285B442C00339D46 /* GalleryViewModel.swift */,
 			);
 			name = Gallery;
@@ -298,11 +370,30 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		9C27CD2528F63DBF00F98E08 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */,
+				9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */,
+				9B05DFA828FACE3600DE5927 /* Single Camera */,
+				9B05DFA728FACD5200DE5927 /* Multi Camera */,
+			);
+			name = Session;
+			sourceTree = "<group>";
+		};
+		9C27CD2C28F63F4F00F98E08 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				9CD4518E284F335B007CF311 /* VideoRecorderError.swift */,
+			);
+			name = Error;
+			sourceTree = "<group>";
+		};
 		9C4093EC28D7EF80001533BF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0798665628E6FA3E00E698ED /* Components */,
-				9C4093EE28D7EFB0001533BF /* Main */,
+				9B05DFA928FACE8A00DE5927 /* View Controllers */,
+				0798665628E6FA3E00E698ED /* Common */,
 				9CD45189284F2BE9007CF311 /* Video */,
 				9BA362BD285B464100339D46 /* Gallery */,
 				9B51E6402866EF8500D3BB82 /* Setting */,
@@ -314,24 +405,18 @@
 			isa = PBXGroup;
 			children = (
 				9C4093F428D825C9001533BF /* Protocols */,
-				9BEFB4FF285DFBE4006C526C /* Files */,
 				9BA362992859EA8900339D46 /* Managers */,
+				07A4302428FBCFD200B6E182 /* UIView+Extension.swift */,
 			);
 			name = Utils;
-			sourceTree = "<group>";
-		};
-		9C4093EE28D7EFB0001533BF /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				9BEAA6462843824E00AB77A7 /* MainTabViewController.swift */,
-			);
-			name = Main;
 			sourceTree = "<group>";
 		};
 		9C4093F428D825C9001533BF /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				9CB0D92D28DA93F8009C2CE0 /* CellItem.swift */,
+				07DE1E7228F3EDF00080AC0B /* CustomCell.swift */,
+				07A4302228F3FA6100B6E182 /* ToolBarItem.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -350,7 +435,7 @@
 		9C64E9F028EBBF1600FB1DBE /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */,
+				9C64E9F128EBBF1F00FB1DBE /* VideoConfigurable.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -367,11 +452,9 @@
 		9CD45189284F2BE9007CF311 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				07DE1E5F28F12D8B0080AC0B /* New Group */,
-				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
-				9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */,
-				9CD4518E284F335B007CF311 /* VideoRecorderError.swift */,
-				9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */,
+				9BEFB4FF285DFBE4006C526C /* Files */,
+				9C27CD2C28F63F4F00F98E08 /* Error */,
+				9C27CD2528F63DBF00F98E08 /* Session */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -502,31 +585,40 @@
 			files = (
 				072B1B9E28EAC3AC00E362C3 /* SystemImageButton.swift in Sources */,
 				9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */,
-				9C64E9F228EBBF1F00FB1DBE /* VideoConfiguration.swift in Sources */,
+				9C64E9F228EBBF1F00FB1DBE /* VideoConfigurable.swift in Sources */,
 				072B1B9428EA96AC00E362C3 /* SettingToolBarViewController.swift in Sources */,
 				9BA362BC285B442C00339D46 /* GalleryViewModel.swift in Sources */,
+				07DE1E6228F149180080AC0B /* MuteToolBarViewController.swift in Sources */,
 				079866D728E843A900E698ED /* HapticManager.swift in Sources */,
 				9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */,
 				072B1B9828EA9AC400E362C3 /* Spacer.swift in Sources */,
 				072B1BA328EAE8CA00E362C3 /* LabelButton.swift in Sources */,
+				9C27CD2728F63DCD00F98E08 /* VideoSessionManager.swift in Sources */,
 				9CB0D92928DA91BC009C2CE0 /* SettingDropdownCell.swift in Sources */,
 				9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */,
+				9C27CD2928F63DF400F98E08 /* MultiVideoSessionManager.swift in Sources */,
 				9C4093F628D82A76001533BF /* VideoAlbumError.swift in Sources */,
 				9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */,
 				9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */,
+				07A4302328F3FA6100B6E182 /* ToolBarItem.swift in Sources */,
 				9CB0D92E28DA93F8009C2CE0 /* CellItem.swift in Sources */,
 				9BAF4AD32860019A00B75689 /* GallerySection.swift in Sources */,
 				9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */,
 				9CE6ED4628ED14870009744D /* SettingTypeViewController.swift in Sources */,
-				9BEAA6472843824E00AB77A7 /* MainTabViewController.swift in Sources */,
 				9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */,
 				9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */,
+				07A4302128F3FA3200B6E182 /* PositionToolbalViewController.swift in Sources */,
 				072B1BA128EAE86A00E362C3 /* VideoQualityToolBarViewController.swift in Sources */,
+				9C27CD2B28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift in Sources */,
 				072B1B9A28EAB41500E362C3 /* BackButton.swift in Sources */,
+				07A4302528FBCFD200B6E182 /* UIView+Extension.swift in Sources */,
+				07DE1E7128F3ECCA0080AC0B /* GalleryCellItem.swift in Sources */,
 				9BEAA66128438A2500AB77A7 /* GalleryViewController.swift in Sources */,
 				9B543AC9285C9F0100B41CB3 /* GalleryViewCell.swift in Sources */,
 				072B1B9628EA97C200E362C3 /* SettingButton.swift in Sources */,
 				072B1B9C28EAC34300E362C3 /* VideoQualityButton.swift in Sources */,
+				07DE1E7328F3EDF00080AC0B /* CustomCell.swift in Sources */,
+				07DE1E6E28F2E63F0080AC0B /* CustomImageButton.swift in Sources */,
 				9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */,
 				0798665C28E7044E00E698ED /* CameraPreviewLayer.swift in Sources */,
 				9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */,
@@ -536,7 +628,7 @@
 				9C0B2B4428E1B52000BD9C81 /* SettingType.swift in Sources */,
 				9BEAA6432843824E00AB77A7 /* AppDelegate.swift in Sources */,
 				9C4093F828D842FA001533BF /* VideoAlbumSaver.swift in Sources */,
-				9B543AD0285DAB1600B41CB3 /* VideoSessionManager.swift in Sources */,
+				9B543AD0285DAB1600B41CB3 /* SingleVideoSessionManager.swift in Sources */,
 				9BEAA6452843824E00AB77A7 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,9 +14,9 @@ import RxSwift
 
 class SettingToolBarViewController: UIViewController {
     private let bag = DisposeBag()
-    private(set) var recorderConfiguration: RecorderConfiguration
+    private(set) var recorderConfiguration: VideoSessionConfiguration
     
-    init(configuration: RecorderConfiguration) {
+    init(configuration: VideoSessionConfiguration) {
         self.recorderConfiguration = configuration
         super.init(nibName: nil, bundle: nil)
     }
@@ -25,7 +25,7 @@ class SettingToolBarViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    // MARK: - View stack
     private var viewStack = [UIView]() {
         didSet {
             oldValue.last?.isHidden = true
@@ -33,12 +33,20 @@ class SettingToolBarViewController: UIViewController {
         }
     }
     
-    // MARK: Usable buttons
-    lazy var settingButton = SystemImageButton().then {
-        $0.setSystemImage(name: "gear")
-        self.pushView($0)
+    // MARK: - Usable buttons
+    lazy var toolBarStack = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually
     }
     
+    lazy var settingButton = SystemImageButton().then {
+        $0.setSystemImage(name: "gear")
+    }
+    
+    lazy var screenShowButton = SystemImageButton().then {
+        $0.setSystemImage(name: "eye")
+    }
+
     // MARK: Child VCs
     lazy var settingTypeVC = SettingTypeViewController().then { [weak self] in
         guard let self = self else { return }
@@ -47,7 +55,7 @@ class SettingToolBarViewController: UIViewController {
         $0.onElementButtonTapped { setting in self.pushView(by: setting) }
     }
     
-    lazy var videoQualityVC = VideoQualityToolBarViewController(configuration: self.recorderConfiguration)
+    lazy var videoQualityVC = VideoQualityToolBarViewController(configuration: recorderConfiguration)
         .then { [weak self] in
             guard let self = self else { return }
             
@@ -55,22 +63,41 @@ class SettingToolBarViewController: UIViewController {
             $0.onElementButtonTapped { setting in self.pushView(by: setting) }
         }
     
+    lazy var muteTypeVC = MuteToolBarViewController(configuration: recorderConfiguration)
+        .then { [weak self] in
+            guard let self = self else { return }
+            
+            $0.onBackButtonTapped { self.popView() }
+            $0.onElementButtonTapped { setting in self.pushView(by: setting) }
+        }
+    
+    lazy var positionVC = PositionToolbalViewController(configuration: recorderConfiguration)
+        .then { [weak self] in
+            guard let self = self else { return }
+            
+            $0.onBackButtonTapped { self.popView() }
+            $0.onElementButtonTapped { setting in self.pushView(by: setting) }
+        }
+    
+    // MARK: -
+    private var childVCs = [UIViewController]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        childVCs = [settingTypeVC, videoQualityVC, muteTypeVC, positionVC]
         
-        addSubViewControllers()
+        addSubViewControllers(childVCs)
         setLayout()
         bindButtons()
+        
+        pushView(toolBarStack)
     }
     
-    func addSubViewControllers() {
-        addChild(settingTypeVC)
-        settingTypeVC.didMove(toParent: self)
-        
-        addChild(videoQualityVC)
-        videoQualityVC.didMove(toParent: self)
-        
-        children.forEach{ $0.view.isHidden = true }
+    func addSubViewControllers(_ viewControllers: [UIViewController]) {
+        viewControllers.forEach {
+            addChild($0)
+            $0.didMove(toParent: self)
+            $0.view.isHidden = true
+        }
     }
     
     func setLayout() {
@@ -80,7 +107,7 @@ class SettingToolBarViewController: UIViewController {
             make.height.equalTo(50)
             make.center.equalToSuperview()
         }
-//
+        
         view.addSubview(videoQualityVC.view)
         videoQualityVC.view.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -88,20 +115,63 @@ class SettingToolBarViewController: UIViewController {
             make.center.equalToSuperview()
         }
         
-        // MARK: Setting button
-        view.addSubview(settingButton)
-        settingButton.snp.makeConstraints { make in
-            make.width.height.equalTo(35)
+        view.addSubview(muteTypeVC.view)
+        muteTypeVC.view.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
             make.center.equalToSuperview()
         }
+        
+        view.addSubview(positionVC.view)
+        positionVC.view.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+            make.center.equalToSuperview()
+        }
+        
+        // MARK: - Setting button
+        view.addSubview(toolBarStack)
+        toolBarStack.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalToSuperview()
+        }
+        
+        toolBarStack.addArrangedSubview(screenShowButton)
+        screenShowButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+        }
+        
+        toolBarStack.addArrangedSubview(settingButton)
+        settingButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+        }
+        
+        toolBarStack.addArrangedSubview(UIView.spacer)
     }
     
     func bindButtons() {
         settingButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                
+                                
                 self.pushView(self.settingTypeVC.view)
+            }
+            .disposed(by: bag)
+        
+        screenShowButton.rx.tap
+            .bind { [weak self] in
+                guard let self = self else { return }
+                                
+                let isStealth = self.recorderConfiguration.stealthMode.value
+                if isStealth {
+                    self.recorderConfiguration.stealthMode.accept(false)
+                    self.screenShowButton.setSystemImage(name: "eye")
+                } else {
+                    self.recorderConfiguration.stealthMode.accept(true)
+                    self.screenShowButton.setSystemImage(name: "eye.slash")
+                }
+                
+                self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
     }
@@ -111,7 +181,9 @@ class SettingToolBarViewController: UIViewController {
         case .quality:
             pushView(videoQualityVC.view)
         case .mute:
-            break
+            pushView(muteTypeVC.view)
+        case .position:
+            pushView(positionVC.view)
         }
     }
     
@@ -137,4 +209,5 @@ protocol SettingStack: UIViewController {
 enum Setting {
     case quality
     case mute
+    case position
 }
