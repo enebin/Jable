@@ -46,10 +46,6 @@ class SettingToolBarViewController: UIViewController {
     lazy var screenShowButton = SystemImageButton().then {
         $0.setSystemImage(name: "eye")
     }
-    
-    lazy var screenHiddenButton = SystemImageButton().then {
-        $0.setSystemImage(name: "eye.slash")
-    }
 
     // MARK: Child VCs
     lazy var settingTypeVC = SettingTypeViewController().then { [weak self] in
@@ -166,7 +162,16 @@ class SettingToolBarViewController: UIViewController {
             .bind { [weak self] in
                 guard let self = self else { return }
                                 
-                self.recorderConfiguration.stealthMode.accept(true)
+                let isStealth = self.recorderConfiguration.stealthMode.value
+                if isStealth {
+                    self.recorderConfiguration.stealthMode.accept(false)
+                    self.screenShowButton.setSystemImage(name: "eye")
+                } else {
+                    self.recorderConfiguration.stealthMode.accept(true)
+                    self.screenShowButton.setSystemImage(name: "eye.slash")
+                }
+                
+                self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
     }
