@@ -39,8 +39,9 @@ class VideoRecorderViewController: UIViewController {
     }
     
     lazy var thumbnailButton = CustomImageButton().then {
-        let image = UIImage(named: "holand")!
+        let image = UIImage()
         $0.setCustomImage(image)
+        $0.imageView?.contentMode = .scaleAspectFill
     }
     lazy var shutterButton = ShutterButton()
     lazy var spacer = Spacer()
@@ -168,6 +169,11 @@ class VideoRecorderViewController: UIViewController {
                 self.preview?.isHidden = newValue
                 self.view.layoutIfNeeded()
             }
+            .disposed(by: bag)
+        
+        viewModel.thumbnailObserver
+            .observe(on: MainScheduler.instance)
+            .bind(to: thumbnailButton.rx.image(for: .normal))
             .disposed(by: bag)
     }
     

@@ -222,6 +222,7 @@
 		07DE1E6F28F3ECAE0080AC0B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				9BAF4AD22860019A00B75689 /* GallerySection.swift */,
 				9B543AC8285C9F0100B41CB3 /* GalleryViewCell.swift */,
 				07DE1E7028F3ECCA0080AC0B /* GalleryCellItem.swift */,
 			);
@@ -311,7 +312,6 @@
 			children = (
 				07DE1E6F28F3ECAE0080AC0B /* Cell */,
 				9BEAA66028438A2500AB77A7 /* GalleryViewController.swift */,
-				9BAF4AD22860019A00B75689 /* GallerySection.swift */,
 				9BA362BB285B442C00339D46 /* GalleryViewModel.swift */,
 			);
 			name = Gallery;

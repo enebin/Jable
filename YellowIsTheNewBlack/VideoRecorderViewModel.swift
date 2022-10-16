@@ -16,6 +16,7 @@ class VideoRecoderViewModel: NSObject {
     // Dependencies
     private let sessionManager: VideoSessionManager
     let videoConfiguration: VideoSessionConfiguration
+    private let videoAlbumFethcher: VideoAlbumFetcher
     
     // vars and lets
     private var bag = DisposeBag()
@@ -25,6 +26,7 @@ class VideoRecoderViewModel: NSObject {
     
     // MARK: - Public methods and vars
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
+    var thumbnailObserver: Observable<UIImage?>
     
     @discardableResult
     func updateSession(configuration: VideoSessionConfiguration) async throws -> AVCaptureSession {
@@ -101,9 +103,16 @@ class VideoRecoderViewModel: NSObject {
     }
     
     init(_ sessionManager: VideoSessionManager = SingleVideoSessionManager.shared,
-         _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration.shared) {
+         _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration.shared,
+         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.sessionManager = sessionManager
         self.videoConfiguration = videoConfiguration
+
+        self.videoAlbumFethcher = videoAlbumFetcher
+        self.thumbnailObserver = videoAlbumFetcher.getObserver()
+            .map { thumbnails in
+                thumbnails.last?.thumbnail
+            }
         
         super.init()
         
