@@ -8,18 +8,13 @@
 import AVFoundation
 //
 class MultiVideoSessionManager: NSObject, VideoSessionManager {
-    static let shared = MultiVideoSessionManager()
-    
     // Dependencies
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
     
-    // vars and lets
-    var session: AVCaptureMultiCamSession?
-    var backCameraOutput: AVCaptureMovieFileOutput?
-    var frontCameraOutput: AVCaptureMovieFileOutput?
-    
+    private var shared: AVCaptureMultiCamSession?
     private var device: AVCaptureDevice?
+    
     private var backCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?
     private var frontCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?
     
@@ -31,39 +26,45 @@ class MultiVideoSessionManager: NSObject, VideoSessionManager {
         self.videoAlbumSaver = videoAlbumSaver
     }
     
-    @discardableResult
-    func setupSession(configuration: some VideoConfigurable) async throws -> AVCaptureMultiCamSession {
+    
+    func setupSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
         do {
             try await checkSessionConfigurable()
-            
-            var session = AVCaptureMultiCamSession()
-            session = try configureSession(configuration: configuration, session: session)
-            
-            self.session = session
-            
-            return session
+            return try configureSessoion(configuration)
         } catch let error {
             throw error
         }
     }
     
-    func startRunningSession(_ completion: (() -> Void)? = nil) throws {
-        guard let session = self.session else {
-            throw VideoRecorderError.notConfigured
-        }
-        
+    func startRunningCamera() {
         DispatchQueue.global(qos: .background).async {
-            session.startRunning()
-            completion?()
+            self.shared?.startRunning()
         }
     }
     
+    func startRecordingVideo() throws {
+        let filePath = videoFileManager.filePath
+        
+    }
+    
+    func stopRecordingVideo() throws {
+//        guard let output = self.output else {
+//            throw VideoRecorderError.notConfigured
+//        }
+        
+//        output.stopRecording()
+    }
+    
+    
     // MARK: - Internal methods
-    private func configureSession(configuration: some VideoConfigurable,
-                                  session: AVCaptureMultiCamSession) throws -> AVCaptureMultiCamSession {
+    private func configureSessoion(_ configuration: some VideoConfigurable) throws -> AVCaptureSession {
         guard AVCaptureMultiCamSession.isMultiCamSupported else {
             print("MultiCam not supported on this device")
             throw VideoRecorderError.notSupportedDevice
+        }
+        
+        guard let session = self.shared else {
+            throw VideoRecorderError.notConfigured
         }
         
         // When using AVCaptureMultiCamSession, it is best to manually add connections from AVCaptureInputs to AVCaptureOutputs

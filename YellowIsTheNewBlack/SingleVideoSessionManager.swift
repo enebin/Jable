@@ -34,9 +34,10 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
     
     /// 카메라를 돌리기 시작함
-    func startRunningCamera() {
+    func startRunningSession(_ completion: (() -> Void)? = nil) throws {
         DispatchQueue.global(qos: .background).async {
             self.captureSession?.startRunning()
+            completion?()
         }
     }
     

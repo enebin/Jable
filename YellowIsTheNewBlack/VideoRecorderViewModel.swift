@@ -14,7 +14,7 @@ import RxRelay
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
-    private let sessionManager: VideoSessionManager
+    private let sessionManager: any VideoSessionManager
     let videoConfiguration: VideoSessionConfiguration
     private let videoAlbumFethcher: VideoAlbumFetcher
     
@@ -41,16 +41,16 @@ class VideoRecoderViewModel: NSObject {
         return previewLayer
     }
     
-    func startRunningCamera() {
-        sessionManager.startRunningCamera()
+    func startRunningCamera() throws {
+        try sessionManager.startRunningSession(nil)
     }
     
     func startRecordingVideo() throws {
-        try sessionManager.startRecordingVideo()
+        try sessionManager.startRunningSession(nil)
     }
     
     func stopRecordingVideo() throws {
-        try sessionManager.stopRecordingVideo()
+        try sessionManager.startRunningSession(nil)
     }
     
     private func updateSessionAndPreview() async throws {
@@ -58,7 +58,7 @@ class VideoRecoderViewModel: NSObject {
         let previewLayer = self.setupPreviewLayer(session: session)
         
         self.previewLayer.accept(previewLayer)
-        self.startRunningCamera()
+        try self.startRunningCamera()
     }
     
     private func bindObservables() {
@@ -102,7 +102,7 @@ class VideoRecoderViewModel: NSObject {
             .disposed(by: bag)
     }
     
-    init(_ sessionManager: VideoSessionManager = SingleVideoSessionManager.shared,
+    init(_ sessionManager: any VideoSessionManager = SingleVideoSessionManager.shared,
          _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration.shared,
          _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.sessionManager = sessionManager
