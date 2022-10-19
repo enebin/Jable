@@ -6,26 +6,53 @@
 //
 
 import XCTest
+import Quick
+import Nimble
+import Mockingbird
+
 import AVFoundation
 @testable import YellowIsTheNewBlack
 
-final class MultiCameraSessionTests: XCTestCase {
-
-    func test__Configure_multicamera_session() async throws {
-        let expectation = XCTestExpectation(description: "Waiting for background queue")
+final class MakeSessionSpec: QuickSpec {
+    override func spec() {
+        describe("Make camera session") {
+            var manager = MultiVideoSessionManager()
         
-        let manager = MultiVideoSessionManager.shared
-        XCTAssertThrowsError(try manager.startRunningSession())
-        
-//        try await manager.setupSession(configuration: VideoSessionConfiguration.shared)
-        manager.session = AVCaptureMultiCamSession() // Inject mock session
-        XCTAssertNoThrow(try manager.startRunningSession {
-            expectation.fulfill()
-        })
-
-        let session = try XCTUnwrap(manager.session)
-        
-        XCTAssertTrue(session.isRunning)
-        wait(for: [expectation], timeout: 5)
+            context("Trying to make camera without config") {
+                beforeEach {
+                    manager = MultiVideoSessionManager()
+                }
+                
+                it("should throw error") {
+                    expect { try manager.startRunningSession() }.to(throwError())
+                }
+            }
+        }
     }
+}
+
+@MainActor
+final class MultiCameraSessionTests: XCTestCase {
+    func test__Configure_multicamera_session() async throws {
+        let manager = MultiVideoSessionManager()
+        
+        let mockSession = mock(AVCaptureMultiCamSession.self)
+        let mockInput = mock(AVCaptureInput.self)
+        let mockBackOutput = mock(AVCaptureMovieFileOutput.self)
+        let mockFrontOutput = mock(AVCaptureMovieFileOutput.self)
+
+        given(mockSession.canAddInput(mockInput)).willReturn(true)
+        given(mockSession.canAddOutput(mockBackOutput)).willReturn(true)
+        given(mockSession.canAddOutput(mockFrontOutput)).willReturn(true)
+        given(mockSession.isRunning).willReturn(true)
+
+        manager.backCameraOutput = mockBackOutput
+        manager.frontCameraOutput = mockFrontOutput
+        manager.session = mockSession
+        
+        XCTAssertNoThrow(try manager.startRunningSession())
+        let session = try XCTUnwrap(manager.session)
+        XCTAssertTrue(session.isRunning)
+    }
+    
 }
