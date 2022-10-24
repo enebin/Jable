@@ -29,7 +29,6 @@ class SettingToolBarViewController: UIViewController {
     private var viewStack = [UIView]() {
         didSet {
             UIView.animate(withDuration: 0.3, delay: 0) {
-                oldValue.last?.transform = CGAffineTransform(translationX: 0, y: -25)
                 oldValue.last?.alpha = 0
             } completion: { _ in
                 oldValue.last?.isHidden = true
@@ -37,7 +36,6 @@ class SettingToolBarViewController: UIViewController {
             }
             
             UIView.animate(withDuration: 0.3, delay: 0) {
-                self.viewStack.last?.transform = CGAffineTransform(translationX: 0, y: -25)
                 self.viewStack.last?.alpha = 1
                 self.viewStack.last?.isHidden = false
             } completion: { _ in
