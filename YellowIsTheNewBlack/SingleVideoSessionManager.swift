@@ -34,7 +34,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
     
     /// 카메라를 돌리기 시작함
-    func startRunningSession(_ completion: (() -> Void)? = nil) throws {
+    func startRunningSession(_ completion: Action? = nil) throws {
         DispatchQueue.global(qos: .background).async {
             self.captureSession?.startRunning()
             completion?()
@@ -42,21 +42,23 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
     
     /// '녹화'를 시작함
-    func startRecordingVideo() throws {
+    func startRecordingVideo(_ completion: Action? = nil) throws {
         guard let output = self.output else {
             throw VideoRecorderError.notConfigured
         }
         
         let filePath = videoFileManager.filePath
         output.startRecording(to: filePath, recordingDelegate: self)
+        completion?()
     }
     
-    func stopRecordingVideo() throws {
+    func stopRecordingVideo(_ completion: Action? = nil) throws {
         guard let output = self.output else {
             throw VideoRecorderError.notConfigured
         }
         
         output.stopRecording()
+        completion?()
     }
     
     // MARK: - Internal methods

@@ -25,14 +25,8 @@ class VideoRecorderViewController: UIViewController {
     
     var previewLayerSize: PreviewLayerSize = .large
     var preview: AVCaptureVideoPreviewLayer?
-
-
-    // View components
-    lazy var alert = UIAlertController(title: "오류", message: self.errorMessage,
-                                       preferredStyle: UIAlertController.Style.alert).then {
-        $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-    }
     
+    // View components
     lazy var recordButton = UIButton().then {
         $0.backgroundColor = .white
         $0.sizeToFit()
@@ -43,9 +37,14 @@ class VideoRecorderViewController: UIViewController {
         $0.setCustomImage(image)
         $0.imageView?.contentMode = .scaleAspectFill
     }
+    
     lazy var shutterButton = ShutterButton()
     lazy var spacer = Spacer()
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
+    
+    lazy var blackAlphaColorView = UIView().then {
+        $0.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+    }
 
     lazy var screenSizeButton = UIButton().then {
         $0.backgroundColor = .white
@@ -73,7 +72,7 @@ class VideoRecorderViewController: UIViewController {
         
         preview = _layer
         self.view.layer.addSublayer(preview!)
-        preview!.videoGravity = .resizeAspect
+        preview!.videoGravity = .resizeAspectFill
         preview!.bounds = self.previewLayerSize.bounds
         preview!.position = self.previewLayerSize.position
         
@@ -97,6 +96,14 @@ class VideoRecorderViewController: UIViewController {
         thumbnailButton.snp.makeConstraints { make in
             make.centerY.equalTo(shutterButton.snp.centerY)
             make.left.equalToSuperview().inset(15)
+        }
+        
+        self.view.addSubview(blackAlphaColorView)
+        blackAlphaColorView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.height.equalTo(120)
+            make.top.equalTo(view.safeAreaInsets)
         }
         
         self.view.addSubview(settingVC.view)
@@ -123,8 +130,7 @@ class VideoRecorderViewController: UIViewController {
                         try self.viewModel.startRecordingVideo()
                     }
                 } catch let error {
-                    self.errorMessage = error.localizedDescription
-                    self.present(self.alert, animated: true)
+                    self.errorHandler(error)
                 }
             }
             .disposed(by: bag)
@@ -139,16 +145,16 @@ class VideoRecorderViewController: UIViewController {
             }
             .disposed(by: bag)
         
-        screenSizeButton.rx.tap
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] in
-                guard let self = self else { return }
-                self.previewLayerSize = self.previewLayerSize.next()
-                self.setCameraPreviewLayer(self.preview)
-                
-                self.view.layoutIfNeeded()
-            }
-            .disposed(by: bag)
+//        screenSizeButton.rx.tap
+//            .observe(on: MainScheduler.instance)
+//            .bind { [weak self] in
+//                guard let self = self else { return }
+//                self.previewLayerSize = self.previewLayerSize.next()
+//                self.setCameraPreviewLayer(self.preview)
+//
+//                self.view.layoutIfNeeded()
+//            }
+//            .disposed(by: bag)
     }
     
     private func bindObservables() {
@@ -186,6 +192,17 @@ class VideoRecorderViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension VideoRecorderViewController {
+    private func errorHandler(_ error: Error) {
+        let alert = UIAlertController(title: "오류", message: error.localizedDescription,
+                                           preferredStyle: UIAlertController.Style.alert).then {
+            $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+        }
+        
+        self.present(alert, animated: true)
     }
 }
 

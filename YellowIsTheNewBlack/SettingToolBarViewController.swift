@@ -110,6 +110,7 @@ class SettingToolBarViewController: UIViewController {
     private var childVCs = [UIViewController]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         childVCs = [settingTypeVC, videoQualityVC, muteTypeVC, positionVC]
         
         addSubViewControllers(childVCs)

@@ -46,11 +46,11 @@ class VideoRecoderViewModel: NSObject {
     }
     
     func startRecordingVideo() throws {
-        try sessionManager.startRunningSession(nil)
+        try sessionManager.startRecordingVideo(nil)
     }
     
     func stopRecordingVideo() throws {
-        try sessionManager.startRunningSession(nil)
+        try sessionManager.stopRecordingVideo(nil)
     }
     
     private func updateSessionAndPreview() async throws {
