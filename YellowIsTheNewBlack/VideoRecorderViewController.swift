@@ -69,13 +69,24 @@ class VideoRecorderViewController: UIViewController {
         if preview != nil {
             preview?.removeFromSuperlayer()
         }
-        
         preview = _layer
-        self.view.layer.addSublayer(preview!)
-        preview!.videoGravity = .resizeAspectFill
-        preview!.bounds = self.previewLayerSize.bounds
-        preview!.position = self.previewLayerSize.position
+
+        let previewUIView = UIView()
+        self.view.addSubview(previewUIView)
+        previewUIView.layer.addSublayer(preview!)
+        previewUIView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.height.equalTo(300)
+        }
         
+        preview!.bounds = self.previewLayerSize.sizeRect
+        preview!.frame = self.previewLayerSize.sizeRect
+        preview!.videoGravity = .resizeAspectFill
+//        preview!.position = self.previewLayerSize.position
+        preview!.cornerRadius = 20
+                
         setLayout()
     }
     
@@ -227,8 +238,8 @@ extension VideoRecorderViewController {
             }
         }
         
-        var bounds: CGRect {
-            let screenSize = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+        var sizeRect: CGRect {
+            let screenSize = (UIScreen.main.bounds.width, UIScreen.main.bounds.height * 0.75)
             
             let layerSize = CGSize(width: screenSize.0 * self.rawValue, height: screenSize.1 * self.rawValue)
             return CGRect(origin: CGPoint(x: 0, y: 0), size: layerSize)
