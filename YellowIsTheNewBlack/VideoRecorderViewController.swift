@@ -41,10 +41,6 @@ class VideoRecorderViewController: UIViewController {
     lazy var shutterButton = ShutterButton()
     lazy var spacer = Spacer()
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
-    
-    lazy var blackAlphaColorView = UIView().then {
-        $0.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-    }
 
     lazy var screenSizeButton = UIButton().then {
         $0.backgroundColor = .white
@@ -106,15 +102,7 @@ class VideoRecorderViewController: UIViewController {
         self.view.addSubview(thumbnailButton)
         thumbnailButton.snp.makeConstraints { make in
             make.centerY.equalTo(shutterButton.snp.centerY)
-            make.left.equalToSuperview().inset(15)
-        }
-        
-        self.view.addSubview(blackAlphaColorView)
-        blackAlphaColorView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(120)
-            make.top.equalTo(view.safeAreaInsets)
+            make.left.equalToSuperview().inset(10)
         }
         
         self.view.addSubview(settingVC.view)

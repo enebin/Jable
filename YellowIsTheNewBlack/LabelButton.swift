@@ -12,6 +12,7 @@ class LabelButton: UIButton {
         self.setTitle(text, for: .normal)
         self.setTitleColor(.white, for: .normal)
         self.setTitleColor(.gray, for: .highlighted)
+        self.titleLabel?.font = UIFont(name: "Jalnan", size: 18)
     }
     
     override func layoutSubviews() {

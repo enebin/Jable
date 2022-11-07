@@ -30,15 +30,15 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
     
     
     lazy var highButton = LabelButton().then {
-        $0.setTitleLabel("고화질")
+        $0.setTitleLabel("HIGH")
     }
     
     lazy var mediumButton = LabelButton().then {
-        $0.setTitleLabel("중간화질")
+        $0.setTitleLabel("MID")
     }
 
     lazy var lowButton = LabelButton().then {
-        $0.setTitleLabel("낮은화질")
+        $0.setTitleLabel("LOW")
     }
     
     lazy var backButton = SystemImageButton().then {

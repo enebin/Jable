@@ -23,11 +23,11 @@ class SettingTypeViewController: UIViewController, ToolbarItem {
     }
     
     lazy var qualityButton = LabelButton().then {
-        $0.setTitleLabel("화질")
+        $0.setTitleLabel("Quality")
     }
     
     lazy var positionButton = LabelButton().then {
-        $0.setTitleLabel("카메라 변경")
+        $0.setTitleLabel("Position")
     }
     
         
