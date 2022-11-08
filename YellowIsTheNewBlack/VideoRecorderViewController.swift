@@ -125,13 +125,13 @@ class VideoRecorderViewController: UIViewController {
                     if self.isRecording {
                         self.isRecording = false
                         self.shutterButton.isRecording = false
-//                        try self.viewModel.stopRecordingVideo()
+                        try self.viewModel.stopRecordingVideo()
                         
                         self.view.layoutIfNeeded()
                     } else {
                         self.isRecording = true
                         self.shutterButton.isRecording = true
-//                        try self.viewModel.startRecordingVideo()
+                        try self.viewModel.startRecordingVideo()
                         
                         self.view.layoutIfNeeded()
                     }
