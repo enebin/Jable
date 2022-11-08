@@ -94,7 +94,7 @@ class VideoRecorderViewController: UIViewController {
     private func setLayout() {
         self.view.addSubview(shutterButton)
         shutterButton.snp.makeConstraints { make in
-            make.width.height.equalTo(50)
+            make.width.height.equalTo(65)
             make.bottom.equalToSuperview().inset(50)
             make.centerX.equalToSuperview()
         }
@@ -116,17 +116,24 @@ class VideoRecorderViewController: UIViewController {
     
     private func bindButtons() {
         shutterButton.rx.tap
+            .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
                 HapticManager.shared.generate()
-                
+                print("TA[[e")
                 do {
                     if self.isRecording {
                         self.isRecording = false
-                        try self.viewModel.stopRecordingVideo()
+                        self.shutterButton.isRecording = false
+//                        try self.viewModel.stopRecordingVideo()
+                        
+                        self.view.layoutIfNeeded()
                     } else {
                         self.isRecording = true
-                        try self.viewModel.startRecordingVideo()
+                        self.shutterButton.isRecording = true
+//                        try self.viewModel.startRecordingVideo()
+                        
+                        self.view.layoutIfNeeded()
                     }
                 } catch let error {
                     self.errorHandler(error)
@@ -135,6 +142,7 @@ class VideoRecorderViewController: UIViewController {
             .disposed(by: bag)
         
         thumbnailButton.rx.tap
+            .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
                 HapticManager.shared.generate()
