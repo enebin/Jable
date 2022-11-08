@@ -28,17 +28,8 @@ class VideoRecoderViewModel: NSObject {
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     var thumbnailObserver: Observable<UIImage?>
     
-    @discardableResult
-    func updateSession(configuration: VideoSessionConfiguration) async throws -> AVCaptureSession {
-        let session = try await sessionManager.setupSession(configuration: configuration)
-        
-        return session
-    }
-    
-    private func setupPreviewLayer(session: AVCaptureSession) -> AVCaptureVideoPreviewLayer {
-        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        
-        return previewLayer
+    func updateSession(configuration: VideoSessionConfiguration) async throws {
+        try await sessionManager.setupSession(configuration: configuration)
     }
     
     func startRunningCamera() throws {
@@ -54,11 +45,23 @@ class VideoRecoderViewModel: NSObject {
     }
     
     private func updateSessionAndPreview() async throws {
-        let session = try await self.updateSession(configuration: self.videoConfiguration)
-        let previewLayer = self.setupPreviewLayer(session: session)
+        do {
+            print("@@@ inin")
+            try await self.updateSession(configuration: self.videoConfiguration)
+        } catch let error {
+            print("@@@", error)
+        }
+
+        guard let session = sessionManager.session else {
+            throw VideoRecorderError.notConfigured
+        }
         
-        self.previewLayer.accept(previewLayer)
+        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
         try self.startRunningCamera()
+        
+        DispatchQueue.main.async {
+            self.previewLayer.accept(previewLayer)
+        }
     }
     
     private func bindObservables() {
@@ -72,9 +75,16 @@ class VideoRecoderViewModel: NSObject {
             .subscribe(on: workQueue)
             .bind { [weak self] quality in
                 guard let self = self else { return }
-                
+                print("@@@ vq")
+
                 Task {
-                    try await self.updateSessionAndPreview()
+                    print("@@@ task")
+                    do {
+                        try await self.updateSessionAndPreview()
+                        print("@@@ gogo")
+                    } catch let error {
+                        print("@@@", error)
+                    }
                 }
             }
             .disposed(by: bag)
@@ -83,6 +93,7 @@ class VideoRecoderViewModel: NSObject {
             .subscribe(on: workQueue)
             .bind { [weak self] isMuted in
                 guard let self = self else { return }
+                print("@@@ sm")
 
                 Task {
                     try await self.updateSessionAndPreview()
@@ -94,6 +105,7 @@ class VideoRecoderViewModel: NSObject {
             .subscribe(on: workQueue)
             .bind { [weak self] isMuted in
                 guard let self = self else { return }
+                print("@@@ cp")
 
                 Task {
                     try await self.updateSessionAndPreview()

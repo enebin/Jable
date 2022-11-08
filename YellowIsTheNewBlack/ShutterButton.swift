@@ -46,18 +46,16 @@ enum RecordingState {
     var desiredLineWidth: CGFloat {
         return 1
     }
-    
-    func rect(center: CGFloat, size: CGFloat) -> CGRect {
-        return CGRect(origin: CGPoint(x: center - size / 2, y: center - size / 2),
-                      size: CGSize(width: size, height: size))
-    }
         
     func path(center: CGFloat, size: CGFloat) -> CGPath {
+        let rect = CGRect(origin: CGPoint(x: center - size / 2,
+                                          y: center - size / 2),
+                          size: CGSize(width: size, height: size))
         switch self {
         case .recording:
-            return UIBezierPath(roundedRect: rect(center: center, size: size), cornerRadius: 5).cgPath
+            return UIBezierPath(roundedRect: rect, cornerRadius: 5).cgPath
         case .ready:
-            return UIBezierPath(roundedRect: rect(center: center, size: size), cornerRadius: size / 2).cgPath
+            return UIBezierPath(roundedRect: rect, cornerRadius: size / 2).cgPath
         }
     }
 }

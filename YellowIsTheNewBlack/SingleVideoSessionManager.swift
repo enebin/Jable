@@ -15,20 +15,27 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
     private var captureSession: AVCaptureSession? = nil
-    private var device: AVCaptureDevice? = nil
     private var output: AVCaptureMovieFileOutput? = nil
 
     // MARK: - Public methods and vars
+    
+    var session: AVCaptureSession? {
+        return self.captureSession
+    }
     
     /// 세션을 세팅한다
     ///
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
-    func setupSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
+    func setupSession(configuration: some VideoConfigurable) async throws {
         do {
             try await checkSessionConfigurable()
-            return try await configureCaptureSession(configuration: configuration)
+            let session = try configureCaptureSession(session: self.captureSession ?? AVCaptureSession(),
+                                                      configuration: configuration)
+            
+            self.captureSession = session
         } catch let error {
+            print("@@@ setup", error)
             throw error
         }
     }
@@ -62,24 +69,27 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
     
     // MARK: - Internal methods
-    private func configureCaptureSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
+    private func configureCaptureSession(session: AVCaptureSession, configuration: some VideoConfigurable) throws -> AVCaptureSession {
         let position = configuration.cameraPosition.value
         let silentMode = configuration.silentMode.value
         
-        let captureSession = AVCaptureSession()
+        let captureSession = session
+        captureSession.beginConfiguration()
+
         captureSession.sessionPreset = configuration.videoQuality.value
-        
+        print("@@@ config")
+
         guard let device = findBestCamera(in: position) else {
             throw VideoRecorderError.invalidDevice
         }
         
-        captureSession.beginConfiguration()
-
-        let deviceInput = try AVCaptureDeviceInput(device: device)
-        if captureSession.canAddInput(deviceInput) {
-            captureSession.addInput(deviceInput)
-        } else {
-            throw VideoRecorderError.unableToSetInput
+        if captureSession.inputs.isEmpty {
+            let deviceInput = try AVCaptureDeviceInput(device: device)
+            if captureSession.canAddInput(deviceInput) {
+                captureSession.addInput(deviceInput)
+            } else {
+                throw VideoRecorderError.unableToSetInput
+            }
         }
         
         if silentMode == false {
@@ -92,17 +102,16 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
             }
         }
 
-        let fileOutput = AVCaptureMovieFileOutput()
-        if captureSession.canAddOutput(fileOutput) {
-            self.output = fileOutput
-            captureSession.addOutput(fileOutput)
-        } else {
-            throw VideoRecorderError.unableToSetOutput
+        if captureSession.outputs.isEmpty {
+            let fileOutput = AVCaptureMovieFileOutput()
+            if captureSession.canAddOutput(fileOutput) {
+                self.output = fileOutput
+                captureSession.addOutput(fileOutput)
+            } else {
+                throw VideoRecorderError.unableToSetOutput
+            }
         }
-                
-        self.captureSession = captureSession
-        self.device = device
-        
+       
         captureSession.commitConfiguration()
         
         return captureSession

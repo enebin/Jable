@@ -119,16 +119,19 @@ class VideoRecorderViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
-                HapticManager.shared.generate()
-                print("TA[[e")
+
                 do {
                     if self.isRecording {
+                        HapticManager.shared.generate(type: .end)
+
                         self.isRecording = false
                         self.shutterButton.isRecording = false
                         try self.viewModel.stopRecordingVideo()
                         
                         self.view.layoutIfNeeded()
                     } else {
+                        HapticManager.shared.generate(type: .start)
+                        
                         self.isRecording = true
                         self.shutterButton.isRecording = true
                         try self.viewModel.startRecordingVideo()
@@ -145,7 +148,7 @@ class VideoRecorderViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
-                HapticManager.shared.generate()
+                HapticManager.shared.generate(type: .normal)
                 
                 let albumVC = GalleryViewController()
                 self.present(albumVC, animated: true)
