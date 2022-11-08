@@ -70,7 +70,7 @@ fileprivate final class AnimatingShutterButtonShape: UIView {
 
     var currentState: RecordingState = .ready {
         didSet {
-            let pathAnimation = CABasicAnimation(keyPath: "path")
+            let pathAnimation = CASpringAnimation(keyPath: "path")
             pathAnimation.fromValue = innerPathLayer.presentation()?.path
             pathAnimation.duration = 0.15
             innerPathLayer.add(pathAnimation, forKey: "pathAnimation")
