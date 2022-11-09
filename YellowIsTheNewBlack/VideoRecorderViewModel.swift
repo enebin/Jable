@@ -71,6 +71,7 @@ class VideoRecoderViewModel: NSObject {
             .disposed(by: bag)
         
         videoConfiguration.silentMode
+            .debounce(.milliseconds(150), scheduler: workQueue)
             .subscribe(on: workQueue)
             .bind { [weak self] isEnabled in
                 guard let self = self else { return }
@@ -87,6 +88,7 @@ class VideoRecoderViewModel: NSObject {
             .disposed(by: bag)
 
         videoConfiguration.cameraPosition
+            .debounce(.milliseconds(150), scheduler: workQueue)
             .subscribe(on: workQueue)
             .bind { [weak self] position in
                 guard let self = self else { return }
