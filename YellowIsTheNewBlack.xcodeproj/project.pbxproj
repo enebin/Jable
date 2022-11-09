@@ -61,6 +61,7 @@
 		9CB0D92C28DA93DA009C2CE0 /* SettingCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92B28DA93DA009C2CE0 /* SettingCellItem.swift */; };
 		9CB0D92E28DA93F8009C2CE0 /* CellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92D28DA93F8009C2CE0 /* CellItem.swift */; };
 		9CC81CDD2901155A00463823 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9CC81CDC2901155A00463823 /* Kingfisher */; };
+		9CC88DB0291B5DA5006D8D40 /* SingleCameraSessionActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC88DAF291B5DA5006D8D40 /* SingleCameraSessionActor.swift */; };
 		9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */; };
 		9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */; };
 		9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518E284F335B007CF311 /* VideoRecorderError.swift */; };
@@ -130,6 +131,7 @@
 		9CB0D92828DA91BC009C2CE0 /* SettingDropdownCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDropdownCell.swift; sourceTree = "<group>"; };
 		9CB0D92B28DA93DA009C2CE0 /* SettingCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellItem.swift; sourceTree = "<group>"; };
 		9CB0D92D28DA93F8009C2CE0 /* CellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellItem.swift; sourceTree = "<group>"; };
+		9CC88DAF291B5DA5006D8D40 /* SingleCameraSessionActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleCameraSessionActor.swift; sourceTree = "<group>"; };
 		9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewModel.swift; sourceTree = "<group>"; };
 		9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderViewController.swift; sourceTree = "<group>"; };
 		9CD4518E284F335B007CF311 /* VideoRecorderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderError.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 			children = (
 				9B543ACF285DAB1600B41CB3 /* SingleVideoSessionManager.swift */,
 				9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */,
+				9CC88DAF291B5DA5006D8D40 /* SingleCameraSessionActor.swift */,
 			);
 			name = "Single Camera";
 			sourceTree = "<group>";
@@ -647,6 +650,7 @@
 				0798665C28E7044E00E698ED /* CameraPreviewLayer.swift in Sources */,
 				9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */,
 				0798665828E6FA4C00E698ED /* ShutterButton.swift in Sources */,
+				9CC88DB0291B5DA5006D8D40 /* SingleCameraSessionActor.swift in Sources */,
 				9CB0D92C28DA93DA009C2CE0 /* SettingCellItem.swift in Sources */,
 				9C4093FA28D8491C001533BF /* VideoAlbumFetcher.swift in Sources */,
 				9C0B2B4428E1B52000BD9C81 /* SettingType.swift in Sources */,

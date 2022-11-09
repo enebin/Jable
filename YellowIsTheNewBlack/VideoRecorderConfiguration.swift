@@ -22,3 +22,14 @@ struct VideoSessionConfiguration: VideoConfigurable {
     var silentMode = BehaviorRelay<Bool>(value: true)
     var stealthMode = BehaviorRelay<Bool>(value: false)
 }
+
+/// 그리고 세팅의 변화를 지속적으로 감시하고 싶을 누군가를 위한 싱글-톤 클래스
+struct StaticVideoSessionConfiguration {
+    // Now on testing
+    static let shared = VideoSessionConfiguration()
+
+    var videoQuality: AVCaptureSession.Preset = .high
+    var cameraPosition: AVCaptureDevice.Position = .back
+    var silentMode: Bool = true
+    var stealthMode: Bool = false
+}

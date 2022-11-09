@@ -14,8 +14,8 @@ import RxRelay
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
-    private let sessionManager: any VideoSessionManager
-    let videoConfiguration: VideoSessionConfiguration
+    private let sessionManager: SingleVideoSessionManager
+    let videoConfiguration: StaticVideoSessionConfiguration
     private let videoAlbumFethcher: VideoAlbumFetcher
     
     // vars and lets
@@ -28,12 +28,8 @@ class VideoRecoderViewModel: NSObject {
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     var thumbnailObserver: Observable<UIImage?>
     
-    func updateSession(configuration: VideoSessionConfiguration) async throws {
-        try await sessionManager.setupSession(configuration: configuration)
-    }
-    
     func startRunningCamera() throws {
-        try sessionManager.startRunningSession(nil)
+        sessionManager.startRunningSession(nil)
     }
     
     func startRecordingVideo() throws {
@@ -44,20 +40,8 @@ class VideoRecoderViewModel: NSObject {
         try sessionManager.stopRecordingVideo(nil)
     }
     
-    private func updateSessionAndPreview() async throws {
-        do {
-            print("@@@ inin")
-            try await self.updateSession(configuration: self.videoConfiguration)
-        } catch let error {
-            print("@@@", error)
-        }
-
-        guard let session = sessionManager.session else {
-            throw VideoRecorderError.notConfigured
-        }
-        
+    private func updatePreview(with session: AVCaptureSession) throws {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        try self.startRunningCamera()
         
         DispatchQueue.main.async {
             self.previewLayer.accept(previewLayer)
@@ -65,56 +49,61 @@ class VideoRecoderViewModel: NSObject {
     }
     
     private func bindObservables() {
-        if isObservablesBound {
-            fatalError("Observables have already been bound!")
-        }
-
-        self.isObservablesBound = true
-        videoConfiguration.videoQuality
-            .debounce(.milliseconds(150), scheduler: workQueue)
-            .subscribe(on: workQueue)
-            .bind { [weak self] quality in
-                guard let self = self else { return }
-                print("@@@ vq")
-
-                Task {
-                    print("@@@ task")
-                    do {
-                        try await self.updateSessionAndPreview()
-                        print("@@@ gogo")
-                    } catch let error {
-                        print("@@@", error)
-                    }
-                }
-            }
-            .disposed(by: bag)
-        
-        videoConfiguration.silentMode
-            .subscribe(on: workQueue)
-            .bind { [weak self] isMuted in
-                guard let self = self else { return }
-                print("@@@ sm")
-
-                Task {
-                    try await self.updateSessionAndPreview()
-                }
-            }
-            .disposed(by: bag)
-        
-        videoConfiguration.cameraPosition
-            .subscribe(on: workQueue)
-            .bind { [weak self] isMuted in
-                guard let self = self else { return }
-                print("@@@ cp")
-
-                Task {
-                    try await self.updateSessionAndPreview()
-                }
-            }
-            .disposed(by: bag)
+//        if isObservablesBound {
+//            fatalError("Observables have already been bound!")
+//        }
+//
+//        self.isObservablesBound = true
+//        videoConfiguration.videoQuality
+//            .debounce(.milliseconds(150), scheduler: workQueue)
+//            .subscribe(on: workQueue)
+//            .observe(on: MainScheduler.instance)
+//            .bind { [weak self] quality in
+//                guard let self = self else {
+//                    return
+//                }
+//                
+//                print("@@@ SSS")
+//
+//                do {
+//                    let session = try self.sessionManager.setVideoQuality(quality)
+//                    try self.updatePreview(with: session)
+//                } catch let error {
+//                    print(error)
+//                }
+//            }
+//            .disposed(by: bag)
+//        
+//        videoConfiguration.silentMode
+//            .subscribe(on: workQueue)
+//            .bind { [weak self] isEnabled in
+//                guard let self = self else { return }
+//                
+//                do {
+//                    let session = try self.sessionManager.setSlientMode(isEnabled)
+//                    try self.updatePreview(with: session)
+//                } catch let error {
+//                    print(error)
+//                }
+//            }
+//            .disposed(by: bag)
+//
+//        videoConfiguration.cameraPosition
+//            .subscribe(on: workQueue)
+//            .bind { [weak self] position in
+//                guard let self = self else { return }
+//                
+//                do {
+//                    let session = try self.sessionManager.setCameraPosition(position)
+//                    try self.updatePreview(with: session)
+//                } catch let error {
+//                    print(error)
+//                }
+//            }
+//            .disposed(by: bag)
     }
     
-    init(_ sessionManager: any VideoSessionManager = SingleVideoSessionManager.shared,
+    init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
          _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration.shared,
          _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.sessionManager = sessionManager
@@ -129,5 +118,8 @@ class VideoRecoderViewModel: NSObject {
         super.init()
         
         self.bindObservables()
+        Task {
+            try await self.sessionManager.setupSession()
+        }
     }
 }
