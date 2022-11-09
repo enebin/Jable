@@ -33,7 +33,6 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         try await checkSessionConfigurable()
         
         try self.configureCaptureSessionOutput()
-        try self.startRunningSession()
         
         return
     }
@@ -42,7 +41,9 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     func startRunningSession(_ completion: Action? = nil) {
         DispatchQueue.global(qos: .background).async {
             self.session.startRunning()
+            self.workQueue.isSuspended = false
             completion?()
+            print("@@@", self.workQueue.isSuspended)
         }
     }
     
@@ -66,53 +67,74 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         completion?()
     }
     
-    func setSlientMode(_ isEnabled: Bool) throws -> AVCaptureSession  {
-        session.beginConfiguration()
-        defer {
-            session.commitConfiguration()
-        }
-        
-        if isEnabled == true {
-            let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
-            let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-            if session.canAddInput(audioInput) {
-                session.addInput(audioInput)
-            } else {
-                throw VideoRecorderError.unableToSetInput
+    func setSlientMode(_ isEnabled: Bool, _ completion: @escaping (AVCaptureSession) -> Void) {
+        workQueue.addOperation {
+            do {
+                let session = self.session
+                session.beginConfiguration()
+                defer {
+                    session.commitConfiguration()
+                }
+                
+                if isEnabled == true {
+                    let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
+                    let audioInput = try AVCaptureDeviceInput(device: audioDevice)
+
+                    if session.canAddInput(audioInput) {
+                        session.addInput(audioInput)
+                    } else {
+                        print("audio input error")
+                    }
+                }
+                
+                completion(session)
+            } catch let error {
+                print(error)
             }
         }
-        
-        return session
     }
     
-    func setVideoQuality(_ quality: AVCaptureSession.Preset) throws -> AVCaptureSession {
-        session.beginConfiguration()
-        defer {
-            session.commitConfiguration()
+    func setVideoQuality(_ quality: AVCaptureSession.Preset, _ completion: @escaping (AVCaptureSession) -> Void) {
+        workQueue.addOperation {
+            let session = self.session
+
+            session.beginConfiguration()
+            defer {
+                session.commitConfiguration()
+            }
+            
+            session.sessionPreset = quality
+            
+            completion(session)
         }
-        
-        session.sessionPreset = quality
-        return session
     }
     
-    func setCameraPosition(_ position: AVCaptureDevice.Position) throws -> AVCaptureSession  {
-        session.beginConfiguration()
-        defer {
-            session.commitConfiguration()
+    func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping (AVCaptureSession) -> Void)  {
+        workQueue.addOperation {
+            do {
+                let session = self.session
+
+                session.beginConfiguration()
+                defer {
+                    session.commitConfiguration()
+                }
+
+                guard let device = self.findBestCamera(in: position) else {
+                    throw VideoRecorderError.invalidDevice
+                }
+
+                let deviceInput = try AVCaptureDeviceInput(device: device)
+                if session.canAddInput(deviceInput) {
+                    session.addInput(deviceInput)
+                } else {
+                    throw VideoRecorderError.unableToSetInput
+                }
+                
+                completion(session)
+            } catch let error {
+                print(error)
+            }
         }
-        
-        guard let device = findBestCamera(in: position) else {
-            throw VideoRecorderError.invalidDevice
-        }
-        
-        let deviceInput = try AVCaptureDeviceInput(device: device)
-        if session.canAddInput(deviceInput) {
-            session.addInput(deviceInput)
-        } else {
-            throw VideoRecorderError.unableToSetInput
-        }
-        
-        return session
     }
     
     // MARK: - Internal methods
@@ -147,6 +169,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         self.workQueue = OperationQueue()
         workQueue.qualityOfService = .background
         workQueue.maxConcurrentOperationCount = 1
+        workQueue.isSuspended = true
         
         super.init()
         self.startRunningSession()
