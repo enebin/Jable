@@ -28,10 +28,6 @@ class VideoRecoderViewModel: NSObject {
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     var thumbnailObserver: Observable<UIImage?>
     
-    func startRunningCamera() throws {
-        sessionManager.startRunningSession(nil)
-    }
-    
     func startRecordingVideo() throws {
         try sessionManager.startRecordingVideo(nil)
     }
@@ -45,7 +41,6 @@ class VideoRecoderViewModel: NSObject {
         
         DispatchQueue.main.async {
             self.previewLayer.accept(previewLayer)
-            print("@@@", previewLayer)
         }
     }
     
@@ -64,9 +59,7 @@ class VideoRecoderViewModel: NSObject {
                     return
                 }
                 
-                print("@@@ SSS")
                 self.sessionManager.setVideoQuality(quality) { session in
-                    print("@@@ ir", session, session.isRunning)
                     do {
                         try self.updatePreview(with: session)
                     } catch let error {
@@ -82,7 +75,8 @@ class VideoRecoderViewModel: NSObject {
             .bind { [weak self] isEnabled in
                 guard let self = self else { return }
                 
-                self.sessionManager.setSlientMode(isEnabled) { session in
+                self.sessionManager.setSlientMode(isEnabled,
+                                                  currentCamPosition: self.videoConfiguration.cameraPosition.value) { session in
                     do {
                         try self.updatePreview(with: session)
                     } catch let error {

@@ -37,16 +37,6 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         return
     }
     
-    /// 카메라를 돌리기 시작함
-    func startRunningSession(_ completion: Action? = nil) {
-        DispatchQueue.global(qos: .background).async {
-            self.session.startRunning()
-            self.workQueue.isSuspended = false
-            completion?()
-            print("@@@", self.workQueue.isSuspended)
-        }
-    }
-    
     /// '녹화'를 시작함
     func startRecordingVideo(_ completion: Action? = nil) throws {
         guard let output = self.output else {
@@ -67,7 +57,10 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         completion?()
     }
     
-    func setSlientMode(_ isEnabled: Bool, _ completion: @escaping (AVCaptureSession) -> Void) {
+    // MARK: - Configuration setters
+    func setSlientMode(_ isEnabled: Bool,
+                       currentCamPosition: AVCaptureDevice.Position,
+                       _ completion: @escaping (AVCaptureSession) -> Void) {
         workQueue.addOperation {
             do {
                 let session = self.session
@@ -76,18 +69,30 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
                     session.commitConfiguration()
                 }
                 
-                if isEnabled == true {
-                    let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
+                if isEnabled == false {
+                    guard let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio) else {
+                        print("Audio input's not usable")
+                        return
+                    }
                     let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-
+                    
                     if session.canAddInput(audioInput) {
                         session.addInput(audioInput)
                     } else {
                         print("audio input error")
                     }
+                    
+                    completion(session)
+                } else {
+                    session.inputs.forEach { input in
+                        session.removeInput(input)
+                    }
+                    
+                    self.setCameraPosition(currentCamPosition) { session in
+                        completion(session)
+                    }
                 }
                 
-                completion(session)
             } catch let error {
                 print(error)
             }
@@ -118,7 +123,11 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
                 defer {
                     session.commitConfiguration()
                 }
-
+                
+                session.inputs.forEach { input in
+                    session.removeInput(input)
+                }
+                
                 guard let device = self.findBestCamera(in: position) else {
                     throw VideoRecorderError.invalidDevice
                 }
@@ -138,7 +147,19 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
     
     // MARK: - Internal methods
-    func configureCaptureSessionOutput() throws {
+
+    /// 세션을 시작함
+    ///
+    /// Config을 수정하기 전에 무조건 먼저 시작해놔야함. 변경 도중엔 실행 못함.
+    private func startRunningSession(_ completion: Action? = nil) {
+        DispatchQueue.global(qos: .background).async {
+            self.session.startRunning()
+            self.workQueue.isSuspended = false
+            completion?()
+        }
+    }
+    
+    private func configureCaptureSessionOutput() throws {
         print("@@@ try config")
 
         session.beginConfiguration()
