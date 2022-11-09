@@ -1,8 +1,8 @@
 //
-//  VideoQualityToolBarViewController.swift
+//  PositionToolbalViewController.swift
 //  YellowIsTheNewBlack
 //
-//  Created by Young Bin on 2022/10/03.
+//  Created by Young Bin on 2022/10/08.
 //
 
 import UIKit
@@ -12,10 +12,22 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
+class PositionToolbalViewController: UIViewController, ToolbarItem {
+    // MARK: - ToolbarItem
     typealias Action = () -> Void
     typealias SettingAction = (Setting) -> Void
     
+    var backButtonAction: Action?
+    func onBackButtonTapped(_ action: @escaping Action) {
+        backButtonAction = action
+    }
+    
+    var elementButtonAction: SettingAction?
+    func onElementButtonTapped(_ action: @escaping SettingAction) {
+        elementButtonAction = action
+    }
+    
+    // MARK: - Lets and vars
     private let bag = DisposeBag()
     private(set) var recorderConfiguration: VideoConfigurable
     
@@ -28,35 +40,24 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    lazy var highButton = LabelButton().then {
-        $0.setTitleLabel("HIGH")
+    // MARK: - View components
+    lazy var rearButton = LabelButton().then {
+        $0.setTitleLabel("Rear")
     }
     
-    lazy var mediumButton = LabelButton().then {
-        $0.setTitleLabel("MID")
+    lazy var frontButton = LabelButton().then {
+        $0.setTitleLabel("Front")
     }
-
-    lazy var lowButton = LabelButton().then {
-        $0.setTitleLabel("LOW")
-    }
+    
+//    lazy var simultaneousButton = LabelButton().then {
+//        $0.setTitleLabel("동시!(iOS 15~)")
+//    }
     
     lazy var backButton = SystemImageButton().then {
         $0.setSystemImage(name: "chevron.left")
     }
     
-    var backButtonAction: Action?
-    func onBackButtonTapped(_ action: @escaping Action) {
-        backButtonAction = action
-    }
-    
-    var elementButtonAction: SettingAction?
-    func onElementButtonTapped(_ action: @escaping SettingAction) {
-        elementButtonAction = action
-    }
-    
-    
-    lazy var qualityTypeStackView = UIStackView().then {
+    lazy var cameraPositionStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .fillEqually
         
@@ -77,26 +78,25 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
     
     
     private func setLayout() {
-        let childButtons = [lowButton, mediumButton, highButton]
-        
-        view.addSubview(qualityTypeStackView)
-        qualityTypeStackView.snp.makeConstraints { make in
+        view.addSubview(cameraPositionStackView)
+        cameraPositionStackView.snp.makeConstraints { make in
             make.height.width.equalToSuperview()
             make.center.equalToSuperview()
         }
         
-        qualityTypeStackView.addSubview(backButton)
+        cameraPositionStackView.addSubview(backButton)
         backButton.snp.makeConstraints { make in
             make.height.equalTo(35)
             make.left.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
         }
         
+        let childButtons = [rearButton, frontButton]
         childButtons.forEach({ addButton($0) })
     }
     
     private func addButton(_ button: UIButton) {
-        qualityTypeStackView.addArrangedSubview(button)
+        cameraPositionStackView.addArrangedSubview(button)
         button.snp.makeConstraints { make in
             make.height.equalTo(35)
             make.centerY.equalToSuperview()
@@ -104,29 +104,30 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
     }
     
     private func bindButtons() {
-        lowButton.rx.tap
+        rearButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.recorderConfiguration.videoQuality.accept(.low)
+                self.recorderConfiguration.cameraPosition.accept(.back)
             }
             .disposed(by: bag)
         
-        mediumButton.rx.tap
+        frontButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                
-                self.recorderConfiguration.videoQuality.accept(.medium)
+                self.recorderConfiguration.cameraPosition.accept(.front)
             }
             .disposed(by: bag)
         
-        highButton.rx.tap
-            .bind { [weak self] in
-                guard let self = self else { return }
-                
-                self.recorderConfiguration.videoQuality.accept(.high)
-            }
-            .disposed(by: bag)
+        // 전후면 동시, 추후지원
+//        simultaneousButton.rx.tap
+//            .bind { [weak self] in
+//                guard let self = self else { return }
+//
+//                return
+//            }
+//            .disposed(by: bag)
+        
         
         backButton.rx.tap
             .bind { [weak self] in

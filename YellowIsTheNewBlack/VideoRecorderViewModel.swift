@@ -14,11 +14,11 @@ import RxRelay
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
-    private let sessionManager: VideoSessionManager
-    let videoConfiguration: RecorderConfiguration
+    private let sessionManager: SingleVideoSessionManager
+    let videoConfiguration: VideoSessionConfiguration
+    private let videoAlbumFethcher: VideoAlbumFetcher
     
     // vars and lets
-    private var videoSession: AVCaptureSession?
     private var bag = DisposeBag()
     private var isObservablesBound = false
     
@@ -26,31 +26,22 @@ class VideoRecoderViewModel: NSObject {
     
     // MARK: - Public methods and vars
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
-    
-    @discardableResult
-    func updateSession(configuration: RecorderConfiguration) async throws -> AVCaptureSession {
-        let session = try await sessionManager.setupSession(configuration: configuration)
-        videoSession = session
-        
-        return session
-    }
-    
-    private func setupPreviewLayer(session: AVCaptureSession) -> AVCaptureVideoPreviewLayer {
-        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        
-        return previewLayer
-    }
-    
-    func startRunningCamera() {
-        sessionManager.startRunningCamera()
-    }
+    var thumbnailObserver: Observable<UIImage?>
     
     func startRecordingVideo() throws {
-        try sessionManager.startRecordingVideo()
+        try sessionManager.startRecordingVideo(nil)
     }
     
     func stopRecordingVideo() throws {
-        try sessionManager.stopRecordingVideo()
+        try sessionManager.stopRecordingVideo(nil)
+    }
+    
+    private func updatePreview(with session: AVCaptureSession) throws {
+        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        
+        DispatchQueue.main.async {
+            self.previewLayer.accept(previewLayer)
+        }
     }
     
     private func bindObservables() {
@@ -59,46 +50,75 @@ class VideoRecoderViewModel: NSObject {
         }
 
         self.isObservablesBound = true
-
         videoConfiguration.videoQuality
-            .debounce(.milliseconds(500), scheduler: workQueue)
+            .debounce(.milliseconds(150), scheduler: workQueue)
             .subscribe(on: workQueue)
+            .observe(on: MainScheduler.instance)
             .bind { [weak self] quality in
-                guard let self = self else { return }
-                
-                Task {
-                    let session = try await self.updateSession(configuration: self.videoConfiguration)
-                    let previewLayer = self.setupPreviewLayer(session: session)
-                    
-                    self.previewLayer.accept(previewLayer)
-                    self.startRunningCamera()
+                guard let self = self else {
+                    return
                 }
+                
+                self.sessionManager.setVideoQuality(quality) { session in
+                    do {
+                        try self.updatePreview(with: session)
+                    } catch let error {
+                        print(error)
+                    }
+                }
+                    
             }
             .disposed(by: bag)
         
         videoConfiguration.silentMode
             .subscribe(on: workQueue)
-            .bind { [weak self] isMuted in
+            .bind { [weak self] isEnabled in
                 guard let self = self else { return }
+                
+                self.sessionManager.setSlientMode(isEnabled,
+                                                  currentCamPosition: self.videoConfiguration.cameraPosition.value) { session in
+                    do {
+                        try self.updatePreview(with: session)
+                    } catch let error {
+                        print(error)
+                    }
+                }
+            }
+            .disposed(by: bag)
 
-                Task {
-                    let session = try await self.updateSession(configuration: self.videoConfiguration)
-                    let previewLayer = self.setupPreviewLayer(session: session)
-
-                    self.previewLayer.accept(previewLayer)
-                    self.startRunningCamera()
+        videoConfiguration.cameraPosition
+            .subscribe(on: workQueue)
+            .bind { [weak self] position in
+                guard let self = self else { return }
+                
+                self.sessionManager.setCameraPosition(position) { session in
+                    do {
+                        try self.updatePreview(with: session)
+                    } catch let error {
+                        print(error)
+                    }
                 }
             }
             .disposed(by: bag)
     }
     
-    init(_ sessionManager: VideoSessionManager = VideoSessionManager.shared,
-         _ videoConfiguration: RecorderConfiguration = RecorderConfiguration.shared) {
+    init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
+         _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration.shared,
+         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.sessionManager = sessionManager
         self.videoConfiguration = videoConfiguration
+
+        self.videoAlbumFethcher = videoAlbumFetcher
+        self.thumbnailObserver = videoAlbumFetcher.getObserver()
+            .map { thumbnails in
+                thumbnails.last?.thumbnail
+            }
         
         super.init()
         
         self.bindObservables()
+        Task {
+            try await self.sessionManager.setupSession()
+        }
     }
 }

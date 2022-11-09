@@ -26,6 +26,8 @@ class CustomImageButton: UIButton {
         self.layer.borderColor = UIColor.white.cgColor
         self.layer.borderWidth = 0.5
         
+        self.layer.masksToBounds = true
+        
         self.snp.makeConstraints { make in
             make.width.height.equalTo(70)
         }

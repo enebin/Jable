@@ -8,7 +8,7 @@
 import RxRelay
 import AVFoundation
 
-protocol VideoConfiguration {
+protocol VideoConfigurable {
     var videoQuality: BehaviorRelay<AVCaptureSession.Preset>  { get }
     var cameraPosition: BehaviorRelay<AVCaptureDevice.Position> { get }
     var silentMode: BehaviorRelay<Bool> { get }

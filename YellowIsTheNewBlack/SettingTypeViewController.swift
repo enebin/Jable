@@ -12,7 +12,7 @@ import Then
 import RxCocoa
 import RxSwift
 
-class SettingTypeViewController: UIViewController {
+class SettingTypeViewController: UIViewController, ToolbarItem {
     typealias Action = () -> Void
     typealias SettingAction = (Setting) -> Void
     
@@ -23,12 +23,13 @@ class SettingTypeViewController: UIViewController {
     }
     
     lazy var qualityButton = LabelButton().then {
-        $0.setTitleLabel("화질")
+        $0.setTitleLabel("Quality")
     }
     
-    lazy var muteButton = LabelButton().then {
-        $0.setTitleLabel("소리 녹음")
+    lazy var positionButton = LabelButton().then {
+        $0.setTitleLabel("Position")
     }
+    
         
     // MARK: Stack views
     lazy var settingTypeStackView = UIStackView().then {
@@ -72,8 +73,8 @@ class SettingTypeViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
-        settingTypeStackView.addArrangedSubview(muteButton)
-        muteButton.snp.makeConstraints { make in
+        settingTypeStackView.addArrangedSubview(positionButton)
+        positionButton.snp.makeConstraints { make in
             make.height.equalTo(35)
             make.centerY.equalToSuperview()
         }
@@ -103,11 +104,11 @@ class SettingTypeViewController: UIViewController {
             }
             .disposed(by: bag)
         
-        muteButton.rx.tap
+        positionButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
                 
-                self.elementButtonAction?(.mute)
+                self.elementButtonAction?(.position)
             }
             .disposed(by: bag)
     }

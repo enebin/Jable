@@ -13,6 +13,8 @@ protocol AlbumSaver {
 }
 
 class VideoAlbumSaver: AlbumSaver {
+    static let shared = VideoAlbumSaver()
+    
     // Dependencies
     private let albumManager: AlbumManager
     private let photoLibrary: PHPhotoLibrary

@@ -17,6 +17,8 @@ protocol AlbumFetcher {
 class VideoAlbumFetcher: NSObject, AlbumFetcher {
     typealias VideoRelay = BehaviorRelay<[VideoFileInformation]>
     
+    static let shared = VideoAlbumFetcher()
+    
     // Dependencies
     private let albumManager: AlbumManager
     private let photoLibrary: PHPhotoLibrary

@@ -25,23 +25,19 @@ class VideoRecorderViewController: UIViewController {
     
     var previewLayerSize: PreviewLayerSize = .large
     var preview: AVCaptureVideoPreviewLayer?
-
-
-    // View components
-    lazy var alert = UIAlertController(title: "오류", message: self.errorMessage,
-                                       preferredStyle: UIAlertController.Style.alert).then {
-        $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-    }
     
+    // View components
     lazy var recordButton = UIButton().then {
         $0.backgroundColor = .white
         $0.sizeToFit()
     }
     
     lazy var thumbnailButton = CustomImageButton().then {
-        let image = UIImage(named: "holand")!
+        let image = UIImage()
         $0.setCustomImage(image)
+        $0.imageView?.contentMode = .scaleAspectFill
     }
+    
     lazy var shutterButton = ShutterButton()
     lazy var spacer = Spacer()
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
@@ -58,7 +54,7 @@ class VideoRecorderViewController: UIViewController {
         setChildViewControllers()
         setLayout()
         bindButtons()
-        bindPublishers()
+        bindObservables()
     }
     
     private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
@@ -69,13 +65,24 @@ class VideoRecorderViewController: UIViewController {
         if preview != nil {
             preview?.removeFromSuperlayer()
         }
-        
         preview = _layer
-        self.view.layer.addSublayer(preview!)
-        preview!.videoGravity = .resizeAspect
-        preview!.bounds = self.previewLayerSize.bounds
-        preview!.position = self.previewLayerSize.position
+
+        let previewUIView = UIView()
+        self.view.addSubview(previewUIView)
+        previewUIView.layer.addSublayer(preview!)
+        previewUIView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.height.equalTo(300)
+        }
         
+        preview!.bounds = self.previewLayerSize.sizeRect
+        preview!.frame = self.previewLayerSize.sizeRect
+        preview!.videoGravity = .resizeAspectFill
+//        preview!.position = self.previewLayerSize.position
+        preview!.cornerRadius = 20
+                
         setLayout()
     }
     
@@ -87,7 +94,7 @@ class VideoRecorderViewController: UIViewController {
     private func setLayout() {
         self.view.addSubview(shutterButton)
         shutterButton.snp.makeConstraints { make in
-            make.width.height.equalTo(50)
+            make.width.height.equalTo(65)
             make.bottom.equalToSuperview().inset(50)
             make.centerX.equalToSuperview()
         }
@@ -95,7 +102,7 @@ class VideoRecorderViewController: UIViewController {
         self.view.addSubview(thumbnailButton)
         thumbnailButton.snp.makeConstraints { make in
             make.centerY.equalTo(shutterButton.snp.centerY)
-            make.left.equalToSuperview().inset(15)
+            make.left.equalToSuperview().inset(10)
         }
         
         self.view.addSubview(settingVC.view)
@@ -109,48 +116,62 @@ class VideoRecorderViewController: UIViewController {
     
     private func bindButtons() {
         shutterButton.rx.tap
+            .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
-                HapticManager.shared.generate()
-                
+
                 do {
                     if self.isRecording {
+                        HapticManager.shared.generate(type: .end)
+
                         self.isRecording = false
-                        try self.viewModel.stopRecordingVideo()
+                        self.shutterButton.isRecording = false
+                        Task {
+                            try self.viewModel.stopRecordingVideo()
+                        }
+                        
+                        self.view.layoutIfNeeded()
                     } else {
+                        HapticManager.shared.generate(type: .start)
+                        
                         self.isRecording = true
-                        try self.viewModel.startRecordingVideo()
+                        self.shutterButton.isRecording = true
+                        Task {
+                            try self.viewModel.startRecordingVideo()
+                        }
+                        
+                        self.view.layoutIfNeeded()
                     }
                 } catch let error {
-                    self.errorMessage = error.localizedDescription
-                    self.present(self.alert, animated: true)
+                    self.errorHandler(error)
                 }
             }
             .disposed(by: bag)
         
         thumbnailButton.rx.tap
+            .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
-                HapticManager.shared.generate()
+                HapticManager.shared.generate(type: .normal)
                 
                 let albumVC = GalleryViewController()
                 self.present(albumVC, animated: true)
             }
             .disposed(by: bag)
         
-        screenSizeButton.rx.tap
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] in
-                guard let self = self else { return }
-                self.previewLayerSize = self.previewLayerSize.next()
-                self.setCameraPreviewLayer(self.preview)
-                
-                self.view.layoutIfNeeded()
-            }
-            .disposed(by: bag)
+//        screenSizeButton.rx.tap
+//            .observe(on: MainScheduler.instance)
+//            .bind { [weak self] in
+//                guard let self = self else { return }
+//                self.previewLayerSize = self.previewLayerSize.next()
+//                self.setCameraPreviewLayer(self.preview)
+//
+//                self.view.layoutIfNeeded()
+//            }
+//            .disposed(by: bag)
     }
     
-    private func bindPublishers() {
+    private func bindObservables() {
         viewModel.previewLayer.asObservable()
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newLayer in
@@ -159,6 +180,20 @@ class VideoRecorderViewController: UIViewController {
                 self.setCameraPreviewLayer(newLayer)
                 self.view.layoutIfNeeded()
             }
+            .disposed(by: bag)
+        
+        viewModel.videoConfiguration.stealthMode
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] newValue in
+                guard let self = self else { return }
+                self.preview?.isHidden = newValue
+                self.view.layoutIfNeeded()
+            }
+            .disposed(by: bag)
+        
+        viewModel.thumbnailObserver
+            .observe(on: MainScheduler.instance)
+            .bind(to: thumbnailButton.rx.image(for: .normal))
             .disposed(by: bag)
     }
     
@@ -171,6 +206,17 @@ class VideoRecorderViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension VideoRecorderViewController {
+    private func errorHandler(_ error: Error) {
+        let alert = UIAlertController(title: "오류", message: error.localizedDescription,
+                                           preferredStyle: UIAlertController.Style.alert).then {
+            $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+        }
+        
+        self.present(alert, animated: true)
     }
 }
 
@@ -195,8 +241,8 @@ extension VideoRecorderViewController {
             }
         }
         
-        var bounds: CGRect {
-            let screenSize = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+        var sizeRect: CGRect {
+            let screenSize = (UIScreen.main.bounds.width, UIScreen.main.bounds.height * 0.75)
             
             let layerSize = CGSize(width: screenSize.0 * self.rawValue, height: screenSize.1 * self.rawValue)
             return CGRect(origin: CGPoint(x: 0, y: 0), size: layerSize)

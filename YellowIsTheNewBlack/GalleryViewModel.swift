@@ -25,7 +25,7 @@ class GalleryViewModel {
     }
     
     init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
-         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher()) {
+         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.videoFileManager = videoFileManager
         self.videoAlbumFetcher = videoAlbumFetcher
         self.videoInformationsRelay = videoAlbumFetcher.getObserver()
