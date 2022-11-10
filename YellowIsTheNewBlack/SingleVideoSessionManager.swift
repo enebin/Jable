@@ -9,6 +9,8 @@ import UIKit
 import AVFoundation
 
 class SingleVideoSessionManager: NSObject, VideoSessionManager {
+    typealias Completion = (AVCaptureSession) -> Void
+
     static let shared = SingleVideoSessionManager()
     
     // Dependencies
@@ -60,7 +62,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     // MARK: - Configuration setters
     func setSlientMode(_ isEnabled: Bool,
                        currentCamPosition: AVCaptureDevice.Position,
-                       _ completion: @escaping (AVCaptureSession) -> Void) {
+                       _ completion: @escaping Completion) {
         workQueue.addOperation {
             do {
                 let session = self.session
@@ -99,7 +101,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
     }
     
-    func setVideoQuality(_ quality: AVCaptureSession.Preset, _ completion: @escaping (AVCaptureSession) -> Void) {
+    func setVideoQuality(_ quality: AVCaptureSession.Preset, _ completion: @escaping Completion) {
         workQueue.addOperation {
             let session = self.session
 
@@ -114,7 +116,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
     }
     
-    func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping (AVCaptureSession) -> Void)  {
+    func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping Completion)  {
         workQueue.addOperation {
             do {
                 let session = self.session
@@ -145,7 +147,26 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
             }
         }
     }
-    
+
+    @available(iOS 16, *)
+    func setBackgroundMode(_ isEnabled: Bool, _ completion: @escaping Completion) {
+        workQueue.addOperation {
+            do {
+                let session = self.session
+
+                session.beginConfiguration()
+                defer {
+                    session.commitConfiguration()
+                }
+
+                session.isMultitaskingCameraAccessEnabled = isEnabled == true
+
+                completion(session)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
     // MARK: - Internal methods
 
     /// 세션을 시작함

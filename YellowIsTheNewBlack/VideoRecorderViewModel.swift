@@ -36,7 +36,7 @@ class VideoRecoderViewModel: NSObject {
         try sessionManager.stopRecordingVideo(nil)
     }
     
-    private func updatePreview(with session: AVCaptureSession) throws {
+    private func updatePreview(with session: AVCaptureSession) {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
         
         DispatchQueue.main.async {
@@ -60,11 +60,7 @@ class VideoRecoderViewModel: NSObject {
                 }
                 
                 self.sessionManager.setVideoQuality(quality) { session in
-                    do {
-                        try self.updatePreview(with: session)
-                    } catch let error {
-                        print(error)
-                    }
+                    self.updatePreview(with: session)
                 }
                     
             }
@@ -78,11 +74,7 @@ class VideoRecoderViewModel: NSObject {
                 
                 self.sessionManager.setSlientMode(isEnabled,
                                                   currentCamPosition: self.videoConfiguration.cameraPosition.value) { session in
-                    do {
-                        try self.updatePreview(with: session)
-                    } catch let error {
-                        print(error)
-                    }
+                    self.updatePreview(with: session)
                 }
             }
             .disposed(by: bag)
@@ -94,14 +86,24 @@ class VideoRecoderViewModel: NSObject {
                 guard let self = self else { return }
                 
                 self.sessionManager.setCameraPosition(position) { session in
-                    do {
-                        try self.updatePreview(with: session)
-                    } catch let error {
-                        print(error)
-                    }
+                    self.updatePreview(with: session)
                 }
             }
             .disposed(by: bag)
+        
+        if #available(iOS 16, *), self.sessionManager.session.isMultitaskingCameraAccessSupported {
+            videoConfiguration.backgroundMode
+                .debounce(.milliseconds(150), scheduler: workQueue)
+                .subscribe(on: workQueue)
+                .bind { [weak self] enabled in
+                    guard let self = self else { return }
+                    
+                    self.sessionManager.setBackgroundMode(enabled) { session in
+                        self.updatePreview(with: session)
+                    }
+                }
+                .disposed(by: bag)
+        }
     }
     
     init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,

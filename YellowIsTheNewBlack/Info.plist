@@ -6,8 +6,6 @@
 	<array>
 		<string>Jalnan.ttf</string>
 	</array>
-	<key>CFBundleIdentifier</key>
-	<string>com.enebin.YellowIsTheNewBlack</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
