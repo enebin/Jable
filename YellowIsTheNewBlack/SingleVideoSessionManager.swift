@@ -71,7 +71,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
                 
                 if isEnabled == false {
                     guard let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio) else {
-                        print("Audio input's not usable")
+                        print("Audio input's not available")
                         return
                     }
                     let audioInput = try AVCaptureDeviceInput(device: audioDevice)
