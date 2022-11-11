@@ -125,7 +125,7 @@ class VideoRecoderViewModel: NSObject {
     }
     
     init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
-         _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration.shared,
+         _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration(),
          _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.sessionManager = sessionManager
         self.videoConfiguration = videoConfiguration

@@ -61,6 +61,8 @@
 		9CB0D92C28DA93DA009C2CE0 /* SettingCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92B28DA93DA009C2CE0 /* SettingCellItem.swift */; };
 		9CB0D92E28DA93F8009C2CE0 /* CellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92D28DA93F8009C2CE0 /* CellItem.swift */; };
 		9CC81CDD2901155A00463823 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9CC81CDC2901155A00463823 /* Kingfisher */; };
+		9CC88DB5291E0F7A006D8D40 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9CC88DB4291E0F7A006D8D40 /* Realm */; };
+		9CC88DB7291E0F7A006D8D40 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9CC88DB6291E0F7A006D8D40 /* RealmSwift */; };
 		9CD4518B284F2BFB007CF311 /* VideoRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */; };
 		9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */; };
 		9CD4518F284F335B007CF311 /* VideoRecorderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD4518E284F335B007CF311 /* VideoRecorderError.swift */; };
@@ -152,9 +154,11 @@
 				0751FD6128E042D900E01C47 /* RxSwift in Frameworks */,
 				0751FD5F28E042D900E01C47 /* RxRelay in Frameworks */,
 				9CC81CDD2901155A00463823 /* Kingfisher in Frameworks */,
+				9CC88DB7291E0F7A006D8D40 /* RealmSwift in Frameworks */,
 				0751FD5728E03BC200E01C47 /* Then in Frameworks */,
 				0751FD5A28E03BD700E01C47 /* SnapKit in Frameworks */,
 				0751FD5D28E042D900E01C47 /* RxCocoa in Frameworks */,
+				9CC88DB5291E0F7A006D8D40 /* Realm in Frameworks */,
 				0751FD5428E03BB300E01C47 /* RxDataSources in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,6 +526,8 @@
 				0751FD5E28E042D900E01C47 /* RxRelay */,
 				0751FD6028E042D900E01C47 /* RxSwift */,
 				9CC81CDC2901155A00463823 /* Kingfisher */,
+				9CC88DB4291E0F7A006D8D40 /* Realm */,
+				9CC88DB6291E0F7A006D8D40 /* RealmSwift */,
 			);
 			productName = YellowIsTheNewBlack;
 			productReference = 9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */;
@@ -562,6 +568,7 @@
 				0751FD5828E03BD700E01C47 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0751FD5B28E042D900E01C47 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				9CC81CDB2901155A00463823 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				9CC88DB3291E0F7A006D8D40 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 9BEAA6402843824E00AB77A7 /* Products */;
 			projectDirPath = "";
@@ -988,6 +995,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		9CC88DB3291E0F7A006D8D40 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1025,6 +1040,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9CC81CDB2901155A00463823 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		9CC88DB4291E0F7A006D8D40 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9CC88DB3291E0F7A006D8D40 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		9CC88DB6291E0F7A006D8D40 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9CC88DB3291E0F7A006D8D40 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

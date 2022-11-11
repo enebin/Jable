@@ -9,7 +9,13 @@ import RxRelay
 import AVFoundation
 
 protocol VideoConfigurable {
-    var videoQuality: BehaviorRelay<AVCaptureSession.Preset>  { get }
-    var cameraPosition: BehaviorRelay<AVCaptureDevice.Position> { get }
-    var silentMode: BehaviorRelay<Bool> { get }
+    // MARK: Needs to be saved locally
+    var videoQuality: AVCaptureSession.Preset { get set }
+    var cameraPosition: AVCaptureDevice.Position { get set }
+    var silentMode: Bool { get set }
+    var backgroundMode: Bool { get set }
+    
+    // MARK: Remain in memory
+    var stealthMode: Bool { get set }
+    var zoomFactor: CGFloat { get set }
 }

@@ -50,22 +50,27 @@ class VideoRecorderViewController: UIViewController {
     // Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchToZoom(_:)))
-        self.view.addGestureRecognizer(pinchRecognizer)
-        
+                
         setChildViewControllers()
         setLayout()
         bindButtons()
         bindObservables()
+        
+        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchToZoom(_:)))
+        pinchRecognizer.delegate = self
+        self.view.addGestureRecognizer(pinchRecognizer)
+        self.view.isUserInteractionEnabled = true
     }
     
-    @objc func pinchToZoom(_ pinch: UIPinchGestureRecognizer) {
+    @objc private func pinchToZoom(_ pinch: UIPinchGestureRecognizer) {
         let factor = viewModel.availableZoomFactor(pinch.scale)
-        
+        print(pinch.state)
+
         switch pinch.state {
         case .began: fallthrough
-        case .changed: viewModel.videoConfiguration.zoomFactor.accept(factor)
+        case .changed:
+            viewModel.videoConfiguration.zoomFactor.accept(factor)
+            print(pinch.state)
         case .ended:
             break
         default: break
@@ -93,13 +98,11 @@ class VideoRecorderViewController: UIViewController {
             make.height.equalTo(300)
         }
         
-        
         preview!.bounds = self.previewLayerSize.sizeRect
         preview!.frame = self.previewLayerSize.sizeRect
         preview!.videoGravity = .resizeAspectFill
 //        preview!.position = self.previewLayerSize.position
         preview!.cornerRadius = 20
-        
         setLayout()
     }
     
@@ -143,9 +146,7 @@ class VideoRecorderViewController: UIViewController {
 
                         self.isRecording = false
                         self.shutterButton.isRecording = false
-                        Task {
-                            try self.viewModel.stopRecordingVideo()
-                        }
+                        try self.viewModel.stopRecordingVideo()
                         
                         self.view.layoutIfNeeded()
                     } else {
@@ -153,9 +154,7 @@ class VideoRecorderViewController: UIViewController {
                         
                         self.isRecording = true
                         self.shutterButton.isRecording = true
-                        Task {
-                            try self.viewModel.startRecordingVideo()
-                        }
+                        try self.viewModel.startRecordingVideo()
                         
                         self.view.layoutIfNeeded()
                     }
@@ -274,5 +273,11 @@ extension VideoRecorderViewController {
                 return all[index + 1]
             }
         }
+    }
+}
+
+extension VideoRecorderViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
