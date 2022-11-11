@@ -36,6 +36,14 @@ class VideoRecoderViewModel: NSObject {
         try sessionManager.stopRecordingVideo(nil)
     }
     
+    func availableZoomFactor(_ factor: CGFloat) -> CGFloat {
+        guard let zoomFactor = sessionManager.maxZoomFactor else {
+            return 0
+        }
+        
+        return min(max(factor, 1.0), zoomFactor)
+    }
+    
     private func updatePreview(with session: AVCaptureSession) {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
         
@@ -90,6 +98,16 @@ class VideoRecoderViewModel: NSObject {
                 }
             }
             .disposed(by: bag)
+        
+        videoConfiguration.zoomFactor
+            .subscribe(on: workQueue)
+            .bind { [weak self] factor in
+                guard let self = self else { return }
+                
+                self.sessionManager.setZoom(factor)
+            }
+            .disposed(by: bag)
+        
         
         if #available(iOS 16, *), self.sessionManager.session.isMultitaskingCameraAccessSupported {
             videoConfiguration.backgroundMode

@@ -17,7 +17,7 @@ import RxSwift
 class VideoRecorderViewController: UIViewController {    
     // Dependencies
     let viewModel: VideoRecoderViewModel
-    
+
     // Internal vars and const
     var errorMessage = "알 수 없는 오류"
     var isRecording = false
@@ -51,11 +51,27 @@ class VideoRecorderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchToZoom(_:)))
+        self.view.addGestureRecognizer(pinchRecognizer)
+        
         setChildViewControllers()
         setLayout()
         bindButtons()
         bindObservables()
     }
+    
+    @objc func pinchToZoom(_ pinch: UIPinchGestureRecognizer) {
+        let factor = viewModel.availableZoomFactor(pinch.scale)
+        
+        switch pinch.state {
+        case .began: fallthrough
+        case .changed: viewModel.videoConfiguration.zoomFactor.accept(factor)
+        case .ended:
+            break
+        default: break
+        }
+    }
+    
     
     private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
         guard let _layer = layer else {
@@ -77,12 +93,13 @@ class VideoRecorderViewController: UIViewController {
             make.height.equalTo(300)
         }
         
+        
         preview!.bounds = self.previewLayerSize.sizeRect
         preview!.frame = self.previewLayerSize.sizeRect
         preview!.videoGravity = .resizeAspectFill
 //        preview!.position = self.previewLayerSize.position
         preview!.cornerRadius = 20
-                
+        
         setLayout()
     }
     
@@ -170,7 +187,7 @@ class VideoRecorderViewController: UIViewController {
 //            }
 //            .disposed(by: bag)
     }
-    
+
     private func bindObservables() {
         viewModel.previewLayer.asObservable()
             .observe(on: MainScheduler.instance)

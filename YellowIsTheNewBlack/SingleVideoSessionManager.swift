@@ -25,15 +25,21 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         return session.outputs.first as? AVCaptureMovieFileOutput
     }
     
+    private var audioDevice: AVCaptureDeviceInput?
+    private var videoDevice: AVCaptureDeviceInput?
+    var maxZoomFactor: CGFloat? {
+        guard let videoDevice = videoDevice else { return nil }
+        
+        return videoDevice.device.activeFormat.videoMaxZoomFactor
+    }
+    
     // MARK: - Public methods and vars
     /// 세션을 세팅한다
     ///
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
     func setupSession() async throws {
-        print("@@@ Enter setup")
         try await checkSessionConfigurable()
-        
         try self.configureCaptureSessionOutput()
         
         return
@@ -63,7 +69,9 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     func setSlientMode(_ isEnabled: Bool,
                        currentCamPosition: AVCaptureDevice.Position,
                        _ completion: @escaping Completion) {
-        workQueue.addOperation {
+        workQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            
             do {
                 let session = self.session
                 session.beginConfiguration()
@@ -72,6 +80,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
                 }
                 
                 if isEnabled == false {
+                    // Add audio
                     guard let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio) else {
                         print("Audio input's not available")
                         return
@@ -84,17 +93,15 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
                         print("audio input error")
                     }
                     
+                    self.audioDevice = audioInput
                     completion(session)
                 } else {
-                    session.inputs.forEach { input in
-                        session.removeInput(input)
+                    guard let audioDevice = self.audioDevice else {
+                        return
                     }
                     
-                    self.setCameraPosition(currentCamPosition) { session in
-                        completion(session)
-                    }
+                    self.session.removeInput(audioDevice)
                 }
-                
             } catch let error {
                 print(error)
             }
@@ -102,7 +109,9 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
     
     func setVideoQuality(_ quality: AVCaptureSession.Preset, _ completion: @escaping Completion) {
-        workQueue.addOperation {
+        workQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            
             let session = self.session
 
             session.beginConfiguration()
@@ -117,7 +126,9 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
     
     func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping Completion)  {
-        workQueue.addOperation {
+        workQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            
             do {
                 let session = self.session
 
@@ -126,8 +137,8 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
                     session.commitConfiguration()
                 }
                 
-                session.inputs.forEach { input in
-                    session.removeInput(input)
+                if let existingDevice = self.videoDevice {
+                    session.removeInput(existingDevice)
                 }
                 
                 guard let device = self.findBestCamera(in: position) else {
@@ -141,6 +152,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
                     throw VideoRecorderError.unableToSetInput
                 }
                 
+                self.videoDevice = deviceInput
                 completion(session)
             } catch let error {
                 print(error)
@@ -148,23 +160,28 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
     }
 
+    func setZoom(_ factor: CGFloat) {
+        guard let videoDevice = videoDevice else {
+            return
+        }
+        
+        videoDevice.device.videoZoomFactor = factor
+    }
+
     @available(iOS 16, *)
     func setBackgroundMode(_ isEnabled: Bool, _ completion: @escaping Completion) {
-        workQueue.addOperation {
-            do {
-                let session = self.session
-
-                session.beginConfiguration()
-                defer {
-                    session.commitConfiguration()
-                }
-
-                session.isMultitaskingCameraAccessEnabled = isEnabled == true
-
-                completion(session)
-            } catch let error {
-                print(error)
+        workQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            let session = self.session
+            
+            session.beginConfiguration()
+            defer {
+                session.commitConfiguration()
             }
+            
+            session.isMultitaskingCameraAccessEnabled = isEnabled == true
+            
+            completion(session)
         }
     }
     // MARK: - Internal methods
@@ -181,8 +198,6 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
     
     private func configureCaptureSessionOutput() throws {
-        print("@@@ try config")
-
         session.beginConfiguration()
 
         if session.outputs.isEmpty {
@@ -195,7 +210,6 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
        
         session.commitConfiguration()
-        print("@@@ end config")
     }
     
     // MARK: - Init
