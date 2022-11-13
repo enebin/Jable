@@ -10,27 +10,9 @@
       }
     },
     {
-      "identity" : "realm-core",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-core",
-      "state" : {
-        "revision" : "3c4b86da569368c4ee5ccca2a112d511cc6fa936",
-        "version" : "12.11.0"
-      }
-    },
-    {
-      "identity" : "realm-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-swift.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "66cf2fc246f87c06940e6c3a6dc5908c316fa5d6"
-      }
-    },
-    {
       "identity" : "rxdatasources",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/RxSwiftCommunity/RxDataSources",
+      "location" : "https://github.com/RxSwiftCommunity/RxDataSources.git",
       "state" : {
         "revision" : "90c29b48b628479097fe775ed1966d75ac374518",
         "version" : "5.0.2"

@@ -11,46 +11,114 @@ import AVFoundation
 import RxRelay
 import RxSwift
 
+extension AVCaptureSession.Preset {
+    var toIntData: Int {
+        switch self {
+        case .high:
+            return 1
+        case .medium:
+            return 2
+        case .low:
+            return 3
+        default:
+            return 0
+        }
+    }
+    
+    static func from(_ number: Int) -> AVCaptureSession.Preset {
+        switch number {
+        case 1:
+            return .high
+        case 2:
+            return .medium
+        case 3:
+            return .low
+        default:
+            return .high
+        }
+    }
+}
+
+
+extension AVCaptureDevice.Position {
+    var toIntData: Int {
+        switch self {
+        case .back:
+            return 1
+        case .front:
+            return 2
+        default:
+            return 1
+        }
+    }
+    
+    static func from(_ number: Int) -> AVCaptureDevice.Position {
+        switch number {
+        case 1:
+            return .back
+        case 2:
+            return .front
+        default:
+            return .back
+        }
+    }
+}
+
+
 struct LocalVideoSessionConfiguration: VideoConfigurable {
+    private let userDefault: UserDefaults
+
+    init(_ userDefault: UserDefaults = UserDefaults.standard) {
+        self.userDefault = userDefault
+    }    
+    
     var videoQuality: AVCaptureSession.Preset {
         get {
-            return UserDefaults.standard.object(forKey: "videoQuality") as? AVCaptureSession.Preset
-            ?? AVCaptureSession.Preset.high
+            guard let rawData = userDefault.object(forKey: "videoQuality") as? Int else {
+                return .high
+            }
+            
+            return AVCaptureSession.Preset.from(rawData)
         }
         
         set {
-            UserDefaults.standard.set(newValue, forKey: "videoQuality")
+            let rawData = newValue.toIntData
+            userDefault.set(rawData, forKey: "videoQuality")
         }
     }
     
     var cameraPosition: AVCaptureDevice.Position {
         get {
-            return UserDefaults.standard.object(forKey: "cameraPosition") as? AVCaptureDevice.Position
-            ?? AVCaptureDevice.Position.back
+            guard let rawData = userDefault.object(forKey: "cameraPosition") as? Int else {
+                return .back
+            }
+            
+            return AVCaptureDevice.Position.from(rawData)
         }
         
         set {
-            UserDefaults.standard.set(newValue, forKey: "cameraPosition")
+            let rawData = newValue.toIntData
+            userDefault.set(rawData, forKey: "cameraPosition")
         }
     }
     
     var silentMode: Bool {
         get {
-            return UserDefaults.standard.object(forKey: "silentMode") as? Bool ?? true
+            return userDefault.object(forKey: "silentMode") as? Bool ?? true
         }
         
         set {
-            UserDefaults.standard.set(newValue, forKey: "silentMode")
+            userDefault.set(newValue, forKey: "silentMode")
         }
     }
     
     var backgroundMode: Bool {
         get {
-            return UserDefaults.standard.object(forKey: "backgroundMode") as? Bool ?? true
+            return userDefault.object(forKey: "backgroundMode") as? Bool ?? true
         }
         
         set {
-            UserDefaults.standard.set(newValue, forKey: "backgroundMode")
+            userDefault.set(newValue, forKey: "backgroundMode")
         }
     }
     
@@ -78,7 +146,7 @@ class VideoSessionConfiguration {
     var stealthMode: BehaviorRelay<Bool>
     var zoomFactor: BehaviorRelay<CGFloat>
     
-    func setSaver() {
+    func setDiskWriter() {
         videoQuality.bind { [weak self] value in
             guard let self = self else { return }
             self.configurationData.videoQuality = value
@@ -117,5 +185,7 @@ class VideoSessionConfiguration {
         self.backgroundMode = BehaviorRelay<Bool>(value: configurationData.backgroundMode)
         self.stealthMode = BehaviorRelay<Bool>(value: configurationData.stealthMode)
         self.zoomFactor = BehaviorRelay<CGFloat>(value: configurationData.zoomFactor)
+        
+        setDiskWriter()
     }
 }
