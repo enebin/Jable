@@ -11,61 +11,8 @@ import AVFoundation
 import RxRelay
 import RxSwift
 
-extension AVCaptureSession.Preset {
-    var toIntData: Int {
-        switch self {
-        case .high:
-            return 1
-        case .medium:
-            return 2
-        case .low:
-            return 3
-        default:
-            return 0
-        }
-    }
-    
-    static func from(_ number: Int) -> AVCaptureSession.Preset {
-        switch number {
-        case 1:
-            return .high
-        case 2:
-            return .medium
-        case 3:
-            return .low
-        default:
-            return .high
-        }
-    }
-}
 
-
-extension AVCaptureDevice.Position {
-    var toIntData: Int {
-        switch self {
-        case .back:
-            return 1
-        case .front:
-            return 2
-        default:
-            return 1
-        }
-    }
-    
-    static func from(_ number: Int) -> AVCaptureDevice.Position {
-        switch number {
-        case 1:
-            return .back
-        case 2:
-            return .front
-        default:
-            return .back
-        }
-    }
-}
-
-
-struct LocalVideoSessionConfiguration: VideoConfigurable {
+struct LocalVideoSessionConfiguration: VideoConfiguration {
     private let userDefault: UserDefaults
 
     init(_ userDefault: UserDefaults = UserDefaults.standard) {
@@ -134,7 +81,7 @@ class VideoSessionConfiguration {
     var bag = DisposeBag()
     
     // Local file management
-    private var configurationData: VideoConfigurable
+    private var configurationData: VideoConfiguration
 
     // MARK: Needs to be saved locally
     var videoQuality: BehaviorRelay<AVCaptureSession.Preset>
@@ -176,7 +123,7 @@ class VideoSessionConfiguration {
 
     }
     
-    init(_ configurationData: some VideoConfigurable = LocalVideoSessionConfiguration()) {
+    init(_ configurationData: some VideoConfiguration = LocalVideoSessionConfiguration()) {
         self.configurationData = configurationData
 
         self.videoQuality = BehaviorRelay<AVCaptureSession.Preset>(value: configurationData.videoQuality)

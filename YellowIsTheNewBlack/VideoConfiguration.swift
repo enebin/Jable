@@ -8,7 +8,7 @@
 import RxRelay
 import AVFoundation
 
-protocol VideoConfigurable {
+protocol VideoConfiguration {
     // MARK: Needs to be saved locally
     var videoQuality: AVCaptureSession.Preset { get set }
     var cameraPosition: AVCaptureDevice.Position { get set }
