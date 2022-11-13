@@ -38,7 +38,7 @@ class VideoRecoderViewModel: NSObject {
     
     func availableZoomFactor(_ factor: CGFloat) -> CGFloat {
         guard let zoomFactor = sessionManager.maxZoomFactor else {
-            return 0
+            return 1
         }
         
         return min(max(factor, 1.0), zoomFactor)

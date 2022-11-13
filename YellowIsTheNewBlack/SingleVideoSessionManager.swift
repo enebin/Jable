@@ -165,7 +165,16 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
             return
         }
         
-        videoDevice.device.videoZoomFactor = factor
+        do {
+            try videoDevice.device.lockForConfiguration()
+            defer {
+                videoDevice.device.unlockForConfiguration()
+            }
+            
+            videoDevice.device.videoZoomFactor = factor
+        } catch {
+            return
+        }
     }
 
     @available(iOS 16, *)

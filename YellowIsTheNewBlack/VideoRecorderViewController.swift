@@ -18,7 +18,7 @@ class VideoRecorderViewController: UIViewController {
     // Dependencies
     let viewModel: VideoRecoderViewModel
 
-    // Internal vars and const
+    // MARK: Internal vars and const
     var errorMessage = "알 수 없는 오류"
     var isRecording = false
     let bag = DisposeBag()
@@ -26,7 +26,7 @@ class VideoRecorderViewController: UIViewController {
     var previewLayerSize: PreviewLayerSize = .large
     var preview: AVCaptureVideoPreviewLayer?
     
-    // View components
+    // MARK: View components
     lazy var recordButton = UIButton().then {
         $0.backgroundColor = .white
         $0.sizeToFit()
@@ -38,8 +38,14 @@ class VideoRecorderViewController: UIViewController {
         $0.imageView?.contentMode = .scaleAspectFill
     }
     
+    lazy var previewUIView = UIView()
+    
+    @objc func printt() {
+        print("SS")
+    }
+    
     lazy var shutterButton = ShutterButton()
-    lazy var spacer = Spacer()
+    lazy var spacer = UIView.spacer
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
 
     lazy var screenSizeButton = UIButton().then {
@@ -47,7 +53,7 @@ class VideoRecorderViewController: UIViewController {
         $0.sizeToFit()
     }
     
-    // Life cycle related methods
+    // MARK: Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -57,27 +63,23 @@ class VideoRecorderViewController: UIViewController {
         bindObservables()
         
         let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchToZoom(_:)))
-        pinchRecognizer.delegate = self
-        self.view.addGestureRecognizer(pinchRecognizer)
-        self.view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(pinchRecognizer)
     }
     
-    @objc private func pinchToZoom(_ pinch: UIPinchGestureRecognizer) {
-        let factor = viewModel.availableZoomFactor(pinch.scale)
-        print(pinch.state)
-
-        switch pinch.state {
+    @objc func pinchToZoom(_ sender: UIPinchGestureRecognizer) {
+        let factor = viewModel.availableZoomFactor(sender.scale)
+//
+        switch sender.state {
         case .began: fallthrough
         case .changed:
             viewModel.videoConfiguration.zoomFactor.accept(factor)
-            print(pinch.state)
+            print(sender.state)
         case .ended:
             break
         default: break
         }
     }
-    
-    
+
     private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
         guard let _layer = layer else {
             return
@@ -88,7 +90,6 @@ class VideoRecorderViewController: UIViewController {
         }
         preview = _layer
 
-        let previewUIView = UIView()
         self.view.addSubview(previewUIView)
         previewUIView.layer.addSublayer(preview!)
         previewUIView.snp.makeConstraints { make in
@@ -101,8 +102,8 @@ class VideoRecorderViewController: UIViewController {
         preview!.bounds = self.previewLayerSize.sizeRect
         preview!.frame = self.previewLayerSize.sizeRect
         preview!.videoGravity = .resizeAspectFill
-//        preview!.position = self.previewLayerSize.position
         preview!.cornerRadius = 20
+        
         setLayout()
     }
     
