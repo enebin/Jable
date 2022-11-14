@@ -69,7 +69,6 @@ class VideoRecoderViewModel: NSObject {
         }
     }
     
-    
     private func checkPermission() {
         PHPhotoLibrary.requestAuthorization { [weak self] status in
             guard let self = self else {
