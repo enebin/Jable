@@ -102,6 +102,21 @@ class GalleryViewController: UIViewController {
         }
     }
     
+    private func bindObservables() {
+        viewModel.errorStatus
+            .bind { [weak self] error in
+                guard let self = self  else { return }
+                
+                let alert = UIAlertController(title: "오류", message: error.localizedDescription,
+                                              preferredStyle: UIAlertController.Style.alert).then {
+                    $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                }
+                
+                self.present(alert, animated: true)
+            }
+            .disposed(by: bag)
+    }
+    
     private func bindButtons() {
         closeButton.rx.tap
             .bind { [weak self] in

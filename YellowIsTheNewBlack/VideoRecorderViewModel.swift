@@ -7,6 +7,7 @@
 
 import AVFoundation
 import UIKit
+import Photos
 
 import RxSwift
 import RxRelay
@@ -14,8 +15,8 @@ import RxRelay
 /// 카메라세션
 class VideoRecoderViewModel: NSObject {
     // Dependencies
-    private let sessionManager: SingleVideoSessionManager
     let videoConfiguration: VideoSessionConfiguration
+    private let sessionManager: SingleVideoSessionManager
     private let videoAlbumFethcher: VideoAlbumFetcher
     
     // vars and lets
@@ -23,6 +24,8 @@ class VideoRecoderViewModel: NSObject {
     private var isObservablesBound = false
     
     private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
+    
+    let statusPublisher = ReplayRelay<Error>.create(bufferSize: 1)
     
     // MARK: - Public methods and vars
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
@@ -63,6 +66,23 @@ class VideoRecoderViewModel: NSObject {
         
         DispatchQueue.main.async {
             self.previewLayer.accept(previewLayer)
+        }
+    }
+    
+    
+    private func checkPermission() {
+        PHPhotoLibrary.requestAuthorization { [weak self] status in
+            guard let self = self else {
+                return
+            }
+            
+            print("@W", status == .authorized)
+            
+            guard status == .authorized else {
+                self.statusPublisher.accept(VideoAlbumError.unabledToAccessAlbum)
+                print("앨범 접근 권한이 없습니다.")
+                return
+            }
         }
     }
     
@@ -147,12 +167,14 @@ class VideoRecoderViewModel: NSObject {
         self.videoAlbumFethcher = videoAlbumFetcher
         self.thumbnailObserver = videoAlbumFetcher.getObserver()
             .map { thumbnails in
-                thumbnails.last?.thumbnail
+                return thumbnails.last?.thumbnail
             }
         
         super.init()
         
         self.bindObservables()
+        self.checkPermission()
+
         Task {
             try await self.sessionManager.setupSession()
         }

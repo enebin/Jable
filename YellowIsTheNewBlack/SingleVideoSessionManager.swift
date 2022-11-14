@@ -261,7 +261,7 @@ extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
         } else {
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
                 Task(priority: .background) {
-                    await self.videoAlbumSaver.save(videoURL: outputFileURL)
+                    try await self.videoAlbumSaver.save(videoURL: outputFileURL)
                 }
             } else {
                 print("Error while saving movie")

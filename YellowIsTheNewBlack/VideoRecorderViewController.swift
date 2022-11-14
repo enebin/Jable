@@ -156,6 +156,7 @@ class VideoRecorderViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
+                print("Tapped")
                 HapticManager.shared.generate(type: .normal)
                 
                 let albumVC = GalleryViewController()
@@ -197,7 +198,19 @@ class VideoRecorderViewController: UIViewController {
         
         viewModel.thumbnailObserver
             .observe(on: MainScheduler.instance)
+            .compactMap{ $0 }
             .bind(to: thumbnailButton.rx.image(for: .normal))
+            .disposed(by: bag)
+        
+        viewModel.statusPublisher
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] error in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.errorHandler(error)
+                }
+            }
             .disposed(by: bag)
     }
     
