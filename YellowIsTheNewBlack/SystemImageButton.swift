@@ -26,11 +26,14 @@ class SystemImageButton: UIButton {
     }
 
     private func setLayout() {
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .large)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
         let buttonImage = UIImage(systemName: self.systemName, withConfiguration: imageConfig)!
             .withTintColor(.white, renderingMode: .alwaysOriginal)
         self.setImage(buttonImage, for: .normal)
-        
+    
         self.imageView?.contentMode = .scaleAspectFit
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 5
+        self.showsTouchWhenHighlighted = true
     }
 }

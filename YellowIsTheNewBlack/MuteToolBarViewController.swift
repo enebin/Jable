@@ -17,9 +17,9 @@ class MuteToolBarViewController: UIViewController {
     typealias SettingAction = (Setting) -> Void
     
     private let bag = DisposeBag()
-    private(set) var recorderConfiguration: VideoConfigurable
+    private(set) var recorderConfiguration: VideoSessionConfiguration
     
-    init(configuration: some VideoConfigurable) {
+    init(configuration: VideoSessionConfiguration) {
         self.recorderConfiguration = configuration
         super.init(nibName: nil, bundle: nil)
     }

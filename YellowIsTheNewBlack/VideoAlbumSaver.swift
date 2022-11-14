@@ -9,7 +9,7 @@ import UIKit
 import Photos
 
 protocol AlbumSaver {
-    func save(videoURL: URL) async
+    func save(videoURL: URL) async throws
 }
 
 class VideoAlbumSaver: AlbumSaver {
@@ -35,11 +35,16 @@ class VideoAlbumSaver: AlbumSaver {
     }
     
     /// Recommended to be executed on background queue
-    func save(videoURL: URL) async {
-        PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else {
-                print("앨범 접근 권한이 없습니다.")
-                return
+    func save(videoURL: URL) async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            PHPhotoLibrary.requestAuthorization { status in
+                guard status == .authorized else {
+                    print("앨범 접근 권한이 없습니다.")
+                    continuation.resume(throwing: VideoAlbumError.unabledToAccessAlbum)
+                    return
+                }
+                
+                continuation.resume()
             }
         }
 

@@ -7,7 +7,56 @@
 
 import AVFoundation
 
+enum DeviceType {
+    case frontCamera
+    case backCamera
+    case microphone
+    
+    var captureDeviceType: AVCaptureDevice.DeviceType {
+        switch self {
+        case .frontCamera, .backCamera:
+            return .builtInWideAngleCamera
+        case .microphone:
+            return .builtInMicrophone
+        }
+    }
+    
+    var captureMediaType: AVMediaType {
+        switch self {
+        case .frontCamera, .backCamera:
+            return .video
+        case .microphone:
+            return .audio
+        }
+    }
+    
+    var capturePosition: AVCaptureDevice.Position {
+        switch self {
+        case .frontCamera:
+            return .front
+        case .backCamera:
+            return .back
+        case .microphone:
+            return .unspecified
+        }
+    }
+}
+
 extension VideoSessionManager {
+    func captureDeviceInput(type: DeviceType) throws -> AVCaptureDeviceInput {
+        let captureDevices = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [type.captureDeviceType],
+            mediaType: type.captureMediaType,
+            position: type.capturePosition
+        )
+        
+        guard let captureDevice = captureDevices.devices.first else {
+            throw VideoRecorderError.invalidDevice
+        }
+        
+        return try AVCaptureDeviceInput(device: captureDevice)
+    }
+    
     func checkSessionConfigurable() async throws {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:

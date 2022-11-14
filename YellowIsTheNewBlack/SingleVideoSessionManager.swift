@@ -9,100 +9,223 @@ import UIKit
 import AVFoundation
 
 class SingleVideoSessionManager: NSObject, VideoSessionManager {
+    typealias Completion = (AVCaptureSession) -> Void
+
     static let shared = SingleVideoSessionManager()
     
     // Dependencies
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
-    private var captureSession: AVCaptureSession? = nil
-    private var device: AVCaptureDevice? = nil
-    private var output: AVCaptureMovieFileOutput? = nil
-
-    // MARK: - Public methods and vars
     
+    let session: AVCaptureSession
+    private let configuration: VideoSessionConfiguration
+    
+    private let workQueue: OperationQueue
+    private var output: AVCaptureMovieFileOutput? {
+        return session.outputs.first as? AVCaptureMovieFileOutput
+    }
+    
+    private var audioDevice: AVCaptureDeviceInput?
+    private var videoDevice: AVCaptureDeviceInput?
+    
+    var currentZoomFactor: CGFloat? {
+        guard let videoDevice = videoDevice else { return nil }
+        
+        return videoDevice.device.videoZoomFactor
+    }
+    
+    var maxZoomFactor: CGFloat? {
+        guard let videoDevice = videoDevice else { return nil }
+        
+        return videoDevice.device.activeFormat.videoMaxZoomFactor
+    }
+    
+    // MARK: - Public methods and vars
     /// 세션을 세팅한다
     ///
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
-    func setupSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
-        do {
-            try await checkSessionConfigurable()
-            return try await configureCaptureSession(configuration: configuration)
-        } catch let error {
-            throw error
-        }
-    }
-    
-    /// 카메라를 돌리기 시작함
-    func startRunningCamera() {
-        DispatchQueue.global(qos: .background).async {
-            self.captureSession?.startRunning()
-        }
+    func setupSession() async throws {
+        try await checkSessionConfigurable()
+        try self.configureCaptureSessionOutput()
+        
+        return
     }
     
     /// '녹화'를 시작함
-    func startRecordingVideo() throws {
+    func startRecordingVideo(_ completion: Action? = nil) throws {
         guard let output = self.output else {
             throw VideoRecorderError.notConfigured
         }
         
         let filePath = videoFileManager.filePath
         output.startRecording(to: filePath, recordingDelegate: self)
+        completion?()
     }
     
-    func stopRecordingVideo() throws {
+    func stopRecordingVideo(_ completion: Action? = nil) throws {
         guard let output = self.output else {
             throw VideoRecorderError.notConfigured
         }
         
         output.stopRecording()
+        completion?()
     }
     
-    // MARK: - Internal methods
-    private func configureCaptureSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession {
-        let position = configuration.cameraPosition.value
-        let silentMode = configuration.silentMode.value
-        
-        let captureSession = AVCaptureSession()
-        captureSession.sessionPreset = configuration.videoQuality.value
-        
-        guard let device = findBestCamera(in: position) else {
-            throw VideoRecorderError.invalidDevice
-        }
-        
-        captureSession.beginConfiguration()
-
-        let deviceInput = try AVCaptureDeviceInput(device: device)
-        if captureSession.canAddInput(deviceInput) {
-            captureSession.addInput(deviceInput)
-        } else {
-            throw VideoRecorderError.unableToSetInput
-        }
-        
-        if silentMode == false {
-            let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)!
-            let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-            if captureSession.canAddInput(audioInput) {
-                captureSession.addInput(audioInput)
-            } else {
-                throw VideoRecorderError.unableToSetInput
+    // MARK: - Configuration setters
+    func setSlientMode(_ isEnabled: Bool,
+                       currentCamPosition: AVCaptureDevice.Position,
+                       _ completion: @escaping Completion) {
+        workQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                let session = self.session
+                session.beginConfiguration()
+                defer {
+                    session.commitConfiguration()
+                }
+                
+                if isEnabled == false {
+                    // Add audio
+                    guard let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio) else {
+                        print("Audio input's not available")
+                        return
+                    }
+                    let audioInput = try AVCaptureDeviceInput(device: audioDevice)
+                    
+                    if session.canAddInput(audioInput) {
+                        session.addInput(audioInput)
+                    } else {
+                        print("audio input error")
+                    }
+                    
+                    self.audioDevice = audioInput
+                    completion(session)
+                } else {
+                    guard let audioDevice = self.audioDevice else {
+                        return
+                    }
+                    
+                    self.session.removeInput(audioDevice)
+                }
+            } catch let error {
+                print(error)
             }
         }
+    }
+    
+    func setVideoQuality(_ quality: AVCaptureSession.Preset, _ completion: @escaping Completion) {
+        workQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            
+            let session = self.session
 
-        let fileOutput = AVCaptureMovieFileOutput()
-        if captureSession.canAddOutput(fileOutput) {
-            self.output = fileOutput
-            captureSession.addOutput(fileOutput)
-        } else {
-            throw VideoRecorderError.unableToSetOutput
+            session.beginConfiguration()
+            defer {
+                session.commitConfiguration()
+            }
+            
+            session.sessionPreset = quality
+            
+            completion(session)
         }
+    }
+    
+    func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping Completion)  {
+        workQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                let session = self.session
+
+                session.beginConfiguration()
+                defer {
+                    session.commitConfiguration()
+                }
                 
-        self.captureSession = captureSession
-        self.device = device
+                if let existingDevice = self.videoDevice {
+                    session.removeInput(existingDevice)
+                }
+                
+                guard let device = self.findBestCamera(in: position) else {
+                    throw VideoRecorderError.invalidDevice
+                }
+
+                let deviceInput = try AVCaptureDeviceInput(device: device)
+                if session.canAddInput(deviceInput) {
+                    session.addInput(deviceInput)
+                } else {
+                    throw VideoRecorderError.unableToSetInput
+                }
+                
+                self.videoDevice = deviceInput
+                completion(session)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+
+    func setZoom(_ factor: CGFloat) {
+        guard let videoDevice = videoDevice else {
+            return
+        }
         
-        captureSession.commitConfiguration()
-        
-        return captureSession
+        do {
+            try videoDevice.device.lockForConfiguration()
+            defer {
+                videoDevice.device.unlockForConfiguration()
+            }
+            
+            videoDevice.device.videoZoomFactor = factor
+        } catch {
+            return
+        }
+    }
+
+    @available(iOS 16, *)
+    func setBackgroundMode(_ isEnabled: Bool, _ completion: @escaping Completion) {
+        workQueue.addOperation { [weak self] in
+            guard let self = self else { return }
+            let session = self.session
+            
+            session.beginConfiguration()
+            defer {
+                session.commitConfiguration()
+            }
+            
+            session.isMultitaskingCameraAccessEnabled = isEnabled == true
+            
+            completion(session)
+        }
+    }
+    // MARK: - Internal methods
+
+    /// 세션을 시작함
+    ///
+    /// Config을 수정하기 전에 무조건 먼저 시작해놔야함. 변경 도중엔 실행 못함.
+    private func startRunningSession(_ completion: Action? = nil) {
+        DispatchQueue.global(qos: .background).async {
+            self.session.startRunning()
+            self.workQueue.isSuspended = false
+            completion?()
+        }
+    }
+    
+    private func configureCaptureSessionOutput() throws {
+        session.beginConfiguration()
+
+        if session.outputs.isEmpty {
+            let fileOutput = AVCaptureMovieFileOutput()
+            if session.canAddOutput(fileOutput) {
+                session.addOutput(fileOutput)
+            } else {
+                throw VideoRecorderError.unableToSetOutput
+            }
+        }
+       
+        session.commitConfiguration()
     }
     
     // MARK: - Init
@@ -110,6 +233,18 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
          _ videoAlbumSaver: VideoAlbumSaver = VideoAlbumSaver.shared) {
         self.videoFileManager = videoFileManager
         self.videoAlbumSaver = videoAlbumSaver
+        
+        self.session = AVCaptureSession()
+        self.configuration = VideoSessionConfiguration()
+        
+        
+        self.workQueue = OperationQueue()
+        workQueue.qualityOfService = .background
+        workQueue.maxConcurrentOperationCount = 1
+        workQueue.isSuspended = true
+        
+        super.init()
+        self.startRunningSession()
     }
 }
 
@@ -126,7 +261,7 @@ extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
         } else {
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
                 Task(priority: .background) {
-                    await self.videoAlbumSaver.save(videoURL: outputFileURL)
+                    try await self.videoAlbumSaver.save(videoURL: outputFileURL)
                 }
             } else {
                 print("Error while saving movie")

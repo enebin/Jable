@@ -29,9 +29,9 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
     
     // MARK: - Lets and vars
     private let bag = DisposeBag()
-    private(set) var recorderConfiguration: VideoConfigurable
+    private(set) var recorderConfiguration: VideoSessionConfiguration
     
-    init(configuration: some VideoConfigurable) {
+    init(configuration: VideoSessionConfiguration) {
         self.recorderConfiguration = configuration
         super.init(nibName: nil, bundle: nil)
     }
@@ -42,16 +42,16 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
     
     // MARK: - View components
     lazy var rearButton = LabelButton().then {
-        $0.setTitleLabel("후면")
+        $0.setTitleLabel("Rear")
     }
     
     lazy var frontButton = LabelButton().then {
-        $0.setTitleLabel("전면")
+        $0.setTitleLabel("Front")
     }
     
-    lazy var simultaneousButton = LabelButton().then {
-        $0.setTitleLabel("동시!(iOS 15~)")
-    }
+//    lazy var simultaneousButton = LabelButton().then {
+//        $0.setTitleLabel("동시!(iOS 15~)")
+//    }
     
     lazy var backButton = SystemImageButton().then {
         $0.setSystemImage(name: "chevron.left")
@@ -91,7 +91,7 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
             make.centerY.equalToSuperview()
         }
         
-        let childButtons = [rearButton, frontButton, simultaneousButton]
+        let childButtons = [rearButton, frontButton]
         childButtons.forEach({ addButton($0) })
     }
     
@@ -119,13 +119,14 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
             }
             .disposed(by: bag)
         
-        simultaneousButton.rx.tap
-            .bind { [weak self] in
-                guard let self = self else { return }
-                                
-                return
-            }
-            .disposed(by: bag)
+        // 전후면 동시, 추후지원
+//        simultaneousButton.rx.tap
+//            .bind { [weak self] in
+//                guard let self = self else { return }
+//
+//                return
+//            }
+//            .disposed(by: bag)
         
         
         backButton.rx.tap

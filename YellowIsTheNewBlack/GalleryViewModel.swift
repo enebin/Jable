@@ -6,6 +6,9 @@
 //
 
 import UIKit
+
+import Photos
+
 import RxSwift
 import RxRelay
 import RxDataSources
@@ -19,13 +22,14 @@ class GalleryViewModel {
     /// It's `relay` type. `relay` type has some advantages in terms of continuity because
     /// it doesn't quit subscribing when an error happens.
     let videoInformationsRelay: BehaviorRelay<[VideoFileInformation]>
+    let errorStatus = PublishRelay<Error>()
     
     var videoInformations: [VideoFileInformation] {
         return self.videoInformationsRelay.value
     }
     
     init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
-         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher()) {
+         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.videoFileManager = videoFileManager
         self.videoAlbumFetcher = videoAlbumFetcher
         self.videoInformationsRelay = videoAlbumFetcher.getObserver()

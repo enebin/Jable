@@ -8,14 +8,15 @@
 import AVFoundation
 
 protocol VideoSessionManager {
+    typealias Action = () -> Void
+    associatedtype Session: AVCaptureSession
+    
+    var session: Session { get }
+    
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
-    func setupSession(configuration: some VideoConfigurable) async throws -> AVCaptureSession
+    func setupSession() async throws
     
-    /// 카메라를 돌리기 시작함
-    func startRunningCamera()
+    func startRecordingVideo(_ completion: Action?) throws
     
-    /// '녹화'를 시작함
-    func startRecordingVideo() throws
-    
-    func stopRecordingVideo() throws
+    func stopRecordingVideo(_ completion: Action?) throws
 }
