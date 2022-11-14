@@ -36,12 +36,26 @@ class VideoRecoderViewModel: NSObject {
         try sessionManager.stopRecordingVideo(nil)
     }
     
-    func availableZoomFactor(_ factor: CGFloat) -> CGFloat {
-        guard let zoomFactor = sessionManager.maxZoomFactor else {
-            return 1
+    @objc func setZoomFactorFromPinchGesture(_ sender: UIPinchGestureRecognizer) {
+        guard let maxZoomFactor = sessionManager.maxZoomFactor,
+              let currentZoomFactor = sessionManager.currentZoomFactor
+        else {
+            return
         }
         
-        return min(max(factor, 1.0), zoomFactor)
+        let sensitivity: CGFloat = 4
+        
+        switch sender.state {
+        case .began: fallthrough
+        case .changed:
+            let scale = sender.scale
+
+            videoConfiguration.zoomFactor.accept(
+                max(min(currentZoomFactor * ((scale + (sensitivity-1))/sensitivity), maxZoomFactor), 1.0)
+            )
+        default:
+            break
+        }
     }
     
     private func updatePreview(with session: AVCaptureSession) {

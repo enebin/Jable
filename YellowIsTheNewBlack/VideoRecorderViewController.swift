@@ -62,24 +62,11 @@ class VideoRecorderViewController: UIViewController {
         bindButtons()
         bindObservables()
         
-        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchToZoom(_:)))
+        let pinchRecognizer = UIPinchGestureRecognizer(target: viewModel,
+                                                       action: #selector(viewModel.setZoomFactorFromPinchGesture(_:)))
         view.addGestureRecognizer(pinchRecognizer)
     }
     
-    @objc func pinchToZoom(_ sender: UIPinchGestureRecognizer) {
-        let factor = viewModel.availableZoomFactor(sender.scale)
-//
-        switch sender.state {
-        case .began: fallthrough
-        case .changed:
-            viewModel.videoConfiguration.zoomFactor.accept(factor)
-            print(sender.state)
-        case .ended:
-            break
-        default: break
-        }
-    }
-
     private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
         guard let _layer = layer else {
             return

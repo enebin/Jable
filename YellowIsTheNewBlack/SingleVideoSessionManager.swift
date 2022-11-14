@@ -27,6 +27,13 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     
     private var audioDevice: AVCaptureDeviceInput?
     private var videoDevice: AVCaptureDeviceInput?
+    
+    var currentZoomFactor: CGFloat? {
+        guard let videoDevice = videoDevice else { return nil }
+        
+        return videoDevice.device.videoZoomFactor
+    }
+    
     var maxZoomFactor: CGFloat? {
         guard let videoDevice = videoDevice else { return nil }
         
