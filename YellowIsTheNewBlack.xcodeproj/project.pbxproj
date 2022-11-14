@@ -867,6 +867,7 @@
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YellowIsTheNewBlack/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "자블 Jable";
 				INFOPLIST_KEY_NSCameraUsageDescription = "동영상을 녹화하기 위해서는 카메라 권한을 허용해주세요.";
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "동영상의 소리를 녹화하기 위해서는 마이크 접근 권한을 허용해주세요";
@@ -900,6 +901,7 @@
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YellowIsTheNewBlack/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "자블 Jable";
 				INFOPLIST_KEY_NSCameraUsageDescription = "동영상을 녹화하기 위해서는 카메라 권한을 허용해주세요.";
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "동영상의 소리를 녹화하기 위해서는 마이크 접근 권한을 허용해주세요";
