@@ -28,6 +28,7 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var childButtons = [UIButton]()
     
     lazy var highButton = LabelButton().then {
         $0.setTitleLabel("HIGH")
@@ -73,11 +74,12 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
         
         setLayout()
         bindButtons()
+        bindObservables()
     }
     
     
     private func setLayout() {
-        let childButtons = [lowButton, mediumButton, highButton]
+        self.childButtons = [lowButton, mediumButton, highButton]
         
         view.addSubview(qualityTypeStackView)
         qualityTypeStackView.snp.makeConstraints { make in
@@ -109,6 +111,7 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
                 guard let self = self else { return }
                 
                 self.recorderConfiguration.videoQuality.accept(.low)
+                self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
         
@@ -117,6 +120,7 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
                 guard let self = self else { return }
                 
                 self.recorderConfiguration.videoQuality.accept(.medium)
+                self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
         
@@ -125,6 +129,7 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
                 guard let self = self else { return }
                 
                 self.recorderConfiguration.videoQuality.accept(.high)
+                self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
         
@@ -133,6 +138,31 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
                 guard let self = self else { return }
                 
                 self.backButtonAction?()
+            }
+            .disposed(by: bag)
+    }
+    
+    private func bindObservables() {
+        recorderConfiguration.videoQuality
+            .bind { [weak self] quality in
+                guard let self = self else { return }
+                
+                self.childButtons.forEach {
+                    $0.alpha = 0.3
+                }
+                
+                switch quality {
+                case .low:
+                    self.lowButton.alpha = 1
+                case .medium:
+                    self.mediumButton.alpha = 1
+                case .high:
+                    self.highButton.alpha = 1
+                default:
+                    break
+                }
+                
+                self.view.setNeedsLayout()
             }
             .disposed(by: bag)
     }
