@@ -91,6 +91,8 @@ class VideoRecorderViewController: UIViewController {
         preview!.videoGravity = .resizeAspectFill
         preview!.cornerRadius = 20
         
+        previewUIView.isHidden = viewModel.videoConfiguration.stealthMode.value
+        
         setLayout()
     }
     
@@ -191,7 +193,7 @@ class VideoRecorderViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newValue in
                 guard let self = self else { return }
-                self.preview?.isHidden = newValue
+                self.previewUIView.isHidden = newValue
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)

@@ -21,8 +21,6 @@
 		0751FD5D28E042D900E01C47 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5C28E042D900E01C47 /* RxCocoa */; };
 		0751FD5F28E042D900E01C47 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5E28E042D900E01C47 /* RxRelay */; };
 		0751FD6128E042D900E01C47 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD6028E042D900E01C47 /* RxSwift */; };
-		077A8E172922559B002AF34B /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 077A8E162922559B002AF34B /* Nimble */; };
-		077A8E1A292255A3002AF34B /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = 077A8E19292255A3002AF34B /* Quick */; };
 		077D428F29190B6B006BCD81 /* Jalnan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 077D428E29190B6B006BCD81 /* Jalnan.ttf */; };
 		077D42912920F9CF006BCD81 /* LocalStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077D42902920F9CF006BCD81 /* LocalStorageTests.swift */; };
 		077D42932921005E006BCD81 /* AVCaptureSession + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077D42922921005E006BCD81 /* AVCaptureSession + Extension.swift */; };
@@ -156,10 +154,8 @@
 				0751FD6128E042D900E01C47 /* RxSwift in Frameworks */,
 				0751FD5F28E042D900E01C47 /* RxRelay in Frameworks */,
 				9CC81CDD2901155A00463823 /* Kingfisher in Frameworks */,
-				077A8E1A292255A3002AF34B /* Quick in Frameworks */,
 				0751FD5728E03BC200E01C47 /* Then in Frameworks */,
 				0751FD5A28E03BD700E01C47 /* SnapKit in Frameworks */,
-				077A8E172922559B002AF34B /* Nimble in Frameworks */,
 				0751FD5D28E042D900E01C47 /* RxCocoa in Frameworks */,
 				0751FD5428E03BB300E01C47 /* RxDataSources in Frameworks */,
 			);
@@ -529,8 +525,6 @@
 				0751FD5E28E042D900E01C47 /* RxRelay */,
 				0751FD6028E042D900E01C47 /* RxSwift */,
 				9CC81CDC2901155A00463823 /* Kingfisher */,
-				077A8E162922559B002AF34B /* Nimble */,
-				077A8E19292255A3002AF34B /* Quick */,
 			);
 			productName = YellowIsTheNewBlack;
 			productReference = 9BEAA63F2843824E00AB77A7 /* YellowIsTheNewBlack.app */;
@@ -571,8 +565,6 @@
 				0751FD5828E03BD700E01C47 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0751FD5B28E042D900E01C47 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				9CC81CDB2901155A00463823 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				077A8E152922559B002AF34B /* XCRemoteSwiftPackageReference "Nimble" */,
-				077A8E18292255A2002AF34B /* XCRemoteSwiftPackageReference "Quick" */,
 			);
 			productRefGroup = 9BEAA6402843824E00AB77A7 /* Products */;
 			projectDirPath = "";
@@ -994,22 +986,6 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		077A8E152922559B002AF34B /* XCRemoteSwiftPackageReference "Nimble" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Quick/Nimble";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		077A8E18292255A2002AF34B /* XCRemoteSwiftPackageReference "Quick" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Quick/Quick";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		9CC81CDB2901155A00463823 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -1050,16 +1026,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0751FD5B28E042D900E01C47 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
-		};
-		077A8E162922559B002AF34B /* Nimble */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 077A8E152922559B002AF34B /* XCRemoteSwiftPackageReference "Nimble" */;
-			productName = Nimble;
-		};
-		077A8E19292255A3002AF34B /* Quick */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 077A8E18292255A2002AF34B /* XCRemoteSwiftPackageReference "Quick" */;
-			productName = Quick;
 		};
 		9CC81CDC2901155A00463823 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;

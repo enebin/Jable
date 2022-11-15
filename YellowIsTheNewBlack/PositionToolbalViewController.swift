@@ -68,7 +68,7 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
         $0.isLayoutMarginsRelativeArrangement = true
     }
     
-
+   // MARK: -
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,7 +76,7 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
         bindButtons()
     }
     
-    
+    // MARK: - Set ups
     private func setLayout() {
         view.addSubview(cameraPositionStackView)
         cameraPositionStackView.snp.makeConstraints { make in
@@ -134,6 +134,20 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
                 guard let self = self else { return }
                 
                 self.backButtonAction?()
+            }
+            .disposed(by: bag)
+    }
+    
+    private func bindObservables() {
+        recorderConfiguration.cameraPosition
+            .bind { [weak self] position in
+                guard let self = self else { return }
+                
+                if position == .back {
+                    self.frontButton.alpha = 0.3
+                } else {
+                    self.backButton.alpha = 0.3
+                }
             }
             .disposed(by: bag)
     }
