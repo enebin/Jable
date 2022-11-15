@@ -75,8 +75,6 @@ class VideoRecoderViewModel: NSObject {
                 return
             }
             
-            print("@W", status == .authorized)
-            
             guard status == .authorized else {
                 self.statusPublisher.accept(VideoAlbumError.unabledToAccessAlbum)
                 print("앨범 접근 권한이 없습니다.")

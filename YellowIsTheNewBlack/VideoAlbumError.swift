@@ -13,7 +13,7 @@ enum VideoAlbumError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unabledToAccessAlbum:
-            return "앨범에 접근할 수 없습니다. 권한이 없으면 비디오를 읽거나 쓸 수 없습니다. 권한을 확인해주세요."
+            return "앨범에 접근할 수 없습니다. 권한이 없으면 비디오를 읽거나 쓸 수 없습니다. 설정에서 권한을 허용해주세요."
         }
     }
 }
