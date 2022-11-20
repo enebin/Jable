@@ -8,25 +8,20 @@
 import UIKit
 import AVFoundation
 
+import RxRelay
+
 class SingleVideoSessionManager: NSObject, VideoSessionManager {
     typealias Completion = (AVCaptureSession) -> Void
 
     static let shared = SingleVideoSessionManager()
     
-    // Dependencies
+    // MARK: Dependencies
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
     
+    // MARK: Public properties
     let session: AVCaptureSession
-    private let configuration: VideoSessionConfiguration
-    
-    private let workQueue: OperationQueue
-    private var output: AVCaptureMovieFileOutput? {
-        return session.outputs.first as? AVCaptureMovieFileOutput
-    }
-    
-    private var audioDevice: AVCaptureDeviceInput?
-    private var videoDevice: AVCaptureDeviceInput?
+    var statusObsrever: ReplayRelay<Error>?
     
     var currentZoomFactor: CGFloat? {
         guard let videoDevice = videoDevice else { return nil }
@@ -39,6 +34,18 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         
         return videoDevice.device.activeFormat.videoMaxZoomFactor
     }
+    
+    // MARK: Private properties
+    private let configuration: VideoSessionConfiguration
+    private let workQueue: OperationQueue
+    
+    private var output: AVCaptureMovieFileOutput? {
+        return session.outputs.first as? AVCaptureMovieFileOutput
+    }
+    
+    private var audioDevice: AVCaptureDeviceInput?
+    private var videoDevice: AVCaptureDeviceInput?
+    
     
     // MARK: - Public methods and vars
     /// 세션을 세팅한다
@@ -132,7 +139,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
     }
     
-    func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping Completion)  {
+    func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping Completion) {
         workQueue.addOperation { [weak self] in
             guard let self = self else { return }
             
@@ -258,13 +265,19 @@ extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
         
         if let error = error {
             print("Error recording movie: \(error.localizedDescription), \(error)")
+            self.statusObsrever?.accept(error)
         } else {
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
                 Task(priority: .background) {
-                    try await self.videoAlbumSaver.save(videoURL: outputFileURL)
+                    do {
+                        try await self.videoAlbumSaver.save(videoURL: outputFileURL)
+                    } catch let error {
+                        self.statusObsrever?.accept(error)
+                    }
                 }
             } else {
                 print("Error while saving movie")
+                self.statusObsrever?.accept(VideoAlbumError.unabledToAccessAlbum)
                 return
             }
         }

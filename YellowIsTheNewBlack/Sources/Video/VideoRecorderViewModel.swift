@@ -19,18 +19,18 @@ class VideoRecoderViewModel: NSObject {
     private let sessionManager: SingleVideoSessionManager
     private let videoAlbumFethcher: VideoAlbumFetcher
     
-    // vars and lets
+    // MARK: Private propertieds
     private var bag = DisposeBag()
     private var isObservablesBound = false
     
     private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
-    
-    let statusPublisher = ReplayRelay<Error>.create(bufferSize: 1)
-    
-    // MARK: - Public methods and vars
+        
+    // MARK: Public properties
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     var thumbnailObserver: Observable<UIImage?>
-    
+    let statusObserver = ReplayRelay<Error>.create(bufferSize: 1)
+
+    // MARK: Public methods
     func startRecordingVideo() throws {
         try sessionManager.startRecordingVideo(nil)
     }
@@ -61,6 +61,7 @@ class VideoRecoderViewModel: NSObject {
         }
     }
     
+    // MARK: Private methods
     private func updatePreview(with session: AVCaptureSession) {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
         
@@ -76,7 +77,7 @@ class VideoRecoderViewModel: NSObject {
             }
             
             guard status == .authorized else {
-                self.statusPublisher.accept(VideoAlbumError.unabledToAccessAlbum)
+                self.statusObserver.accept(VideoAlbumError.unabledToAccessAlbum)
                 print("앨범 접근 권한이 없습니다.")
                 return
             }
@@ -159,6 +160,8 @@ class VideoRecoderViewModel: NSObject {
          _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration(),
          _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.sessionManager = sessionManager
+        sessionManager.statusObsrever = self.statusObserver
+        
         self.videoConfiguration = videoConfiguration
 
         self.videoAlbumFethcher = videoAlbumFetcher

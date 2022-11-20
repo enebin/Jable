@@ -40,10 +40,6 @@ class VideoRecorderViewController: UIViewController {
     
     lazy var previewUIView = UIView()
     
-    @objc func printt() {
-        print("SS")
-    }
-    
     lazy var shutterButton = ShutterButton()
     lazy var spacer = UIView.spacer
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
@@ -204,7 +200,7 @@ class VideoRecorderViewController: UIViewController {
             .bind(to: thumbnailButton.rx.image(for: .normal))
             .disposed(by: bag)
         
-        viewModel.statusPublisher
+        viewModel.statusObserver
             .observe(on: MainScheduler.instance)
             .bind { [weak self] error in
                 guard let self = self else { return }
@@ -235,6 +231,8 @@ extension VideoRecorderViewController {
             $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
         }
         
+        self.shutterButton.isRecording = false
+        try? self.viewModel.stopRecordingVideo()
         self.present(alert, animated: true)
     }
 }
