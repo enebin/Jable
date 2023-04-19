@@ -311,7 +311,6 @@
 			isa = PBXGroup;
 			children = (
 				9C27A3B42925CD8D00D660AB /* Resources */,
-				9C4093ED28D7EF8B001533BF /* Utils */,
 				9C4093EC28D7EF80001533BF /* Sources */,
 				9BEAA6502843825200AB77A7 /* Info.plist */,
 				9BEAA6422843824E00AB77A7 /* AppDelegate.swift */,
@@ -381,10 +380,8 @@
 		9C4093EC28D7EF80001533BF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0798665628E6FA3E00E698ED /* Common */,
-				9CD45189284F2BE9007CF311 /* Video */,
-				9BA362BD285B464100339D46 /* Gallery */,
-				9B51E6402866EF8500D3BB82 /* Setting */,
+				9C8B087B29EFC808009D1DE0 /* Views */,
+				9C4093ED28D7EF8B001533BF /* Utils */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -428,6 +425,17 @@
 				9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		9C8B087B29EFC808009D1DE0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0798665628E6FA3E00E698ED /* Common */,
+				9CD45189284F2BE9007CF311 /* Video */,
+				9BA362BD285B464100339D46 /* Gallery */,
+				9B51E6402866EF8500D3BB82 /* Setting */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		9CB0D92A28DA91C3009C2CE0 /* Cell */ = {
