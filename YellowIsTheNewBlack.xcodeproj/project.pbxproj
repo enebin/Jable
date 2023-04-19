@@ -48,8 +48,6 @@
 		9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */; };
 		9C0B2B4428E1B52000BD9C81 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B2B4328E1B52000BD9C81 /* SettingType.swift */; };
 		9C27A3B72925CE3200D660AB /* Jalnan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C27A3B62925CE3200D660AB /* Jalnan.ttf */; };
-		9C27A3BC2925D1FE00D660AB /* MultiVideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27A3BA2925D1FE00D660AB /* MultiVideoSessionManager.swift */; };
-		9C27A3BD2925D1FE00D660AB /* MultiVideoSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27A3BB2925D1FE00D660AB /* MultiVideoSession.swift */; };
 		9C27CD2728F63DCD00F98E08 /* VideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */; };
 		9C27CD2B28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */; };
 		9C4093F328D825C0001533BF /* VideoAlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F228D825C0001533BF /* VideoAlbumManager.swift */; };
@@ -57,6 +55,7 @@
 		9C4093F828D842FA001533BF /* VideoAlbumSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */; };
 		9C4093FA28D8491C001533BF /* VideoAlbumFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */; };
 		9C64E9F228EBBF1F00FB1DBE /* VideoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */; };
+		9C8B087E29EFC885009D1DE0 /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8B087D29EFC885009D1DE0 /* TimerViewController.swift */; };
 		9C9CA80A2853212200655A66 /* VideoRecorderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */; };
 		9CB0D92928DA91BC009C2CE0 /* SettingDropdownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92828DA91BC009C2CE0 /* SettingDropdownCell.swift */; };
 		9CB0D92C28DA93DA009C2CE0 /* SettingCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0D92B28DA93DA009C2CE0 /* SettingCellItem.swift */; };
@@ -128,6 +127,7 @@
 		9C4093F728D842FA001533BF /* VideoAlbumSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumSaver.swift; sourceTree = "<group>"; };
 		9C4093F928D8491C001533BF /* VideoAlbumFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumFetcher.swift; sourceTree = "<group>"; };
 		9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoConfiguration.swift; sourceTree = "<group>"; };
+		9C8B087D29EFC885009D1DE0 /* TimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
 		9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderConfiguration.swift; sourceTree = "<group>"; };
 		9CB0D92828DA91BC009C2CE0 /* SettingDropdownCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDropdownCell.swift; sourceTree = "<group>"; };
 		9CB0D92B28DA93DA009C2CE0 /* SettingCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellItem.swift; sourceTree = "<group>"; };
@@ -175,6 +175,7 @@
 		0798665628E6FA3E00E698ED /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				9C8B087C29EFC843009D1DE0 /* Recording */,
 				9C64E9F028EBBF1600FB1DBE /* Protocol */,
 				0798665A28E7016200E698ED /* Camera */,
 				0798665928E7015D00E698ED /* Button */,
@@ -438,6 +439,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		9C8B087C29EFC843009D1DE0 /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				9C8B087D29EFC885009D1DE0 /* TimerViewController.swift */,
+			);
+			path = Recording;
+			sourceTree = "<group>";
+		};
 		9CB0D92A28DA91C3009C2CE0 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,6 +594,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C8B087E29EFC885009D1DE0 /* TimerViewController.swift in Sources */,
 				072B1B9E28EAC3AC00E362C3 /* SystemImageButton.swift in Sources */,
 				9CD4518D284F3281007CF311 /* VideoRecorderViewController.swift in Sources */,
 				9C64E9F228EBBF1F00FB1DBE /* VideoConfiguration.swift in Sources */,
@@ -595,7 +605,6 @@
 				9BA3629B2859EA9900339D46 /* LoggingManager.swift in Sources */,
 				072B1B9828EA9AC400E362C3 /* Spacer.swift in Sources */,
 				072B1BA328EAE8CA00E362C3 /* LabelButton.swift in Sources */,
-				9C27A3BC2925D1FE00D660AB /* MultiVideoSessionManager.swift in Sources */,
 				9C27CD2728F63DCD00F98E08 /* VideoSessionManager.swift in Sources */,
 				9CB0D92928DA91BC009C2CE0 /* SettingDropdownCell.swift in Sources */,
 				9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */,
@@ -608,7 +617,6 @@
 				9BAF4AD32860019A00B75689 /* GallerySection.swift in Sources */,
 				9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */,
 				9CE6ED4628ED14870009744D /* SettingTypeViewController.swift in Sources */,
-				9C27A3BD2925D1FE00D660AB /* MultiVideoSession.swift in Sources */,
 				9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */,
 				9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */,
 				07A4302128F3FA3200B6E182 /* PositionToolbalViewController.swift in Sources */,
