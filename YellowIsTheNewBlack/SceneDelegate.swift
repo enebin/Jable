@@ -15,6 +15,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        // Disable auto-lock of screen
+        UIApplication.shared.isIdleTimerDisabled = true
+
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         
         window?.overrideUserInterfaceStyle = .light // Disable darkmode
@@ -22,12 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = VideoRecorderViewController()
         window?.makeKeyAndVisible()
         
+        // Request appstore review
         let isAppOpenedCount = appOpenedCount(true)
         if isAppOpenedCount == 2 || isAppOpenedCount == 5 || isAppOpenedCount == 8 {
             SKStoreReviewController.requestReview()
-            print("@@", isAppOpenedCount)
         }
-        
     }
 }
 

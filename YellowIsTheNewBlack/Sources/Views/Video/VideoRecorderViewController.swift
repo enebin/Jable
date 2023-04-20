@@ -43,6 +43,7 @@ class VideoRecorderViewController: UIViewController {
     lazy var shutterButton = ShutterButton()
     lazy var spacer = UIView.spacer
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
+    lazy var elapsedTimeVC = TimerViewController()
 
     lazy var screenSizeButton = UIButton().then {
         $0.backgroundColor = .white
@@ -118,6 +119,14 @@ class VideoRecorderViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
+        
+        self.view.addSubview(elapsedTimeVC.view)
+        elapsedTimeVC.view.snp.makeConstraints { make in
+            make.top.equalTo(settingVC.view.snp.bottom)
+            make.width.equalToSuperview()
+            make.bottom.equalTo(shutterButton.snp.top)
+        }
+        elapsedTimeVC.view.isHidden = true
     }
     
     private func bindButtons() {
@@ -128,21 +137,9 @@ class VideoRecorderViewController: UIViewController {
 
                 do {
                     if self.isRecording {
-                        HapticManager.shared.generate(type: .end)
-
-                        self.isRecording = false
-                        self.shutterButton.isRecording = false
-                        try self.viewModel.stopRecordingVideo()
-                        
-                        self.view.layoutIfNeeded()
+                        try self.stopRecording()
                     } else {
-                        HapticManager.shared.generate(type: .start)
-                        
-                        self.isRecording = true
-                        self.shutterButton.isRecording = true
-                        try self.viewModel.startRecordingVideo()
-                        
-                        self.view.layoutIfNeeded()
+                        try self.startRecording()
                     }
                 } catch let error {
                     self.errorHandler(error)
@@ -224,6 +221,31 @@ class VideoRecorderViewController: UIViewController {
     }
 }
 
+// MARK: Tools
+private extension VideoRecorderViewController {
+    func startRecording() throws {
+        HapticManager.shared.generate(type: .start)
+        
+        self.isRecording = true
+        self.shutterButton.isRecording = true
+        try self.viewModel.startRecordingVideo()
+        
+        self.elapsedTimeVC.view.isHidden = false
+        self.view.layoutIfNeeded()
+    }
+    
+    func stopRecording() throws {
+        HapticManager.shared.generate(type: .end)
+        
+        self.isRecording = false
+        self.shutterButton.isRecording = false
+        try self.viewModel.stopRecordingVideo()
+        
+        self.elapsedTimeVC.view.isHidden = true
+        self.view.layoutIfNeeded()
+    }
+}
+
 extension VideoRecorderViewController {
     private func errorHandler(_ error: Error) {
         let alert = UIAlertController(title: "오류", message: error.localizedDescription,
@@ -278,7 +300,10 @@ extension VideoRecorderViewController {
 }
 
 extension VideoRecorderViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
         return true
     }
 }
