@@ -10,10 +10,9 @@ import SnapKit
 
 class TimerViewController: UIViewController {
     private let timeFormatter =  ElapsedTimeFormatter()
+    
     private var timer: Timer?
-    
-    private var observation: NSKeyValueObservation?
-    
+    private var viewObservation: NSKeyValueObservation?
     private var elapsedTime: Int = 0
     
     // MARK: View components
@@ -32,6 +31,25 @@ class TimerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewObservation = observeViewHiddenStatus()
+        
+        setViewComponents()
+        startTimer()
+    }
+}
+
+private extension TimerViewController {
+    func observeViewHiddenStatus() -> NSKeyValueObservation {
+        return self.observe(\.view?.isHidden, options: [.old, .new], changeHandler: { mySelf, isHidden in
+            if isHidden.newValue == false {
+                mySelf.startTimer()
+            } else {
+                mySelf.stopTimer()
+            }
+        })
+    }
+    
+    func setViewComponents() {
         let stackView = UIStackView(arrangedSubviews: [redDotView, elapsedTimeLabel])
         stackView.axis = .horizontal
         stackView.spacing = 10
@@ -45,20 +63,9 @@ class TimerViewController: UIViewController {
         redDotView.snp.makeConstraints { make in
             make.width.height.equalTo(elapsedTimeLabel.snp.height)
         }
-        
-        observation = self.observe(\.view?.isHidden, options: [.old, .new], changeHandler: { mySelf, isHidden in
-            if isHidden.newValue == true {
-                mySelf.stopTimer()
-            } else if isHidden.newValue == false {
-                mySelf.startTimer()
-            }
-        })
-        
-        startTimer()
     }
-}
-
-private extension TimerViewController {
+    
+    // Timer related
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
             guard let self else { return }
@@ -79,7 +86,7 @@ private extension TimerViewController {
     }
 }
 
-struct ElapsedTimeFormatter {
+fileprivate struct ElapsedTimeFormatter {
     private let formatter: DateComponentsFormatter
 
     func formatTime(_ seconds: Int) -> String {
