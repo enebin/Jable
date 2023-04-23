@@ -3,4 +3,70 @@
    uuid = "7554C26D-847C-4D2F-8308-160A55FFE8D9"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2387FB72-1D63-4B99-830E-87755119770E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Session/Single Camera/SingleVideoSessionManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "stopRecordingVideo(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2387FB72-1D63-4B99-830E-87755119770E - 8c69109c43f3869d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "YellowIsTheNewBlack.SingleVideoSessionManager.stopRecordingVideo(Swift.Optional&lt;() -&gt; ()&gt;) throws -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "236">
+               </Location>
+               <Location
+                  uuid = "2387FB72-1D63-4B99-830E-87755119770E - 8c69109c43f3869d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "YellowIsTheNewBlack.SingleVideoSessionManager.stopRecordingVideo(Swift.Optional&lt;() -&gt; ()&gt;) throws -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "292">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E0843F6C-29C1-4BFB-A239-C2164B0FA084"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Session/Single Camera/SingleVideoSessionManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "stopRecordingVideo(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

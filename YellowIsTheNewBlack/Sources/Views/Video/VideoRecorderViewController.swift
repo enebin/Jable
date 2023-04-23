@@ -142,7 +142,7 @@ class VideoRecorderViewController: UIViewController {
                         try self.startRecording()
                     }
                 } catch let error {
-                    self.errorHandler(error)
+                    self.commonErrorHandler(error)
                 }
             }
             .disposed(by: bag)
@@ -158,17 +158,6 @@ class VideoRecorderViewController: UIViewController {
                 self.present(albumVC, animated: true)
             }
             .disposed(by: bag)
-        
-//        screenSizeButton.rx.tap
-//            .observe(on: MainScheduler.instance)
-//            .bind { [weak self] in
-//                guard let self = self else { return }
-//                self.previewLayerSize = self.previewLayerSize.next()
-//                self.setCameraPreviewLayer(self.preview)
-//
-//                self.view.layoutIfNeeded()
-//            }
-//            .disposed(by: bag)
     }
 
     private func bindObservables() {
@@ -203,7 +192,7 @@ class VideoRecorderViewController: UIViewController {
                 guard let self = self else { return }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.errorHandler(error)
+                    self.commonErrorHandler(error)
                 }
             }
             .disposed(by: bag)
@@ -228,9 +217,10 @@ private extension VideoRecorderViewController {
         
         self.isRecording = true
         self.shutterButton.isRecording = true
+        self.elapsedTimeVC.view.isHidden = false
+
         try self.viewModel.startRecordingVideo()
         
-        self.elapsedTimeVC.view.isHidden = false
         self.view.layoutIfNeeded()
     }
     
@@ -239,23 +229,35 @@ private extension VideoRecorderViewController {
         
         self.isRecording = false
         self.shutterButton.isRecording = false
+        self.elapsedTimeVC.view.isHidden = true
+
         try self.viewModel.stopRecordingVideo()
         
-        self.elapsedTimeVC.view.isHidden = true
         self.view.layoutIfNeeded()
     }
 }
 
 extension VideoRecorderViewController {
-    private func errorHandler(_ error: Error) {
-        let alert = UIAlertController(title: "오류", message: error.localizedDescription,
-                                           preferredStyle: UIAlertController.Style.alert).then {
-            $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+    private func commonErrorHandler(_ error: Error) {
+        let alert = UIAlertController(title: "오류",
+                                      message: error.localizedDescription,
+                                      preferredStyle: UIAlertController.Style.alert).then {
+            $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,
+                                       handler: nil))
         }
         
-        self.shutterButton.isRecording = false
-        try? self.viewModel.stopRecordingVideo()
+        // 세션 인터럽트(백그라운드 등) 시
+        // Handle the specific AVFoundationErrorDomain Code=-11818 error
+        if
+            case let error = error as NSError,
+            error.domain == AVFoundationErrorDomain,
+            error.code == -11818
+        {
+            print("AVFoundationErrorDomain Code=-11818 감지: 비디오 리코딩 세션 인터럽트를 의미함")
+        }
+        
         self.present(alert, animated: true)
+        try? self.stopRecording()
     }
 }
 

@@ -25,7 +25,7 @@ class VideoRecoderViewModel: NSObject {
     
     private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
         
-    // MARK: Public properties
+    // MARK: Public properties(outputs)
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     var thumbnailObserver: Observable<UIImage?>
     let statusObserver = ReplayRelay<Error>.create(bufferSize: 1)
@@ -40,8 +40,9 @@ class VideoRecoderViewModel: NSObject {
     }
     
     @objc func setZoomFactorFromPinchGesture(_ sender: UIPinchGestureRecognizer) {
-        guard let maxZoomFactor = sessionManager.maxZoomFactor,
-              let currentZoomFactor = sessionManager.currentZoomFactor
+        guard
+            let maxZoomFactor = sessionManager.maxZoomFactor,
+            let currentZoomFactor = sessionManager.currentZoomFactor
         else {
             return
         }
@@ -54,8 +55,7 @@ class VideoRecoderViewModel: NSObject {
             let scale = sender.scale
 
             videoConfiguration.zoomFactor.accept(
-                max(min(currentZoomFactor * ((scale + (sensitivity-1))/sensitivity), maxZoomFactor), 1.0)
-            )
+                max(min(currentZoomFactor * ((scale + (sensitivity-1))/sensitivity), maxZoomFactor), 1.0))
         default:
             break
         }
