@@ -30,13 +30,17 @@ class VideoRecoderViewModel: NSObject {
     var thumbnailObserver: Observable<UIImage?>
     let statusObserver = ReplayRelay<Error>.create(bufferSize: 1)
 
-    // MARK: Public methods
+    // MARK: - Public methods
     func startRecordingVideo() throws {
-        try sessionManager.startRecordingVideo(nil)
+        try sessionManager.startRecordingVideo()
     }
     
     func stopRecordingVideo() throws {
-        try sessionManager.stopRecordingVideo(nil)
+        try sessionManager.stopRecordingVideo()
+    }
+    
+    func pauseRecordingVideo() throws {
+        try sessionManager.pauseRecordingVideo()
     }
     
     @objc func setZoomFactorFromPinchGesture(_ sender: UIPinchGestureRecognizer) {
@@ -61,7 +65,7 @@ class VideoRecoderViewModel: NSObject {
         }
     }
     
-    // MARK: Private methods
+    // MARK: - Private methods
     private func updatePreview(with session: AVCaptureSession) {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
         

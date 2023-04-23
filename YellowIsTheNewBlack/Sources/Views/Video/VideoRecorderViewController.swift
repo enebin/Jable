@@ -235,6 +235,15 @@ private extension VideoRecorderViewController {
         
         self.view.layoutIfNeeded()
     }
+    
+    // TODO: Recording paused
+    func pauseRecofding() throws {
+         try self.viewModel.pauseRecordingVideo()
+        
+        // TODO: 다시 시작할 건지 물어보는 얼러트 추가
+        
+        self.view.layoutIfNeeded()
+    }
 }
 
 extension VideoRecorderViewController {
