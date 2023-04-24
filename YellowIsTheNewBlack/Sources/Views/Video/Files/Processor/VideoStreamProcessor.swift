@@ -54,13 +54,17 @@ extension VideoStreamProcessor {
     }
     
     /// 프레임 기록을 잠시 멈춤. 저장은 하지 않음.
-    func pauseRecording() async {
+    func pauseRecording() async throws {
         videoWriterInput = nil
         
-        await videoWriter?.finishWriting()
+        guard let videoWriter else {
+            throw VideoRecorderError.undableToSetExport
+        }
+        
+        await videoWriter.finishWriting()
         print("\(#file)(\(#function)): Video segment temporarily saved to: \(videoURLs.last!)")
         
-        videoWriter = nil
+        self.videoWriter = nil
     }
 
     /// 기록을 멈추고 비디오를 저장
@@ -76,6 +80,8 @@ extension VideoStreamProcessor {
 
 private extension VideoStreamProcessor {
     func setupCaptureSession() throws {
+        captureSession.beginConfiguration()
+        
         guard captureSession.isRunning else {
             throw VideoRecorderError.notConfigured
         }
@@ -84,6 +90,8 @@ private extension VideoStreamProcessor {
         if captureSession.canAddOutput(videoDataOutput) {
             captureSession.addOutput(videoDataOutput)
         }
+        
+        captureSession.commitConfiguration()
     }
     
     func mergeVideoSegments() async throws -> URL {

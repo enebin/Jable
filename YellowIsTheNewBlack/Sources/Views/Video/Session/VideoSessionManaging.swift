@@ -7,7 +7,7 @@
 
 import AVFoundation
 
-protocol VideoSessionManager {
+protocol VideoSessionManaging {
     typealias Action = () -> Void
     associatedtype Session: AVCaptureSession
     

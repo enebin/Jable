@@ -42,7 +42,7 @@ enum DeviceType {
     }
 }
 
-extension VideoSessionManager {
+extension VideoSessionManaging {
     func captureDeviceInput(type: DeviceType) throws -> AVCaptureDeviceInput {
         let captureDevices = AVCaptureDevice.DiscoverySession(
             deviceTypes: [type.captureDeviceType],

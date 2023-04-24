@@ -10,7 +10,7 @@ import AVFoundation
 
 import RxRelay
 
-class SingleVideoSessionManager: NSObject, VideoSessionManager {
+class SingleVideoSessionManager: NSObject, VideoSessionManaging {
     typealias SessionHandler = (AVCaptureSession) -> Void
     
     static let shared = SingleVideoSessionManager()
@@ -44,9 +44,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     private var output: AVCaptureMovieFileOutput? {
         return session.outputs.first as? AVCaptureMovieFileOutput
     }
-    
-    private let captureOutput: AVCaptureVideoDataOutput
-    
+        
     private var audioDevice: AVCaptureDeviceInput?
     private var videoDevice: AVCaptureDeviceInput?
     
@@ -62,7 +60,6 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         
         self.videoQueue = DispatchQueue(label: "com.video.enebin", qos: .utility)
         
-        self.captureOutput = AVCaptureVideoDataOutput()
         self.session = AVCaptureSession()
         self.configuration = VideoSessionConfiguration()
         
@@ -70,7 +67,6 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         
         super.init()
         
-        captureOutput.setSampleBufferDelegate(self, queue: videoQueue)
         self.startRunningSession()
     }
 }
@@ -83,7 +79,7 @@ extension SingleVideoSessionManager {
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
     func setupSession() async throws {
         try await checkPermissionForCaptureSession()
-        try configureCaptureSessionOutput(with: captureOutput)
+//        try configureCaptureSessionOutput()
     }
     
     /// '녹화'를 시작함
@@ -98,8 +94,21 @@ extension SingleVideoSessionManager {
         completion?()
     }
     
-    func stopRecordingVideo(_ completion: Action? = nil) throws {
-        guard let output = self.output else {
+    /// '녹화'를 시작함
+    func startRecordingVideo() async throws {
+        // 세션이 구성되지 않았으면 에러를 반환
+        guard let videoStreamProcessor else {
+            throw VideoRecorderError.notConfigured
+        }
+        
+        videoStreamProcessor.startRecording()
+    }
+    
+    
+    func stopRecordingVideo(_ completion: Action? = nil) throws -> URL {
+        guard
+            let output = self.output
+        else {
             throw VideoRecorderError.notConfigured
         }
         
@@ -107,22 +116,24 @@ extension SingleVideoSessionManager {
         completion?()
     }
     
-    func pauseRecordingVideo(_ completion: Action? = nil) throws {
-        guard let output = self.output else {
+    func stopRecordingVideo() async throws -> URL {
+        guard let videoStreamProcessor else {
             throw VideoRecorderError.notConfigured
         }
         
-        completion?()
+        return try await videoStreamProcessor.stopRecording()
+    }
+    
+    func pauseRecordingVideo() async throws {
+        guard let videoStreamProcessor else {
+            throw VideoRecorderError.notConfigured
+        }
+        
+        try await videoStreamProcessor.pauseRecording()
     }
     
     func resumeRecordingVideo(_ completion: Action? = nil) throws {
-        guard let output = self.output else {
-            throw VideoRecorderError.notConfigured
-        }
-        
-        
-        
-        completion?()
+        try self.startRecordingVideo()
     }
 }
 
@@ -271,33 +282,22 @@ extension SingleVideoSessionManager {
         }
     }
     
-    private func configureCaptureSessionOutput(with output: AVCaptureOutput) throws {
-        session.beginConfiguration()
-
-        if session.outputs.isEmpty {
-            if session.canAddOutput(output) {
-                session.addOutput(output)
-            } else {
-                throw VideoRecorderError.unableToSetOutput
-            }
-        }
-
-        session.commitConfiguration()
-    }
+//    private func configureCaptureSessionOutput(with output: AVCaptureOutput) throws {
+//        session.beginConfiguration()
+//
+//        if session.outputs.isEmpty {
+//            if session.canAddOutput(output) {
+//                session.addOutput(output)
+//            } else {
+//                throw VideoRecorderError.unableToSetOutput
+//            }
+//        }
+//
+//        session.commitConfiguration()
+//    }
 }
 
 // MARK: - Delegate
-extension SingleVideoSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput,
-                       didOutput sampleBuffer: CMSampleBuffer,
-                       from connection: AVCaptureConnection) {
-        print(output)
-//        if let videoWriterInput = videoWriterInput, videoWriterInput.isReadyForMoreMediaData {
-//            videoWriterInput.append(sampleBuffer)
-//        }
-    }
-}
-
 extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput,
                     didStartRecordingTo fileURL: URL,
