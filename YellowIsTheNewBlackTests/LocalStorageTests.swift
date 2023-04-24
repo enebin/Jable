@@ -25,7 +25,7 @@ final class LocalStorageTests: XCTestCase {
         storage.removePersistentDomain(forName: "test")
     }
     
-    func test__AVCatpureSessionPreset_load_and_save() throws {
+    func testAVCatpureSessionPresetLoadAndSave() throws {
         var localConfig = LocalVideoSessionConfiguration(storage)
 
         // Testing value should not be same with default value
@@ -36,7 +36,7 @@ final class LocalStorageTests: XCTestCase {
         XCTAssertEqual(localConfig.videoQuality, .low)
     }
     
-    func test__AVCatpureDevicePosition_load_and_aave() throws {
+    func testAVCatpureDevicePositionLoadAndSave() throws {
         var localConfig = LocalVideoSessionConfiguration(storage)
         
         let testingValue: AVCaptureDevice.Position = .front
