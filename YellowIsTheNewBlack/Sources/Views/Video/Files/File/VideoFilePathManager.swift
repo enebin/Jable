@@ -21,6 +21,7 @@ class VideoFilePathManager: NSObject {
         return self.path
     }
     
+    /// Get a new file path for recording video
     var filePath: URL {
         let directoryPath = self.path
         let fileName = self.dateFormatter.string(from: Date())
@@ -46,7 +47,7 @@ class VideoFilePathManager: NSObject {
         
         // set paths
         let albumPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first! // FIXME: Remove force unwrap
-        self.path = albumPath.appendingPathComponent("BiBlackBox", isDirectory: true)
+        self.path = albumPath.appendingPathComponent("Jable", isDirectory: true)
 
         super.init()
         

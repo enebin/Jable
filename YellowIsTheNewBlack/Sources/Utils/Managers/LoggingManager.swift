@@ -18,9 +18,12 @@ class LoggingManager {
         }
     }
     
-    func log(error: Error) {
+    func log(_ file: String = #file,
+             _ function: String = #function,
+             _ line: Int = #line,
+             error: Error) {
         if showLog {
-            print("[BLBX] [Error] \(error) : \(error.localizedDescription)")
+            print("[BLBX Error] \(file):\(function):\(line) = \(error), \(error.localizedDescription)")
         }
     }
 }

@@ -29,8 +29,7 @@ class VideoFileInformationMaker {
             let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
             let thumbnail = UIImage(cgImage: cgImage)
             return thumbnail
-        }
-        catch let error {
+        } catch let error {
             LoggingManager.logger.log(error: error)
             return nil
         }

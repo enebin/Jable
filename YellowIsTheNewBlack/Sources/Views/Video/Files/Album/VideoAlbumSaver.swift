@@ -22,9 +22,10 @@ class VideoAlbumSaver: AlbumSaver {
     // Methods
     private func add(_ videoURL: URL, to album: PHAssetCollection) async throws -> Void {
         async let task: Void = photoLibrary.performChanges {
-            if let assetChangeRequest =
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL),
-               let placeholder = assetChangeRequest.placeholderForCreatedAsset {
+            if
+                let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL),
+                let placeholder = assetChangeRequest.placeholderForCreatedAsset
+            {
                 let albumChangeRequest = PHAssetCollectionChangeRequest(for: album)
                 let enumeration = NSArray(object: placeholder)
                 albumChangeRequest?.addAssets(enumeration)
@@ -56,7 +57,7 @@ class VideoAlbumSaver: AlbumSaver {
                 try await self.add(videoURL, to: album)
             }
         } catch let error {
-            print("동영상을 저장하는데 실패했습니다: \(error.localizedDescription)")
+            LoggingManager.logger.log(error: error)
         }
     }
     

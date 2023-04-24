@@ -18,11 +18,11 @@ class SingleVideoSessionManager: NSObject, VideoSessionManaging {
     // MARK: Dependencies
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
-    private let videoStreamProcessor: VideoStreamProcessor?
+    private let videoStreamProcessor: VideoRecorder
     
     // MARK: - Public properties
     let session: AVCaptureSession
-    var statusObsrever: ReplayRelay<Error>?
+    var statusObserver: ReplayRelay<Error>?
     
     var currentZoomFactor: CGFloat? {
         guard let videoDevice = videoDevice else { return nil }
@@ -63,7 +63,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManaging {
         self.session = AVCaptureSession()
         self.configuration = VideoSessionConfiguration()
         
-        self.videoStreamProcessor = VideoStreamProcessor(captureSession: session)
+        self.videoStreamProcessor = VideoRecorder(captureSession: session)
         
         super.init()
         
@@ -83,32 +83,27 @@ extension SingleVideoSessionManager {
     }
     
     /// '녹화'를 시작함
-    func startRecordingVideo(_ completion: Action? = nil) throws {
+    func startRecordingVideo(_ completion: Action?) throws {
         // 세션이 구성되지 않았으면 에러를 반환
         guard let output = self.output else {
             throw VideoRecorderError.notConfigured
         }
         
         let filePath = videoFileManager.filePath
-        output.startRecording(to: filePath, recordingDelegate: self)
+//        output.startRecording(to: filePath, recordingDelegate: self)
         completion?()
     }
     
     /// '녹화'를 시작함
     func startRecordingVideo() async throws {
         // 세션이 구성되지 않았으면 에러를 반환
-        guard let videoStreamProcessor else {
-            throw VideoRecorderError.notConfigured
-        }
-        
-        videoStreamProcessor.startRecording()
+        let filePath = videoFileManager.filePath
+        videoStreamProcessor.startRecording(to: filePath)
     }
     
     
-    func stopRecordingVideo(_ completion: Action? = nil) throws -> URL {
-        guard
-            let output = self.output
-        else {
+    func stopRecordingVideo(_ completion: Action? = nil) throws {
+        guard let output = self.output else {
             throw VideoRecorderError.notConfigured
         }
         
@@ -116,24 +111,17 @@ extension SingleVideoSessionManager {
         completion?()
     }
     
-    func stopRecordingVideo() async throws -> URL {
-        guard let videoStreamProcessor else {
-            throw VideoRecorderError.notConfigured
-        }
-        
-        return try await videoStreamProcessor.stopRecording()
+    func stopRecordingVideo() async throws {
+        let url = try await videoStreamProcessor.stopRecording()
+        writeOutputFile(to: url)
     }
     
     func pauseRecordingVideo() async throws {
-        guard let videoStreamProcessor else {
-            throw VideoRecorderError.notConfigured
-        }
-        
         try await videoStreamProcessor.pauseRecording()
     }
     
-    func resumeRecordingVideo(_ completion: Action? = nil) throws {
-        try self.startRecordingVideo()
+    func resumeRecordingVideo(_ completion: Action? = nil) async throws {
+        try await self.startRecordingVideo()
     }
 }
 
@@ -270,15 +258,33 @@ extension SingleVideoSessionManager {
 
 extension SingleVideoSessionManager {
     // MARK: - Internal methods
-
+    
     /// 세션을 시작함
     ///
     /// Config을 수정하기 전에 무조건 먼저 시작해놔야함. 변경 도중엔 실행 못함.
     private func startRunningSession(_ completion: Action? = nil) {
         DispatchQueue.global(qos: .background).async {
             self.session.startRunning()
+            try? self.videoStreamProcessor.setupCaptureSession()
             self.workQueue.isSuspended = false
             completion?()
+        }
+    }
+    
+    /// 앨범에 파일 저장
+    func writeOutputFile(to outputFileURL: URL) {
+        if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
+            Task(priority: .background) {
+                do {
+                    try await self.videoAlbumSaver.save(videoURL: outputFileURL)
+                } catch let error {
+                    self.statusObserver?.accept(error)
+                }
+            }
+        } else {
+            print("Error while saving movie")
+            self.statusObserver?.accept(VideoAlbumError.unabledToAccessAlbum)
+            return
         }
     }
     
@@ -295,39 +301,4 @@ extension SingleVideoSessionManager {
 //
 //        session.commitConfiguration()
 //    }
-}
-
-// MARK: - Delegate
-extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
-    func fileOutput(_ output: AVCaptureFileOutput,
-                    didStartRecordingTo fileURL: URL,
-                    from connections: [AVCaptureConnection]) {
-        print("Record started now")
-    }
-    
-    func fileOutput(_ output: AVCaptureFileOutput,
-                    didFinishRecordingTo outputFileURL: URL,
-                    from connections: [AVCaptureConnection],
-                    error: Error?) {
-        print("Record finished")
-        
-        if let error = error {
-            print("Error recording movie: \(error.localizedDescription), \(error)")
-            self.statusObsrever?.accept(error)
-        } else {
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
-                Task(priority: .background) {
-                    do {
-                        try await self.videoAlbumSaver.save(videoURL: outputFileURL)
-                    } catch let error {
-                        self.statusObsrever?.accept(error)
-                    }
-                }
-            } else {
-                print("Error while saving movie")
-                self.statusObsrever?.accept(VideoAlbumError.unabledToAccessAlbum)
-                return
-            }
-        }
-    }
 }

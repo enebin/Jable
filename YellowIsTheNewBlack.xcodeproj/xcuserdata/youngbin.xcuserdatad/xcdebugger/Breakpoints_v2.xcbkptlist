@@ -3,4 +3,358 @@
    uuid = "7554C26D-847C-4D2F-8308-160A55FFE8D9"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Session/Single Camera/SingleVideoSessionManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
+            landmarkName = "writeOutputFile(to:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E - 129868918c35faf0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "278"
+                  endingLineNumber = "278"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E - 76fdd044becf46d0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "278"
+                  endingLineNumber = "278"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E - 5d006d9b69e33672"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "278"
+                  endingLineNumber = "278"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E - 7a4c60067bf4503d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "278"
+                  endingLineNumber = "278"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E - 129868918c35fa91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "279"
+                  endingLineNumber = "279"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E - 76fdd044becf46b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "279"
+                  endingLineNumber = "279"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E - 5d006d9b69e33613"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "279"
+                  endingLineNumber = "279"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "A1A14B40-98F9-422E-B12A-2F77139BC61E - 7a4c60067bf4505c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "279"
+                  endingLineNumber = "279"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "892B79FF-8A68-4C00-8017-C27B0292830D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Session/Single Camera/SingleVideoSessionManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
+            landmarkName = "writeOutputFile(to:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "892B79FF-8A68-4C00-8017-C27B0292830D - 7a4c60067bf45073"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "280"
+                  endingLineNumber = "280"
+                  offsetFromSymbolStart = "128">
+               </Location>
+               <Location
+                  uuid = "892B79FF-8A68-4C00-8017-C27B0292830D - 7a4c60067bf45192"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.writeOutputFile(to: Foundation.URL) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "281"
+                  endingLineNumber = "281"
+                  offsetFromSymbolStart = "128">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C855BA7C-552B-4B9F-9164-15B6DFAD8F83"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Files/&#x1105;&#x1163;&#x3163;&#x3137;/VideoFileManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "refresh()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8F352186-8FAB-4CF4-850A-0A4A13BB0DA9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Files/&#x1105;&#x1163;&#x3163;&#x3137;/VideoFileInformationMaker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "generateThumbnail(for:)"
+            landmarkType = "7">
+            <Actions>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "">
+                  </ActionContent>
+               </BreakpointActionProxy>
+            </Actions>
+            <Locations>
+               <Location
+                  uuid = "8F352186-8FAB-4CF4-850A-0A4A13BB0DA9 - 68d0d31e43a656b0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static YellowIsTheNewBlack.VideoFileInformationMaker.generateThumbnail(for: Foundation.URL) -&gt; Swift.Optional&lt;__C.UIImage&gt;"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Files/%E1%84%85%E1%85%A3%E3%85%A3%E3%84%B7/VideoFileInformationMaker.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "656">
+               </Location>
+               <Location
+                  uuid = "8F352186-8FAB-4CF4-850A-0A4A13BB0DA9 - 68d0d31e43a656d7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static YellowIsTheNewBlack.VideoFileInformationMaker.generateThumbnail(for: Foundation.URL) -&gt; Swift.Optional&lt;__C.UIImage&gt;"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Files/%E1%84%85%E1%85%A3%E3%85%A3%E3%84%B7/VideoFileInformationMaker.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "656">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "729BE8F3-6179-430F-96AC-0B8EDC3C0456"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Files/Processor/VideoStreamProcessor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "captureOutput(_:didOutput:from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "10E04487-F9A9-449A-8734-CD3A384DA286"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Files/Processor/VideoStreamProcessor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "stopRecording()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "10E04487-F9A9-449A-8734-CD3A384DA286 - 891664d5f0454618"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for YellowIsTheNewBlack.VideoRecorder.stopRecording() async throws -&gt; Foundation.URL"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Files/Processor/VideoStreamProcessor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "242"
+                  endingLineNumber = "242"
+                  offsetFromSymbolStart = "1304">
+               </Location>
+               <Location
+                  uuid = "10E04487-F9A9-449A-8734-CD3A384DA286 - c56b07f4ac2c0a1a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for YellowIsTheNewBlack.VideoRecorder.stopRecording() async throws -&gt; Foundation.URL"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Files/Processor/VideoStreamProcessor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "242"
+                  endingLineNumber = "242"
+                  offsetFromSymbolStart = "832">
+               </Location>
+               <Location
+                  uuid = "10E04487-F9A9-449A-8734-CD3A384DA286 - 891664d5f0454618"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for YellowIsTheNewBlack.VideoRecorder.stopRecording() async throws -&gt; Foundation.URL"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Files/Processor/VideoStreamProcessor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "242"
+                  endingLineNumber = "242"
+                  offsetFromSymbolStart = "1388">
+               </Location>
+               <Location
+                  uuid = "10E04487-F9A9-449A-8734-CD3A384DA286 - c56b07f4ac2c0a1a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for YellowIsTheNewBlack.VideoRecorder.stopRecording() async throws -&gt; Foundation.URL"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Files/Processor/VideoStreamProcessor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "242"
+                  endingLineNumber = "242"
+                  offsetFromSymbolStart = "908">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

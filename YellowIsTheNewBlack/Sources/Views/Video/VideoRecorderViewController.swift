@@ -218,8 +218,9 @@ private extension VideoRecorderViewController {
         self.isRecording = true
         self.shutterButton.isRecording = true
         self.elapsedTimeVC.view.isHidden = false
-
-        try self.viewModel.startRecordingVideo()
+        Task {
+            try await self.viewModel.startRecordingVideo()
+        }
         
         self.view.layoutIfNeeded()
     }
@@ -230,15 +231,18 @@ private extension VideoRecorderViewController {
         self.isRecording = false
         self.shutterButton.isRecording = false
         self.elapsedTimeVC.view.isHidden = true
-
-        try self.viewModel.stopRecordingVideo()
+        Task {
+            try await self.viewModel.stopRecordingVideo()
+        }
         
         self.view.layoutIfNeeded()
     }
     
     // TODO: Recording paused
     func pauseRecofding() throws {
-         try self.viewModel.pauseRecordingVideo()
+        Task {
+            try await self.viewModel.pauseRecordingVideo()
+        }
         
         // TODO: 다시 시작할 건지 물어보는 얼러트 추가
         
