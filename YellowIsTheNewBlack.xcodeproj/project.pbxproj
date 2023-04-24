@@ -118,8 +118,6 @@
 		9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileInformationMaker.swift; sourceTree = "<group>"; };
 		9C0B2B4328E1B52000BD9C81 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
 		9C27A3B62925CE3200D660AB /* Jalnan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jalnan.ttf; sourceTree = "<group>"; };
-		9C27A3BA2925D1FE00D660AB /* MultiVideoSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiVideoSessionManager.swift; path = "YellowIsTheNewBlack/Sources/Video/Session/Multi Camera/MultiVideoSessionManager.swift"; sourceTree = SOURCE_ROOT; };
-		9C27A3BB2925D1FE00D660AB /* MultiVideoSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiVideoSession.swift; path = "YellowIsTheNewBlack/Sources/Video/Session/Multi Camera/MultiVideoSession.swift"; sourceTree = SOURCE_ROOT; };
 		9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionManager.swift; sourceTree = "<group>"; };
 		9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleVideoSessionManager+Extension.swift"; sourceTree = "<group>"; };
 		9C4093F228D825C0001533BF /* VideoAlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumManager.swift; sourceTree = "<group>"; };
@@ -350,19 +348,9 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
-		9C27A3B92925D1F100D660AB /* Multi Camera */ = {
-			isa = PBXGroup;
-			children = (
-				9C27A3BB2925D1FE00D660AB /* MultiVideoSession.swift */,
-				9C27A3BA2925D1FE00D660AB /* MultiVideoSessionManager.swift */,
-			);
-			path = "Multi Camera";
-			sourceTree = "<group>";
-		};
 		9C27CD2528F63DBF00F98E08 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				9C27A3B92925D1F100D660AB /* Multi Camera */,
 				9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */,
 				9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */,
 				9B05DFA828FACE3600DE5927 /* Single Camera */,

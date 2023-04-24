@@ -57,7 +57,7 @@ extension VideoSessionManager {
         return try AVCaptureDeviceInput(device: captureDevice)
     }
     
-    func checkSessionConfigurable() async throws {
+    func checkPermissionForCaptureSession() async throws {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             return

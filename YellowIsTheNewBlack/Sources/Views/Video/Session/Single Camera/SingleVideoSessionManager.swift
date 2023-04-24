@@ -11,7 +11,7 @@ import AVFoundation
 import RxRelay
 
 class SingleVideoSessionManager: NSObject, VideoSessionManager {
-    typealias Completion = (AVCaptureSession) -> Void
+    typealias SessionHandler = (AVCaptureSession) -> Void
 
     static let shared = SingleVideoSessionManager()
     
@@ -19,7 +19,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
     
-    // MARK: Public properties
+    // MARK: - Public properties
     let session: AVCaptureSession
     var statusObsrever: ReplayRelay<Error>?
     
@@ -35,17 +35,41 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         return videoDevice.device.activeFormat.videoMaxZoomFactor
     }
     
-    // MARK: Private properties
+    // MARK: - Private properties
     private let configuration: VideoSessionConfiguration
     private let workQueue: OperationQueue
+    private let videoQueue: DispatchQueue
     
     private var output: AVCaptureMovieFileOutput? {
         return session.outputs.first as? AVCaptureMovieFileOutput
     }
     
+    private let captureOutput: AVCaptureVideoDataOutput
+    
     private var audioDevice: AVCaptureDeviceInput?
     private var videoDevice: AVCaptureDeviceInput?
-    
+        
+    init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
+         _ videoAlbumSaver: VideoAlbumSaver = VideoAlbumSaver.shared) {
+        self.videoFileManager = videoFileManager
+        self.videoAlbumSaver = videoAlbumSaver
+        
+        self.workQueue = OperationQueue()
+        workQueue.qualityOfService = .background
+        workQueue.maxConcurrentOperationCount = 1
+        workQueue.isSuspended = true
+        
+        self.videoQueue = DispatchQueue(label: "com.video.enebin", qos: .utility)
+        
+        self.captureOutput = AVCaptureVideoDataOutput()
+        self.session = AVCaptureSession()
+        self.configuration = VideoSessionConfiguration()
+        
+        super.init()
+        
+        captureOutput.setSampleBufferDelegate(self, queue: videoQueue)
+        self.startRunningSession()
+    }
     
     // MARK: - Public methods and vars
     /// 세션을 세팅한다
@@ -53,14 +77,13 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     /// init안에서 안 돌리고 밖에서 실행하는 이유는
     /// 에러핸들링을 `init` 외에서 해 조금이나마 용이하게 하기 위함임.
     func setupSession() async throws {
-        try await checkSessionConfigurable()
-        try self.configureCaptureSessionOutput()
-        
-        return
+        try await checkPermissionForCaptureSession()
+        try configureCaptureSessionOutput(with: captureOutput)
     }
     
     /// '녹화'를 시작함
     func startRecordingVideo(_ completion: Action? = nil) throws {
+        // 세션이 구성되지 않았으면 에러를 반환
         guard let output = self.output else {
             throw VideoRecorderError.notConfigured
         }
@@ -79,10 +102,28 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         completion?()
     }
     
-    // MARK: - Configuration setters
+    func pauseRecordingVideo(_ completion: Action? = nil) throws {
+        guard let output = self.output else {
+            throw VideoRecorderError.notConfigured
+        }
+        
+        completion?()
+    }
+    
+    func resumeRecordingVideo(_ completion: Action? = nil) throws {
+        guard let output = self.output else {
+            throw VideoRecorderError.notConfigured
+        }
+        
+        
+        
+        completion?()
+    }
+    
+    // MARK: - Configuration setters(editting session)
     func setSlientMode(_ isEnabled: Bool,
                        currentCamPosition: AVCaptureDevice.Position,
-                       _ completion: @escaping Completion) {
+                       _ completion: @escaping SessionHandler) {
         workQueue.addOperation { [weak self] in
             guard let self = self else { return }
             
@@ -122,7 +163,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
     }
     
-    func setVideoQuality(_ quality: AVCaptureSession.Preset, _ completion: @escaping Completion) {
+    func setVideoQuality(_ quality: AVCaptureSession.Preset, _ completion: @escaping SessionHandler) {
         workQueue.addOperation { [weak self] in
             guard let self = self else { return }
             
@@ -139,7 +180,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
     }
     
-    func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping Completion) {
+    func setCameraPosition(_ position: AVCaptureDevice.Position, _ completion: @escaping SessionHandler) {
         workQueue.addOperation { [weak self] in
             guard let self = self else { return }
             
@@ -192,7 +233,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
 
     @available(iOS 16, *)
-    func setBackgroundMode(_ isEnabled: Bool, _ completion: @escaping Completion) {
+    func setBackgroundMode(_ isEnabled: Bool, _ completion: @escaping SessionHandler) {
         workQueue.addOperation { [weak self] in
             guard let self = self else { return }
             let session = self.session
@@ -220,47 +261,44 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
     }
     
-    private func configureCaptureSessionOutput() throws {
+    private func configureCaptureSessionOutput(with output: AVCaptureOutput) throws {
         session.beginConfiguration()
 
         if session.outputs.isEmpty {
-            let fileOutput = AVCaptureMovieFileOutput()
-            if session.canAddOutput(fileOutput) {
-                session.addOutput(fileOutput)
+            if session.canAddOutput(output) {
+                session.addOutput(output)
             } else {
                 throw VideoRecorderError.unableToSetOutput
             }
         }
-       
+
         session.commitConfiguration()
     }
-    
-    // MARK: - Init
-    init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
-         _ videoAlbumSaver: VideoAlbumSaver = VideoAlbumSaver.shared) {
-        self.videoFileManager = videoFileManager
-        self.videoAlbumSaver = videoAlbumSaver
-        
-        self.session = AVCaptureSession()
-        self.configuration = VideoSessionConfiguration()
-        
-        
-        self.workQueue = OperationQueue()
-        workQueue.qualityOfService = .background
-        workQueue.maxConcurrentOperationCount = 1
-        workQueue.isSuspended = true
-        
-        super.init()
-        self.startRunningSession()
+}
+
+// MARK: - Delegate
+extension SingleVideoSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput,
+                       didOutput sampleBuffer: CMSampleBuffer,
+                       from connection: AVCaptureConnection) {
+        print(output)
+//        if let videoWriterInput = videoWriterInput, videoWriterInput.isReadyForMoreMediaData {
+//            videoWriterInput.append(sampleBuffer)
+//        }
     }
 }
 
 extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
-    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
+    func fileOutput(_ output: AVCaptureFileOutput,
+                    didStartRecordingTo fileURL: URL,
+                    from connections: [AVCaptureConnection]) {
         print("Record started now")
     }
     
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+    func fileOutput(_ output: AVCaptureFileOutput,
+                    didFinishRecordingTo outputFileURL: URL,
+                    from connections: [AVCaptureConnection],
+                    error: Error?) {
         print("Record finished")
         
         if let error = error {
