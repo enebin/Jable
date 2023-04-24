@@ -12,6 +12,7 @@ enum VideoRecorderError: LocalizedError {
     case permissionDenied
     case unableToSetInput
     case unableToSetOutput
+    case undableToSetExport
     case notConfigured
     case notSupportedDevice
     case notSupportedOS
@@ -26,6 +27,8 @@ enum VideoRecorderError: LocalizedError {
             return "영상을 저장할 수 없습니다."
         case .unableToSetOutput:
             return "영상을 녹화할 수 없습니다."
+        case .undableToSetExport:
+            return "영상을 export할 수 없습니다."
         case .notConfigured:
             return "카메라 세션이 생성되지 않았습니다."
         case .notSupportedOS:

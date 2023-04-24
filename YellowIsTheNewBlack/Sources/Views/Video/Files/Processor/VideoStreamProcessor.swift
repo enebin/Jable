@@ -19,8 +19,7 @@ final class VideoStreamProcessor: NSObject {
     private var videoWriter: AVAssetWriter?
     private var videoWriterInput: AVAssetWriterInput?
 
-    init?(captureSession: AVCaptureSession,
-         videoWriterInput: AVAssetWriterInput) {
+    init?(captureSession: AVCaptureSession) {
         self.captureSession = captureSession
         self.videoDataOutput = AVCaptureVideoDataOutput()
         
@@ -31,7 +30,10 @@ final class VideoStreamProcessor: NSObject {
 
 extension VideoStreamProcessor {
     func startRecording() {
-        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(UUID().uuidString).mp4")
+        let tempURL = URL(
+            fileURLWithPath: NSTemporaryDirectory()
+        ).appendingPathComponent("\(UUID().uuidString).mp4")
+        
         videoURLs.append(tempURL)
         videoWriter = try? AVAssetWriter(outputURL: tempURL, fileType: .mp4)
         videoWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: [
@@ -52,23 +54,23 @@ extension VideoStreamProcessor {
     }
     
     /// 프레임 기록을 잠시 멈춤. 저장은 하지 않음.
-    func pauseRecording() {
+    func pauseRecording() async {
         videoWriterInput = nil
-        videoWriter?.finishWriting(completionHandler: {
-            print("Video segment saved to: \(self.videoURLs.last!)")
-        })
+        
+        await videoWriter?.finishWriting()
+        print("\(#file)(\(#function)): Video segment temporarily saved to: \(videoURLs.last!)")
+        
         videoWriter = nil
     }
 
     /// 기록을 멈추고 비디오를 저장
-    func stopRecording() {
+    func stopRecording() async throws -> URL {
         videoWriterInput = nil
-        videoWriter?.finishWriting(completionHandler: { [weak self] in
-            DispatchQueue.global(qos: .utility).async {
-                self?.mergeVideoSegments()
-            }
-        })
+        
+        await videoWriter?.finishWriting()
         videoWriter = nil
+
+        return try await mergeVideoSegments()
     }
 }
 
@@ -84,45 +86,40 @@ private extension VideoStreamProcessor {
         }
     }
     
-    func mergeVideoSegments() {
+    func mergeVideoSegments() async throws -> URL {
         let composition = AVMutableComposition()
         let videoTrack = composition.addMutableTrack(withMediaType: .video,
                                                      preferredTrackID: kCMPersistentTrackID_Invalid)
-
         var currentDuration = CMTime.zero
         for url in videoURLs {
             let asset = AVURLAsset(url: url)
             guard let videoAssetTrack = asset.tracks(withMediaType: .video).first else { continue }
             do {
-                try videoTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: asset.duration), of: videoAssetTrack, at: currentDuration)
+                try videoTrack?.insertTimeRange(CMTimeRange(start: .zero,
+                                                            duration: asset.duration),
+                                                of: videoAssetTrack,
+                                                at: currentDuration)
                 currentDuration = CMTimeAdd(currentDuration, asset.duration)
             } catch {
                 print("Error merging video segments: \(error)")
             }
         }
-
-        guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
-            return
+        
+        guard
+            let exportSession = AVAssetExportSession(asset: composition,
+                                                     presetName: AVAssetExportPresetHighestQuality)
+        else {
+            throw VideoRecorderError.undableToSetExport
         }
-
-        let finalVideoURL = URL(
-            fileURLWithPath: NSTemporaryDirectory()
-        ).appendingPathComponent("final_\(UUID().uuidString).mp4")
+        
+        let finalVideoURL = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("final_\(UUID().uuidString).mp4")
         
         exportSession.outputURL = finalVideoURL
         exportSession.outputFileType = .mp4
-        exportSession.exportAsynchronously {
-            DispatchQueue.main.async {
-                switch exportSession.status {
-                case .completed:
-                    print("Merged video saved to: \(finalVideoURL)")
-                case .failed, .cancelled:
-                    print("Error merging video segments: \(exportSession.error?.localizedDescription ?? "unknown error")")
-                default:
-                    break
-                }
-            }
-        }
+        
+        await exportSession.export()
+        return finalVideoURL
     }
 }
 

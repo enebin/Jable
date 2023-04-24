@@ -12,12 +12,13 @@ import RxRelay
 
 class SingleVideoSessionManager: NSObject, VideoSessionManager {
     typealias SessionHandler = (AVCaptureSession) -> Void
-
+    
     static let shared = SingleVideoSessionManager()
     
     // MARK: Dependencies
     private let videoFileManager: VideoFileManager
     private let videoAlbumSaver: VideoAlbumSaver
+    private let videoStreamProcessor: VideoStreamProcessor?
     
     // MARK: - Public properties
     let session: AVCaptureSession
@@ -48,7 +49,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     
     private var audioDevice: AVCaptureDeviceInput?
     private var videoDevice: AVCaptureDeviceInput?
-        
+    
     init(_ videoFileManager: VideoFileManager = VideoFileManager.default,
          _ videoAlbumSaver: VideoAlbumSaver = VideoAlbumSaver.shared) {
         self.videoFileManager = videoFileManager
@@ -65,12 +66,16 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         self.session = AVCaptureSession()
         self.configuration = VideoSessionConfiguration()
         
+        self.videoStreamProcessor = VideoStreamProcessor(captureSession: session)
+        
         super.init()
         
         captureOutput.setSampleBufferDelegate(self, queue: videoQueue)
         self.startRunningSession()
     }
-    
+}
+
+extension SingleVideoSessionManager {
     // MARK: - Public methods and vars
     /// 세션을 세팅한다
     ///
@@ -119,7 +124,9 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         
         completion?()
     }
-    
+}
+
+extension SingleVideoSessionManager {
     // MARK: - Configuration setters(editting session)
     func setSlientMode(_ isEnabled: Bool,
                        currentCamPosition: AVCaptureDevice.Position,
@@ -168,7 +175,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
             guard let self = self else { return }
             
             let session = self.session
-
+            
             session.beginConfiguration()
             defer {
                 session.commitConfiguration()
@@ -186,7 +193,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
             
             do {
                 let session = self.session
-
+                
                 session.beginConfiguration()
                 defer {
                     session.commitConfiguration()
@@ -199,7 +206,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
                 guard let device = self.findBestCamera(in: position) else {
                     throw VideoRecorderError.invalidDevice
                 }
-
+                
                 let deviceInput = try AVCaptureDeviceInput(device: device)
                 if session.canAddInput(deviceInput) {
                     session.addInput(deviceInput)
@@ -214,7 +221,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
             }
         }
     }
-
+    
     func setZoom(_ factor: CGFloat) {
         guard let videoDevice = videoDevice else {
             return
@@ -231,7 +238,7 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
             return
         }
     }
-
+    
     @available(iOS 16, *)
     func setBackgroundMode(_ isEnabled: Bool, _ completion: @escaping SessionHandler) {
         workQueue.addOperation { [weak self] in
@@ -248,6 +255,9 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
             completion(session)
         }
     }
+}
+
+extension SingleVideoSessionManager {
     // MARK: - Internal methods
 
     /// 세션을 시작함
