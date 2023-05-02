@@ -16,7 +16,7 @@ protocol SettingType {
 extension SettingType {
     func toActionSheet() -> UIAlertController {
         let alertController = UIAlertController()
-        
+
         for option in self.options {
             let alertAction = UIAlertAction(title: option.title, style: .default) { _ in
                 option.action()
@@ -27,7 +27,7 @@ extension SettingType {
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(cancelAction)
-        
+
         return alertController
     }
 }
@@ -36,5 +36,3 @@ struct SettingOption {
     let title: String
     let action: () -> Void
 }
-
-

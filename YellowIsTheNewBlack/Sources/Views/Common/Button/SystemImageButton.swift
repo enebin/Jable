@@ -9,17 +9,17 @@ import UIKit
 
 class SystemImageButton: UIButton {
     private var systemName: String = "xmark"
-    
+
     func setSystemImage(name: String) {
         systemName = name
-        
+
         guard let image = UIImage(systemName: name) else {
             return
         }
-        
+
         self.imageView?.image = image
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         setLayout()
@@ -30,7 +30,7 @@ class SystemImageButton: UIButton {
         let buttonImage = UIImage(systemName: self.systemName, withConfiguration: imageConfig)!
             .withTintColor(.white, renderingMode: .alwaysOriginal)
         self.setImage(buttonImage, for: .normal)
-    
+
         self.imageView?.contentMode = .scaleAspectFit
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowRadius = 5

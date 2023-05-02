@@ -12,14 +12,14 @@ import Then
 class SettingButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         setLayout()
     }
-    
+
     private func setLayout() {
         let buttonImage = UIImage(systemName: "gear")!
             .withTintColor(.white, renderingMode: .alwaysOriginal)
-        
+
         self.setImage(buttonImage, for: .normal)
         self.contentVerticalAlignment = .fill
         self.contentHorizontalAlignment = .fill

@@ -13,7 +13,7 @@ struct GallerySection {
     var items: [Item]
 }
 
-extension GallerySection : AnimatableSectionModelType {
+extension GallerySection: AnimatableSectionModelType {
     typealias Identity = String
     typealias Item = VideoFileInformation
 

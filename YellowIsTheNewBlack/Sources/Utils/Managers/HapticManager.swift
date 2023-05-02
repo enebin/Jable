@@ -13,11 +13,11 @@ struct HapticManager {
         case end
         case normal
     }
-    
+
     static let shared = HapticManager()
     private let generator: UIImpactFeedbackGenerator
     private let feedbackGenerator: UINotificationFeedbackGenerator
-    
+
     func generate(type: HapticType) {
         switch type {
         case .normal:
@@ -29,7 +29,7 @@ struct HapticManager {
         }
         generator.impactOccurred()
     }
-    
+
     init() {
         self.generator = UIImpactFeedbackGenerator(style: .medium)
         self.feedbackGenerator = UINotificationFeedbackGenerator()

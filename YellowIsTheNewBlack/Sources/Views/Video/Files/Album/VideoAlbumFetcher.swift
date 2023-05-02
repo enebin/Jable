@@ -16,49 +16,49 @@ protocol AlbumFetcher {
 
 class VideoAlbumFetcher: NSObject, AlbumFetcher {
     typealias VideoRelay = BehaviorRelay<[VideoFileInformation]>
-    
+
     static let shared = VideoAlbumFetcher()
-    
+
     // Dependencies
     private let albumManager: AlbumManager
     private let photoLibrary: PHPhotoLibrary
     private let changeObserer = VideoRelay(value: [])
-    
+
     func getObserver() -> VideoRelay {
         guard let album = albumManager.getAlbum() else {
             return changeObserer
         }
-        
+
         // Register observer delegate
         photoLibrary.register(self)
-        
+
         // Fetch initial assets
         loadVideoInformationsFromAlbum(album, to: changeObserer)
-        
+
         return changeObserer
     }
-    
+
     private func loadVideoInformationsFromAlbum( _ album: PHAssetCollection, to observer: VideoRelay) {
         DispatchQueue.global(qos: .userInitiated).async {
             let videoAssets = PHAsset.fetchAssets(in: album, options: nil)
             var informations: [VideoFileInformation] = []
-            
+
             videoAssets.enumerateObjects { (object: PHAsset, count: Int, _) in
                 let asset = object
-                
+
                 if asset.mediaType != .video {
                     return
                 }
-                
+
                 let videoOptions: PHVideoRequestOptions = PHVideoRequestOptions()
                 videoOptions.version = .original
-                
-                PHImageManager.default().requestAVAsset(forVideo: asset, options: videoOptions) { (asset, audioMix, info) in
+
+                PHImageManager.default().requestAVAsset(forVideo: asset, options: videoOptions) { (asset, _, _) in
                     if let urlAsset = asset as? AVURLAsset {
                         let information = VideoFileInformationMaker.makeInformationFile(for: urlAsset.url)
                         informations.append(information)
                     }
-                    
+
                     if count == videoAssets.count - 1 {
                         DispatchQueue.main.async {
                             observer.accept(informations)
@@ -68,7 +68,7 @@ class VideoAlbumFetcher: NSObject, AlbumFetcher {
             }
         }
     }
-    
+
     init(_ albumManager: AlbumManager = VideoAlbumManager.shared,
          _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
         self.albumManager = albumManager

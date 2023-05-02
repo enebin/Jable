@@ -15,50 +15,49 @@ import RxSwift
 class SettingTypeViewController: UIViewController, ToolbarItem {
     typealias Action = () -> Void
     typealias SettingAction = (Setting) -> Void
-    
+
     private let bag = DisposeBag()
-    
+
     lazy var backButton = SystemImageButton().then {
         $0.setSystemImage(name: "chevron.left")
     }
-    
+
     lazy var qualityButton = LabelButton().then {
         $0.setTitleLabel("Quality")
     }
-    
+
     lazy var positionButton = LabelButton().then {
         $0.setTitleLabel("Position")
     }
-    
-        
+
     // MARK: Stack views
     lazy var settingTypeStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.backgroundColor = .clear
         $0.alignment = .center
         $0.distribution = .fillEqually
-        
+
         $0.layoutMargins = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 60)
         $0.isLayoutMarginsRelativeArrangement = true
     }
-    
+
     var backButtonAction: Action?
     func onBackButtonTapped(_ action: @escaping Action) {
         backButtonAction = action
     }
-    
+
     var elementButtonAction: SettingAction?
     func onElementButtonTapped(_ action: @escaping SettingAction) {
         elementButtonAction = action
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setLayout()
         bindButtons()
     }
-    
+
     func setLayout() {
         // MARK: Setting type stack view
         view.addSubview(settingTypeStackView)
@@ -66,13 +65,13 @@ class SettingTypeViewController: UIViewController, ToolbarItem {
             make.width.height.equalToSuperview()
             make.center.equalToSuperview()
         }
-        
+
         settingTypeStackView.addArrangedSubview(qualityButton)
         qualityButton.snp.makeConstraints { make in
             make.height.equalTo(35)
             make.centerY.equalToSuperview()
         }
-        
+
         settingTypeStackView.addArrangedSubview(positionButton)
         positionButton.snp.makeConstraints { make in
             make.height.equalTo(35)
@@ -86,28 +85,28 @@ class SettingTypeViewController: UIViewController, ToolbarItem {
             make.centerY.equalToSuperview()
         }
     }
-    
+
     func bindButtons() {
         backButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                
+
                 self.backButtonAction?()
             }
             .disposed(by: bag)
-        
+
         qualityButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                
+
                 self.elementButtonAction?(.quality)
             }
             .disposed(by: bag)
-        
+
         positionButton.rx.tap
             .bind { [weak self] in
                 guard let self = self else { return }
-                
+
                 self.elementButtonAction?(.position)
             }
             .disposed(by: bag)

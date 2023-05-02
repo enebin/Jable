@@ -13,26 +13,26 @@ class VideoFilePathManager: NSObject {
     // Dependencies
     private let fileManager: FileManager
     private let dateFormatter: DateFormatter
-    
+
     // Internal vars and consts
     private let path: URL
-    
+
     var fileDiretoryPath: URL {
         return self.path
     }
-    
+
     /// Get a new file path for recording video
     var filePath: URL {
         let directoryPath = self.path
         let fileName = self.dateFormatter.string(from: Date())
-        
+
         let filePath = directoryPath
             .appendingPathComponent(fileName)
             .appendingPathExtension("mp4")
-        
+
         return filePath
     }
-    
+
     // MARK: - Internal methos
     private func setDateFormatter(_ formatter: DateFormatter) {
         formatter.dateFormat = "yyyy_MM_dd_HH-mm"
@@ -44,13 +44,13 @@ class VideoFilePathManager: NSObject {
     ) {
         self.fileManager = fileManager
         self.dateFormatter = dateFormatter
-        
+
         // set paths
         let albumPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first! // FIXME: Remove force unwrap
         self.path = albumPath.appendingPathComponent("Jable", isDirectory: true)
 
         super.init()
-        
+
         self.setDateFormatter(dateFormatter)
         if fileManager.fileExists(atPath: self.path.path) == false {
             // Set directory if doesn't exist
@@ -66,7 +66,7 @@ class VideoFilePathManager: NSObject {
 }
 
 extension VideoFilePathManager: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         print(#function, info)
     }
 }

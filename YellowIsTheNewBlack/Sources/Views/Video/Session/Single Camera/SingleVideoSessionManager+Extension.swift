@@ -11,7 +11,7 @@ enum DeviceType {
     case frontCamera
     case backCamera
     case microphone
-    
+
     var captureDeviceType: AVCaptureDevice.DeviceType {
         switch self {
         case .frontCamera, .backCamera:
@@ -20,7 +20,7 @@ enum DeviceType {
             return .builtInMicrophone
         }
     }
-    
+
     var captureMediaType: AVMediaType {
         switch self {
         case .frontCamera, .backCamera:
@@ -29,7 +29,7 @@ enum DeviceType {
             return .audio
         }
     }
-    
+
     var capturePosition: AVCaptureDevice.Position {
         switch self {
         case .frontCamera:
@@ -49,14 +49,14 @@ extension VideoSessionManaging {
             mediaType: type.captureMediaType,
             position: type.capturePosition
         )
-        
+
         guard let captureDevice = captureDevices.devices.first else {
             throw VideoRecorderError.invalidDevice
         }
-        
+
         return try AVCaptureDeviceInput(device: captureDevice)
     }
-    
+
     func checkPermissionForCaptureSession() async throws {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -76,7 +76,7 @@ extension VideoSessionManaging {
             throw VideoRecorderError.invalidDevice
         }
     }
-    
+
     /// Finds the best camera among the several cameras
     ///
     /// Only back postion is supported now

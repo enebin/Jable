@@ -16,7 +16,7 @@ enum VideoRecorderError: LocalizedError {
     case notConfigured
     case notSupportedDevice
     case notSupportedOS
-    
+
     var errorDescription: String? {
         switch self {
         case .invalidDevice:

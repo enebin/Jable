@@ -18,7 +18,7 @@ struct VideoFileInformation: Identifiable, Equatable {
 // for RxDataSource
 extension VideoFileInformation: IdentifiableType {
     typealias Identity = UUID
-    
+
     var identity: UUID {
         return self.id
     }

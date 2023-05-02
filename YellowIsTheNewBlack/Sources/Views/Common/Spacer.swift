@@ -10,7 +10,7 @@ import UIKit
 class Spacer: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         self.backgroundColor = .clear
     }
 }

@@ -18,13 +18,13 @@ class VideoRecoderViewModel: NSObject {
     let videoConfiguration: VideoSessionConfiguration
     private let sessionManager: SingleVideoSessionManager
     private let videoAlbumFethcher: VideoAlbumFetcher
-    
+
     // MARK: Private propertieds
     private var bag = DisposeBag()
     private var isObservablesBound = false
-    
+
     private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
-        
+
     // MARK: Public properties(outputs)
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     var thumbnailObserver: Observable<UIImage?>
@@ -34,15 +34,15 @@ class VideoRecoderViewModel: NSObject {
     func startRecordingVideo() async throws {
         try await sessionManager.startRecordingVideo()
     }
-    
+
     func stopRecordingVideo() async throws {
         try await sessionManager.stopRecordingVideo()
     }
-    
+
     func pauseRecordingVideo() async throws {
         try await sessionManager.pauseRecordingVideo()
     }
-    
+
     @objc func setZoomFactorFromPinchGesture(_ sender: UIPinchGestureRecognizer) {
         guard
             let maxZoomFactor = sessionManager.maxZoomFactor,
@@ -50,9 +50,9 @@ class VideoRecoderViewModel: NSObject {
         else {
             return
         }
-        
+
         let sensitivity: CGFloat = 4
-        
+
         switch sender.state {
         case .began: fallthrough
         case .changed:
@@ -64,22 +64,22 @@ class VideoRecoderViewModel: NSObject {
             break
         }
     }
-    
+
     // MARK: - Private methods
     private func updatePreview(with session: AVCaptureSession) {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        
+
         DispatchQueue.main.async {
             self.previewLayer.accept(previewLayer)
         }
     }
-    
+
     private func checkPermission() {
         PHPhotoLibrary.requestAuthorization { [weak self] status in
             guard let self = self else {
                 return
             }
-            
+
             guard status == .authorized else {
                 self.statusObserver.accept(VideoAlbumError.unabledToAccessAlbum)
                 print("앨범 접근 권한이 없습니다.")
@@ -87,7 +87,7 @@ class VideoRecoderViewModel: NSObject {
             }
         }
     }
-    
+
     private func bindObservables() {
         if isObservablesBound {
             fatalError("Observables have already been bound!")
@@ -102,20 +102,20 @@ class VideoRecoderViewModel: NSObject {
                 guard let self = self else {
                     return
                 }
-                
+
                 self.sessionManager.setVideoQuality(quality) { session in
                     self.updatePreview(with: session)
                 }
-                    
+
             }
             .disposed(by: bag)
-        
+
         videoConfiguration.silentMode
             .debounce(.milliseconds(150), scheduler: workQueue)
             .subscribe(on: workQueue)
             .bind { [weak self] isEnabled in
                 guard let self = self else { return }
-                
+
                 self.sessionManager.setSlientMode(isEnabled,
                                                   currentCamPosition: self.videoConfiguration.cameraPosition.value) { session in
                     self.updatePreview(with: session)
@@ -128,30 +128,29 @@ class VideoRecoderViewModel: NSObject {
             .subscribe(on: workQueue)
             .bind { [weak self] position in
                 guard let self = self else { return }
-                
+
                 self.sessionManager.setCameraPosition(position) { session in
                     self.updatePreview(with: session)
                 }
             }
             .disposed(by: bag)
-        
+
         videoConfiguration.zoomFactor
             .subscribe(on: workQueue)
             .bind { [weak self] factor in
                 guard let self = self else { return }
-                
+
                 self.sessionManager.setZoom(factor)
             }
             .disposed(by: bag)
-        
-        
+
         if #available(iOS 16, *), self.sessionManager.session.isMultitaskingCameraAccessSupported {
             videoConfiguration.backgroundMode
                 .debounce(.milliseconds(150), scheduler: workQueue)
                 .subscribe(on: workQueue)
                 .bind { [weak self] enabled in
                     guard let self = self else { return }
-                    
+
                     self.sessionManager.setBackgroundMode(enabled) { session in
                         self.updatePreview(with: session)
                     }
@@ -159,13 +158,13 @@ class VideoRecoderViewModel: NSObject {
                 .disposed(by: bag)
         }
     }
-    
+
     init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
          _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration(),
          _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
         self.sessionManager = sessionManager
         sessionManager.statusObserver = self.statusObserver
-        
+
         self.videoConfiguration = videoConfiguration
 
         self.videoAlbumFethcher = videoAlbumFetcher
@@ -173,9 +172,9 @@ class VideoRecoderViewModel: NSObject {
             .map { thumbnails in
                 return thumbnails.last?.thumbnail
             }
-        
+
         super.init()
-        
+
         self.bindObservables()
         self.checkPermission()
 

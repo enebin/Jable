@@ -20,7 +20,7 @@ extension AVCaptureSession.Preset {
             return 0
         }
     }
-    
+
     static func from(_ number: Int) -> AVCaptureSession.Preset {
         switch number {
         case 1:

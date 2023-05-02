@@ -18,7 +18,7 @@ extension AVCaptureDevice.Position {
             return 1
         }
     }
-    
+
     static func from(_ number: Int) -> AVCaptureDevice.Position {
         switch number {
         case 1:

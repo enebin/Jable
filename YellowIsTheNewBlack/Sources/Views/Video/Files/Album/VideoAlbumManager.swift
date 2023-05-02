@@ -18,10 +18,10 @@ protocol AlbumManager {
 
 class VideoAlbumManager: AlbumManager {
     static let shared = VideoAlbumManager()
-        
+
     // Dependencies
     private let photoLibrary: PHPhotoLibrary
-    
+
     // Consts and vars
     private let albumName: String
 
@@ -30,25 +30,25 @@ class VideoAlbumManager: AlbumManager {
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "title = %@", albumName)
         let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: options)
-        
+
         return collection.firstObject ?? nil
     }
-    
+
     func createAlbum() async throws -> PHAssetCollection {
         var _album: PHAssetCollection?
-        
+
         try photoLibrary.performChangesAndWait {
             PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: self.albumName)
             _album = self.getAlbum()
         }
-        
+
         guard let album = _album else {
             throw VideoAlbumError.unabledToAccessAlbum
         }
-        
+
         return album
     }
-    
+
     init(_ albumName: String = "BLBX",
          _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
         self.photoLibrary = photoLibrary

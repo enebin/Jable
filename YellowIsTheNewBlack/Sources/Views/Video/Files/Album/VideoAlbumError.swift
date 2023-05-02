@@ -9,7 +9,7 @@ import Foundation
 
 enum VideoAlbumError: LocalizedError {
     case unabledToAccessAlbum
-    
+
     var errorDescription: String? {
         switch self {
         case .unabledToAccessAlbum:
@@ -17,4 +17,3 @@ enum VideoAlbumError: LocalizedError {
         }
     }
 }
-

@@ -14,7 +14,7 @@ protocol VideoConfiguration {
     var cameraPosition: AVCaptureDevice.Position { get set }
     var silentMode: Bool { get set }
     var backgroundMode: Bool { get set }
-    
+
     // MARK: Remain in memory
     var stealthMode: Bool { get set }
     var zoomFactor: CGFloat { get set }

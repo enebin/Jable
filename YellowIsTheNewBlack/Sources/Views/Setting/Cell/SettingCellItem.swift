@@ -9,14 +9,14 @@ import UIKit
 
 struct SettingCellItem: CellItem {
     typealias Action = () -> Void
-    
+
     var title: String?
     var image: UIImage?
-    
+
     var actionType: ActionType?
 }
 
-enum ActionType  {
+enum ActionType {
     case toggle
     case dropdown
 }

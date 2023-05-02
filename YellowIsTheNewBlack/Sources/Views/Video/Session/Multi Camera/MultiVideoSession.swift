@@ -5,9 +5,9 @@
 ////  Created by 이영빈 on 2022/10/12.
 ////
 //
-//import AVFoundation
+// import AVFoundation
 ////
-//class MultiVideoSessionManager: NSObject, VideoSessionManager {
+// class MultiVideoSessionManager: NSObject, VideoSessionManager {
 //    // Dependencies
 //    private let videoFileManager: VideoFileManager
 //    private let videoAlbumSaver: VideoAlbumSaver
@@ -277,22 +277,22 @@
 //        }
 //        session.addConnection(frontMicrophoneAudioDataOutputConnection)
 //    }
-//}
+// }
 //
-//extension MultiVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
+// extension MultiVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
 //    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
 //        
 //    }
-//}
+// }
 //
-//extension MultiVideoSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
+// extension MultiVideoSessionManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 //    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
 //        
 //    }
-//}
+// }
 //
-//extension MultiVideoSessionManager: AVCaptureAudioDataOutputSampleBufferDelegate {
+// extension MultiVideoSessionManager: AVCaptureAudioDataOutputSampleBufferDelegate {
 //    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 //        
 //    }
-//}
+// }

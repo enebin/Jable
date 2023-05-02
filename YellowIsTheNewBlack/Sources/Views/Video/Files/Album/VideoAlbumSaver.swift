@@ -14,13 +14,13 @@ protocol AlbumSaver {
 
 class VideoAlbumSaver: AlbumSaver {
     static let shared = VideoAlbumSaver()
-    
+
     // Dependencies
     private let albumManager: AlbumManager
     private let photoLibrary: PHPhotoLibrary
-    
+
     // Methods
-    private func add(_ videoURL: URL, to album: PHAssetCollection) async throws -> Void {
+    private func add(_ videoURL: URL, to album: PHAssetCollection) async throws {
         async let task: Void = photoLibrary.performChanges {
             if
                 let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL),
@@ -31,10 +31,10 @@ class VideoAlbumSaver: AlbumSaver {
                 albumChangeRequest?.addAssets(enumeration)
             }
         }
-        
+
         return try await task
     }
-    
+
     /// Recommended to be executed on background queue
     func save(videoURL: URL) async throws {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
@@ -44,7 +44,7 @@ class VideoAlbumSaver: AlbumSaver {
                     continuation.resume(throwing: VideoAlbumError.unabledToAccessAlbum)
                     return
                 }
-                
+
                 continuation.resume()
             }
         }
@@ -60,7 +60,7 @@ class VideoAlbumSaver: AlbumSaver {
             LoggingManager.logger.log(error: error)
         }
     }
-    
+
     init(_ albumManager: AlbumManager = VideoAlbumManager.shared,
          _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
         self.albumManager = albumManager

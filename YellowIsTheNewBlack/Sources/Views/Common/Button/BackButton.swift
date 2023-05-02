@@ -18,7 +18,7 @@ class BackButton: UIButton {
         let buttonImage = UIImage(systemName: "chevron.left", withConfiguration: imageConfig)!
             .withTintColor(.white, renderingMode: .alwaysOriginal)
         self.setImage(buttonImage, for: .normal)
-        
+
         self.imageView?.contentMode = .scaleAspectFit
     }
 }

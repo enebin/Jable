@@ -9,15 +9,15 @@ import Foundation
 
 class LoggingManager {
     static let logger = LoggingManager()
-    
+
     private let showLog = true
-    
+
     func log(message: String) {
         if showLog {
             print("[BLBX] \(message)")
         }
     }
-    
+
     func log(_ file: String = #file,
              _ function: String = #function,
              _ line: Int = #line,

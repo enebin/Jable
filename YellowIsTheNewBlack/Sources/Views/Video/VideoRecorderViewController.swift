@@ -14,7 +14,7 @@ import RxCocoa
 import RxSwift
 
 @MainActor
-class VideoRecorderViewController: UIViewController {    
+class VideoRecorderViewController: UIViewController {
     // Dependencies
     let viewModel: VideoRecoderViewModel
 
@@ -22,24 +22,24 @@ class VideoRecorderViewController: UIViewController {
     var errorMessage = "알 수 없는 오류"
     var isRecording = false
     let bag = DisposeBag()
-    
+
     var previewLayerSize: PreviewLayerSize = .large
     var preview: AVCaptureVideoPreviewLayer?
-    
+
     // MARK: View components
     lazy var recordButton = UIButton().then {
         $0.backgroundColor = .white
         $0.sizeToFit()
     }
-    
+
     lazy var thumbnailButton = CustomImageButton().then {
         let image = UIImage()
         $0.setCustomImage(image)
         $0.imageView?.contentMode = .scaleAspectFill
     }
-    
+
     lazy var previewUIView = UIView()
-    
+
     lazy var shutterButton = ShutterButton()
     lazy var spacer = UIView.spacer
     lazy var settingVC = SettingToolBarViewController(configuration: viewModel.videoConfiguration)
@@ -49,21 +49,21 @@ class VideoRecorderViewController: UIViewController {
         $0.backgroundColor = .white
         $0.sizeToFit()
     }
-    
+
     // MARK: Life cycle related methods
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+
         setChildViewControllers()
         setLayout()
         bindButtons()
         bindObservables()
-        
+
         let pinchRecognizer = UIPinchGestureRecognizer(target: viewModel,
                                                        action: #selector(viewModel.setZoomFactorFromPinchGesture(_:)))
         view.addGestureRecognizer(pinchRecognizer)
     }
-    
+
     private func setCameraPreviewLayer(_ layer: AVCaptureVideoPreviewLayer?) {
         guard let _layer = layer else {
             return
@@ -82,17 +82,17 @@ class VideoRecorderViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.height.equalTo(300)
         }
-        
+
         preview!.bounds = self.previewLayerSize.sizeRect
         preview!.frame = self.previewLayerSize.sizeRect
         preview!.videoGravity = .resizeAspectFill
         preview!.cornerRadius = 20
-        
+
         previewUIView.isHidden = viewModel.videoConfiguration.stealthMode.value
-        
+
         setLayout()
     }
-    
+
     private func setChildViewControllers() {
         self.addChild(settingVC)
         settingVC.didMove(toParent: self)
@@ -105,13 +105,13 @@ class VideoRecorderViewController: UIViewController {
             make.bottom.equalToSuperview().inset(50)
             make.centerX.equalToSuperview()
         }
-        
+
         self.view.addSubview(thumbnailButton)
         thumbnailButton.snp.makeConstraints { make in
             make.centerY.equalTo(shutterButton.snp.centerY)
             make.left.equalToSuperview().inset(10)
         }
-        
+
         self.view.addSubview(settingVC.view)
         settingVC.view.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -119,7 +119,7 @@ class VideoRecorderViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
-        
+
         self.view.addSubview(elapsedTimeVC.view)
         elapsedTimeVC.view.snp.makeConstraints { make in
             make.top.equalTo(settingVC.view.snp.bottom)
@@ -128,7 +128,7 @@ class VideoRecorderViewController: UIViewController {
         }
         elapsedTimeVC.view.isHidden = true
     }
-    
+
     private func bindButtons() {
         shutterButton.rx.tap
             .observe(on: MainScheduler.instance)
@@ -146,14 +146,14 @@ class VideoRecorderViewController: UIViewController {
                 }
             }
             .disposed(by: bag)
-        
+
         thumbnailButton.rx.tap
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
                 print("Tapped")
                 HapticManager.shared.generate(type: .normal)
-                
+
                 let albumVC = GalleryViewController()
                 self.present(albumVC, animated: true)
             }
@@ -165,12 +165,12 @@ class VideoRecorderViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newLayer in
                 guard let self = self else { return }
-                
+
                 self.setCameraPreviewLayer(newLayer)
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
-        
+
         viewModel.videoConfiguration.stealthMode
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newValue in
@@ -179,32 +179,32 @@ class VideoRecorderViewController: UIViewController {
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
-        
+
         viewModel.thumbnailObserver
             .observe(on: MainScheduler.instance)
-            .compactMap{ $0 }
+            .compactMap { $0 }
             .bind(to: thumbnailButton.rx.image(for: .normal))
             .disposed(by: bag)
-        
+
         viewModel.statusObserver
             .observe(on: MainScheduler.instance)
             .bind { [weak self] error in
                 guard let self = self else { return }
-                
+
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.commonErrorHandler(error)
                 }
             }
             .disposed(by: bag)
     }
-    
+
     // Initializers
     init(viewModel: VideoRecoderViewModel = VideoRecoderViewModel()) {
         // Update dependencies
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -214,38 +214,38 @@ class VideoRecorderViewController: UIViewController {
 private extension VideoRecorderViewController {
     func startRecording() throws {
         HapticManager.shared.generate(type: .start)
-        
+
         self.isRecording = true
         self.shutterButton.isRecording = true
         self.elapsedTimeVC.view.isHidden = false
         Task {
             try await self.viewModel.startRecordingVideo()
         }
-        
+
         self.view.layoutIfNeeded()
     }
-    
+
     func stopRecording() throws {
         HapticManager.shared.generate(type: .end)
-        
+
         self.isRecording = false
         self.shutterButton.isRecording = false
         self.elapsedTimeVC.view.isHidden = true
         Task {
             try await self.viewModel.stopRecordingVideo()
         }
-        
+
         self.view.layoutIfNeeded()
     }
-    
+
     // TODO: Recording paused
     func pauseRecofding() throws {
         Task {
             try await self.viewModel.pauseRecordingVideo()
         }
-        
+
         // TODO: 다시 시작할 건지 물어보는 얼러트 추가
-        
+
         self.view.layoutIfNeeded()
     }
 }
@@ -258,7 +258,7 @@ extension VideoRecorderViewController {
             $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,
                                        handler: nil))
         }
-        
+
         // 세션 인터럽트(백그라운드 등) 시
         // Handle the specific AVFoundationErrorDomain Code=-11818 error
         if
@@ -268,7 +268,7 @@ extension VideoRecorderViewController {
         {
             print("AVFoundationErrorDomain Code=-11818 감지: 비디오 리코딩 세션 인터럽트를 의미함")
         }
-        
+
         self.present(alert, animated: true)
         try? self.stopRecording()
     }
@@ -280,10 +280,10 @@ extension VideoRecorderViewController {
         case large = 1
         case medium = 0.5
         case small = 0.3
-        
+
         var position: CGPoint {
             let screenSize = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
-            
+
             switch self {
                 // -30 is offset constant
             case .large:
@@ -294,14 +294,14 @@ extension VideoRecorderViewController {
                 return CGPoint(x: screenSize.0/8 * 7, y: screenSize.1/8 * 7 - 30)   // 7th over 8 of the screen
             }
         }
-        
+
         var sizeRect: CGRect {
             let screenSize = (UIScreen.main.bounds.width, UIScreen.main.bounds.height * 0.75)
-            
+
             let layerSize = CGSize(width: screenSize.0 * self.rawValue, height: screenSize.1 * self.rawValue)
             return CGRect(origin: CGPoint(x: 0, y: 0), size: layerSize)
         }
-        
+
         func next() -> PreviewLayerSize {
             let all = type(of: self).allCases
             if self == all.last! {

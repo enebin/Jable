@@ -9,22 +9,22 @@ import UIKit
 import StoreKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
+
     var window: UIWindow?
-    
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
+
         // Disable auto-lock of screen
         UIApplication.shared.isIdleTimerDisabled = true
 
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        
+
         window?.overrideUserInterfaceStyle = .light // Disable darkmode
         window?.windowScene = windowScene
         window?.rootViewController = VideoRecorderViewController()
         window?.makeKeyAndVisible()
-        
+
         // Request appstore review
         let isAppOpenedCount = appOpenedCount(true)
         if isAppOpenedCount == 2 || isAppOpenedCount == 5 || isAppOpenedCount == 8 {
@@ -39,8 +39,7 @@ extension SceneDelegate {
         if add {
             UserDefaults.standard.set(count + 1, forKey: "isAppOpenedCount")
         }
-        
+
         return count
     }
 }
-
