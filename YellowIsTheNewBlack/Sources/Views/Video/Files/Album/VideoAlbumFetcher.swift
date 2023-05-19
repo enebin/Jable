@@ -59,6 +59,7 @@ class VideoAlbumFetcher: NSObject, AlbumFetcher {
                         informations.append(information)
                     }
 
+                    // if `count` is lastIndex
                     if count == videoAssets.count - 1 {
                         DispatchQueue.main.async {
                             observer.accept(informations)
@@ -78,9 +79,11 @@ class VideoAlbumFetcher: NSObject, AlbumFetcher {
 
 extension VideoAlbumFetcher: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        if let album = albumManager.getAlbum(),
-           let albumChanges = changeInstance.changeDetails(for: album),
-           let newAlbum = albumChanges.objectAfterChanges {
+        if
+            let album = albumManager.getAlbum(),
+            let albumChanges = changeInstance.changeDetails(for: album),
+            let newAlbum = albumChanges.objectAfterChanges
+        {
             loadVideoInformationsFromAlbum(newAlbum, to: self.changeObserer)
         }
     }

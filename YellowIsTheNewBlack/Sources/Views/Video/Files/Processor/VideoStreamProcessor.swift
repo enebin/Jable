@@ -17,6 +17,7 @@ final class VideoStreamProcessor: NSObject {
     private var movieOutput: AVCaptureMovieFileOutput?
 
     private var videoURLs: [URL] = []
+    
     private let jobQueue = OperationQueue()
     private let videoQueue = DispatchQueue(label: "videoQueue")
 
@@ -213,7 +214,8 @@ class VideoRecorder: NSObject {
                 if
                     let assetWriter = assetWriter,
                     let assetWriterInput = assetWriterInput,
-                    assetWriter.canAdd(assetWriterInput) {
+                    assetWriter.canAdd(assetWriterInput)
+                {
                     assetWriter.add(assetWriterInput)
                     isRecording = true
                 }
@@ -279,6 +281,7 @@ extension VideoRecorder: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard isRecording, let assetWriter, let assetWriterInput else { return }
 
+        // 유휴상태
         if assetWriter.status == .unknown {
             let presentationTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
             assetWriter.startWriting()

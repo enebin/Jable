@@ -158,26 +158,28 @@ class VideoRecoderViewModel: NSObject {
                 .disposed(by: bag)
         }
     }
-
-    init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
-         _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration(),
-         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
+    
+    init(
+        _ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
+        _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration(),
+        _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared
+    ) {
         self.sessionManager = sessionManager
         sessionManager.statusObserver = self.statusObserver
-
+        
         self.videoConfiguration = videoConfiguration
-
+        
         self.videoAlbumFethcher = videoAlbumFetcher
         self.thumbnailObserver = videoAlbumFetcher.getObserver()
             .map { thumbnails in
                 return thumbnails.last?.thumbnail
             }
-
+        
         super.init()
-
+        
         self.bindObservables()
         self.checkPermission()
-
+        
         Task {
             try await self.sessionManager.setupSession()
         }

@@ -13,7 +13,6 @@ protocol CustomCell: AnyObject, UITableViewCell {
 
     func setLayout()
     func setLayout(with cellItem: Item)
-
 }
 
 extension CustomCell {

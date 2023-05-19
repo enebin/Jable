@@ -94,7 +94,7 @@ extension SingleVideoSessionManager {
         completion?()
     }
 
-    /// '녹화'를 시작함
+    /// '녹화'를 시작함(async)
     func startRecordingVideo() async throws {
         // 세션이 구성되지 않았으면 에러를 반환
         let filePath = videoFileManager.filePath
