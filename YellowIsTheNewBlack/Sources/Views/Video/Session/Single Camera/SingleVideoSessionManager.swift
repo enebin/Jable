@@ -263,23 +263,29 @@ extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         print("Record finished")
         
-        if let error = error {
-            print("Error recording movie: \(error.localizedDescription), \(error)")
+        if let error {
+            LoggingManager.logger.log(error: error)
             self.statusObsrever?.accept(error)
-        } else {
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
-                Task(priority: .background) {
-                    do {
-                        try await self.videoAlbumSaver.save(videoURL: outputFileURL)
-                    } catch let error {
-                        self.statusObsrever?.accept(error)
-                    }
+            try? stopRecordingVideo()
+            
+            return
+        }
+        
+        // 해당 주소의 앨범에 접근 가능한지 체크
+        if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
+            Task(priority: .background) {
+                do {
+                    try await self.videoAlbumSaver.save(videoURL: outputFileURL)
+                } catch let error {
+                    self.statusObsrever?.accept(error)
                 }
-            } else {
-                print("Error while saving movie")
-                self.statusObsrever?.accept(VideoAlbumError.unabledToAccessAlbum)
-                return
             }
+        } else {
+            let error = VideoAlbumError.unabledToAccessAlbum
+            LoggingManager.logger.log(error: error)
+            statusObsrever?.accept(error)
+            
+            return
         }
     }
 }

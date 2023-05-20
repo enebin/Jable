@@ -40,7 +40,7 @@ class VideoRecoderViewModel: NSObject {
     }
     
     func pauseRecordingVideo() throws {
-        try sessionManager.pauseRecordingVideo()
+//        try sessionManager.pauseRecordingVideo()
     }
     
     @objc func setZoomFactorFromPinchGesture(_ sender: UIPinchGestureRecognizer) {
