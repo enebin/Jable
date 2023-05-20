@@ -264,11 +264,10 @@ extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
         print("Record finished")
         
         if let error {
-            LoggingManager.logger.log(error: error)
-            self.statusObsrever?.accept(error)
             try? stopRecordingVideo()
             
-            return
+            statusObsrever?.accept(error)
+            LoggingManager.logger.log(error: error)
         }
         
         // 해당 주소의 앨범에 접근 가능한지 체크
@@ -282,8 +281,8 @@ extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
             }
         } else {
             let error = VideoAlbumError.unabledToAccessAlbum
-            LoggingManager.logger.log(error: error)
             statusObsrever?.accept(error)
+            LoggingManager.logger.log(error: error)
             
             return
         }

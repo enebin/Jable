@@ -3,4 +3,177 @@
    uuid = "7554C26D-847C-4D2F-8308-160A55FFE8D9"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "98C6DB26-4711-47D3-B141-BAB81EC4F4AA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Session/Single Camera/SingleVideoSessionManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
+            landmarkName = "fileOutput(_:didFinishRecordingTo:from:error:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "98C6DB26-4711-47D3-B141-BAB81EC4F4AA - 1623daa7d7f71e5a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "277"
+                  endingLineNumber = "277"
+                  offsetFromSymbolStart = "1552">
+               </Location>
+               <Location
+                  uuid = "98C6DB26-4711-47D3-B141-BAB81EC4F4AA - db4b790af9b22fcf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "277"
+                  endingLineNumber = "277"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "98C6DB26-4711-47D3-B141-BAB81EC4F4AA - cdb0f7833324e607"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "277"
+                  endingLineNumber = "277"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "98C6DB26-4711-47D3-B141-BAB81EC4F4AA - cdb0f7833324e607"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "277"
+                  endingLineNumber = "277"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "98C6DB26-4711-47D3-B141-BAB81EC4F4AA - 73178f1cfc80d116"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "277"
+                  endingLineNumber = "277"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "98C6DB26-4711-47D3-B141-BAB81EC4F4AA - 93145da7957d2205"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "277"
+                  endingLineNumber = "277"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "98C6DB26-4711-47D3-B141-BAB81EC4F4AA - 8dba0f49b86efc02"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "277"
+                  endingLineNumber = "277"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0D2F4314-9D74-478D-B28D-3A39620E8326"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/Session/Single Camera/SingleVideoSessionManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
+            landmarkName = "fileOutput(_:didFinishRecordingTo:from:error:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0D2F4314-9D74-478D-B28D-3A39620E8326 - 1623daa7d7f71f71"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "286"
+                  endingLineNumber = "286"
+                  offsetFromSymbolStart = "1032">
+               </Location>
+               <Location
+                  uuid = "0D2F4314-9D74-478D-B28D-3A39620E8326 - 1623daa7d7f71f52"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "YellowIsTheNewBlack.SingleVideoSessionManager.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/Session/Single%20Camera/SingleVideoSessionManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "285"
+                  endingLineNumber = "285"
+                  offsetFromSymbolStart = "1200">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

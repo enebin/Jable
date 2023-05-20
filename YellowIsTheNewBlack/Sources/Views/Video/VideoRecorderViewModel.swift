@@ -13,7 +13,9 @@ import RxSwift
 import RxRelay
 
 /// 카메라세션
-class VideoRecoderViewModel: NSObject {
+class VideoRecoderViewModel {
+    typealias StatusRelay = ReplayRelay<Error>
+    
     // Dependencies
     let videoConfiguration: VideoSessionConfiguration
     private let sessionManager: SingleVideoSessionManager
@@ -28,7 +30,9 @@ class VideoRecoderViewModel: NSObject {
     // MARK: Public properties(outputs)
     let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
     var thumbnailObserver: Observable<UIImage?>
-    let statusObserver = ReplayRelay<Error>.create(bufferSize: 1)
+    
+    private let statusRelay = ReplayRelay<Error>.create(bufferSize: 1)
+    private(set) var statusObservable: Observable<Error>
 
     // MARK: - Public methods
     func startRecordingVideo() throws {
@@ -81,7 +85,7 @@ class VideoRecoderViewModel: NSObject {
             }
             
             guard status == .authorized else {
-                self.statusObserver.accept(VideoAlbumError.unabledToAccessAlbum)
+                self.statusRelay.accept(VideoAlbumError.unabledToAccessAlbum)
                 print("앨범 접근 권한이 없습니다.")
                 return
             }
@@ -160,27 +164,39 @@ class VideoRecoderViewModel: NSObject {
         }
     }
     
-    init(_ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
-         _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration(),
-         _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared) {
+    init(
+        _ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
+        _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration(),
+        _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared
+    ) {
         self.sessionManager = sessionManager
-        sessionManager.statusObsrever = self.statusObserver
+        sessionManager.statusObsrever = self.statusRelay
         
         self.videoConfiguration = videoConfiguration
-
+        
         self.videoAlbumFethcher = videoAlbumFetcher
         self.thumbnailObserver = videoAlbumFetcher.getObserver()
             .map { thumbnails in
                 return thumbnails.last?.thumbnail
             }
         
-        super.init()
+        self.statusObservable = statusRelay.asObservable()
         
         self.bindObservables()
         self.checkPermission()
-
+        
+        self.statusObservable = statusRelayInterceptor(statusRelay)
+        
         Task {
             try await self.sessionManager.setupSession()
+        }
+    }
+}
+
+extension VideoRecoderViewModel {
+    private func statusRelayInterceptor(_ statusRelay: StatusRelay) -> Observable<Error> {
+        return statusRelay.do { _ in
+            try self.stopRecordingVideo() // Duplicated maybe(inside session manager)
         }
     }
 }

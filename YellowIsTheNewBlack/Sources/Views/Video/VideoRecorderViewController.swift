@@ -186,7 +186,7 @@ class VideoRecorderViewController: UIViewController {
             .bind(to: thumbnailButton.rx.image(for: .normal))
             .disposed(by: bag)
         
-        viewModel.statusObserver
+        viewModel.statusObservable
             .observe(on: MainScheduler.instance)
             .bind { [weak self] error in
                 guard let self = self else { return }
