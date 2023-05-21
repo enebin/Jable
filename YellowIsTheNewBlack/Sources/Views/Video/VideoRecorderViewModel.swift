@@ -28,7 +28,7 @@ class VideoRecoderViewModel {
     private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
         
     // MARK: Public properties(outputs)
-    let previewLayer = PublishRelay<AVCaptureVideoPreviewLayer?>()
+    let previewLayerRelay = PublishRelay<AVCaptureVideoPreviewLayer?>()
     var thumbnailObserver: Observable<UIImage?>
     
     private let statusRelay = ReplayRelay<Error>.create(bufferSize: 1)
@@ -70,11 +70,15 @@ class VideoRecoderViewModel {
     }
     
     // MARK: - Private methods
-    private func updatePreview(with session: AVCaptureSession) {
+    private func updatePreview(
+        with session: AVCaptureSession,
+        orientation: AVCaptureVideoOrientation = .portrait
+    ) {
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayer.connection?.videoOrientation = orientation
         
         DispatchQueue.main.async {
-            self.previewLayer.accept(previewLayer)
+            self.previewLayerRelay.accept(previewLayer)
         }
     }
     

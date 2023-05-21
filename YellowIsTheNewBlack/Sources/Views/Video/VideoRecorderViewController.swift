@@ -161,7 +161,7 @@ class VideoRecorderViewController: UIViewController {
     }
 
     private func bindObservables() {
-        viewModel.previewLayer.asObservable()
+        viewModel.previewLayerRelay.asObservable()
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newLayer in
                 guard let self = self else { return }
@@ -263,6 +263,8 @@ extension VideoRecorderViewController {
             error.code == -11818
         {
             print("AVFoundationErrorDomain Code=-11818 감지: 비디오 리코딩 세션 인터럽트를 의미함")
+            alert.title = "녹화가 중지되었습니다"
+            alert.message = "촬영한 비디오는 앨범에 저장되었습니다"
         }
         
         self.present(alert, animated: true)

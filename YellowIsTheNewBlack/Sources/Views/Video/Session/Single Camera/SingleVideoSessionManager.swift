@@ -61,12 +61,17 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     
     /// '녹화'를 시작함
     func startRecordingVideo(_ completion: Action? = nil) throws {
-        guard let output = self.output else {
+        guard
+            let output = self.output,
+            let connection = output.connection(with: .video)
+        else {
             throw VideoRecorderError.notConfigured
         }
-        
+                
         let filePath = videoFileManager.filePath
+        connection.videoOrientation = deviceOrientation
         output.startRecording(to: filePath, recordingDelegate: self)
+
         completion?()
     }
     
@@ -252,6 +257,30 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         
         super.init()
         self.startRunningSession()
+    }
+}
+
+extension SingleVideoSessionManager {
+    private var deviceOrientation: AVCaptureVideoOrientation {
+        let currentOrientation = UIDevice.current.orientation
+        let previewOrientation: AVCaptureVideoOrientation
+        
+        switch currentOrientation {
+        case .portrait:
+            previewOrientation = .portrait
+        case .portraitUpsideDown:
+            previewOrientation = .portraitUpsideDown
+        case .landscapeLeft:
+            previewOrientation = .landscapeRight
+        case .landscapeRight:
+            previewOrientation = .landscapeLeft
+        default:
+            previewOrientation = .portrait
+        }
+        
+        print(previewOrientation.rawValue)
+        
+        return previewOrientation
     }
 }
 
