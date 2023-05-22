@@ -18,9 +18,9 @@ class LoggingManager {
         }
     }
     
-    func log(error: Error) {
+    func log(error: Error, file: String = (#file as NSString).lastPathComponent, method: String = #function) {
         if showLog {
-            print("[BLBX] [Error] \(error) : \(error.localizedDescription)")
+            print("[BLBX : error] [\(file) : \(method)] - \(error) : \(error.localizedDescription)")
         }
     }
 }

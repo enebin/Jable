@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SystemImageButton: UIButton {
+class SystemImageButton: RotatingButton {
     private var systemName: String = "xmark"
     
     func setSystemImage(name: String) {
@@ -23,6 +23,9 @@ class SystemImageButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         setLayout()
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil
+        )
     }
 
     private func setLayout() {

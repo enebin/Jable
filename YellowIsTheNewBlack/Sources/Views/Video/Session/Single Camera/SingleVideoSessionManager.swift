@@ -61,12 +61,17 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     
     /// '녹화'를 시작함
     func startRecordingVideo(_ completion: Action? = nil) throws {
-        guard let output = self.output else {
+        guard
+            let output = self.output,
+            let connection = output.connection(with: .video)
+        else {
             throw VideoRecorderError.notConfigured
         }
-        
+                
         let filePath = videoFileManager.filePath
+        connection.videoOrientation = deviceOrientation
         output.startRecording(to: filePath, recordingDelegate: self)
+
         completion?()
     }
     
@@ -255,6 +260,30 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
     }
 }
 
+extension SingleVideoSessionManager {
+    private var deviceOrientation: AVCaptureVideoOrientation {
+        let currentOrientation = UIDevice.current.orientation
+        let previewOrientation: AVCaptureVideoOrientation
+        
+        switch currentOrientation {
+        case .portrait:
+            previewOrientation = .portrait
+        case .portraitUpsideDown:
+            previewOrientation = .portraitUpsideDown
+        case .landscapeLeft:
+            previewOrientation = .landscapeRight
+        case .landscapeRight:
+            previewOrientation = .landscapeLeft
+        default:
+            previewOrientation = .portrait
+        }
+        
+        print(previewOrientation.rawValue)
+        
+        return previewOrientation
+    }
+}
+
 extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
         print("Record started now")
@@ -263,23 +292,28 @@ extension SingleVideoSessionManager: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         print("Record finished")
         
-        if let error = error {
-            print("Error recording movie: \(error.localizedDescription), \(error)")
-            self.statusObsrever?.accept(error)
-        } else {
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
-                Task(priority: .background) {
-                    do {
-                        try await self.videoAlbumSaver.save(videoURL: outputFileURL)
-                    } catch let error {
-                        self.statusObsrever?.accept(error)
-                    }
+        if let error {
+            try? stopRecordingVideo()
+            
+            statusObsrever?.accept(error)
+            LoggingManager.logger.log(error: error)
+        }
+        
+        // 해당 주소의 앨범에 접근 가능한지 체크
+        if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path) {
+            Task(priority: .background) {
+                do {
+                    try await self.videoAlbumSaver.save(videoURL: outputFileURL)
+                } catch let error {
+                    self.statusObsrever?.accept(error)
                 }
-            } else {
-                print("Error while saving movie")
-                self.statusObsrever?.accept(VideoAlbumError.unabledToAccessAlbum)
-                return
             }
+        } else {
+            let error = VideoAlbumError.unabledToAccessAlbum
+            statusObsrever?.accept(error)
+            LoggingManager.logger.log(error: error)
+            
+            return
         }
     }
 }
