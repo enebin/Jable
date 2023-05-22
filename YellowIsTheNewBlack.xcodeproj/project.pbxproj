@@ -47,6 +47,7 @@
 		9BEFB503285EC59C006C526C /* VideoFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB502285EC59C006C526C /* VideoFileManager.swift */; };
 		9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */; };
 		9C0B2B4428E1B52000BD9C81 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B2B4328E1B52000BD9C81 /* SettingType.swift */; };
+		9C1482E12A1B08F2005F989D /* RotatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1482E02A1B08F2005F989D /* RotatingButton.swift */; };
 		9C27A3B72925CE3200D660AB /* Jalnan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C27A3B62925CE3200D660AB /* Jalnan.ttf */; };
 		9C27CD2728F63DCD00F98E08 /* VideoSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */; };
 		9C27CD2B28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */; };
@@ -117,6 +118,7 @@
 		9BEFB502285EC59C006C526C /* VideoFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileManager.swift; sourceTree = "<group>"; };
 		9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFileInformationMaker.swift; sourceTree = "<group>"; };
 		9C0B2B4328E1B52000BD9C81 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		9C1482E02A1B08F2005F989D /* RotatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingButton.swift; sourceTree = "<group>"; };
 		9C27A3B62925CE3200D660AB /* Jalnan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jalnan.ttf; sourceTree = "<group>"; };
 		9C27A3BA2925D1FE00D660AB /* MultiVideoSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiVideoSessionManager.swift; path = "YellowIsTheNewBlack/Sources/Video/Session/Multi Camera/MultiVideoSessionManager.swift"; sourceTree = SOURCE_ROOT; };
 		9C27A3BB2925D1FE00D660AB /* MultiVideoSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiVideoSession.swift; path = "YellowIsTheNewBlack/Sources/Video/Session/Multi Camera/MultiVideoSession.swift"; sourceTree = SOURCE_ROOT; };
@@ -187,6 +189,7 @@
 		0798665928E7015D00E698ED /* Button */ = {
 			isa = PBXGroup;
 			children = (
+				9C1482DF2A1B08E8005F989D /* Super */,
 				0798665728E6FA4C00E698ED /* ShutterButton.swift */,
 				072B1B9928EAB41500E362C3 /* BackButton.swift */,
 				072B1B9528EA97C200E362C3 /* SettingButton.swift */,
@@ -332,6 +335,14 @@
 				9BEFB502285EC59C006C526C /* VideoFileManager.swift */,
 			);
 			path = Files;
+			sourceTree = "<group>";
+		};
+		9C1482DF2A1B08E8005F989D /* Super */ = {
+			isa = PBXGroup;
+			children = (
+				9C1482E02A1B08F2005F989D /* RotatingButton.swift */,
+			);
+			path = Super;
 			sourceTree = "<group>";
 		};
 		9C27A3B42925CD8D00D660AB /* Resources */ = {
@@ -616,6 +627,7 @@
 				9CB0D92E28DA93F8009C2CE0 /* CellItem.swift in Sources */,
 				9BAF4AD32860019A00B75689 /* GallerySection.swift in Sources */,
 				9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */,
+				9C1482E12A1B08F2005F989D /* RotatingButton.swift in Sources */,
 				9CE6ED4628ED14870009744D /* SettingTypeViewController.swift in Sources */,
 				9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */,
 				9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */,
@@ -857,8 +869,9 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -896,8 +909,9 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

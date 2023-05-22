@@ -9,7 +9,7 @@ import UIKit
 import Then
 import SnapKit
 
-class CustomImageButton: UIButton {
+class CustomImageButton: RotatingButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         

@@ -38,7 +38,8 @@ class VideoRecorderViewController: UIViewController {
         $0.imageView?.contentMode = .scaleAspectFill
     }
     
-    lazy var previewUIView = UIView()
+    lazy var previewContainerView = UIView()
+    lazy var previewOverlayContentView = UIView()
     
     lazy var shutterButton = ShutterButton()
     lazy var spacer = UIView.spacer
@@ -58,6 +59,7 @@ class VideoRecorderViewController: UIViewController {
         setLayout()
         bindButtons()
         bindObservables()
+        bindNotificationCenter()
         
         let pinchRecognizer = UIPinchGestureRecognizer(target: viewModel,
                                                        action: #selector(viewModel.setZoomFactorFromPinchGesture(_:)))
@@ -74,9 +76,9 @@ class VideoRecorderViewController: UIViewController {
         }
         preview = _layer
 
-        self.view.addSubview(previewUIView)
-        previewUIView.layer.addSublayer(preview!)
-        previewUIView.snp.makeConstraints { make in
+        self.view.addSubview(previewContainerView)
+        previewContainerView.layer.addSublayer(preview!)
+        previewContainerView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
@@ -88,7 +90,7 @@ class VideoRecorderViewController: UIViewController {
         preview!.videoGravity = .resizeAspectFill
         preview!.cornerRadius = 20
         
-        previewUIView.isHidden = viewModel.videoConfiguration.stealthMode.value
+        previewContainerView.isHidden = viewModel.videoConfiguration.stealthMode.value
         
         setLayout()
     }
@@ -120,12 +122,15 @@ class VideoRecorderViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
         
-        self.view.addSubview(elapsedTimeVC.view)
-        elapsedTimeVC.view.snp.makeConstraints { make in
+        self.view.addSubview(previewOverlayContentView)
+        previewOverlayContentView.snp.makeConstraints { make in
             make.top.equalTo(settingVC.view.snp.bottom)
             make.width.equalToSuperview()
             make.bottom.equalTo(shutterButton.snp.top)
         }
+        
+        // Position will be handled by elapsedTimePostionHandler
+        previewOverlayContentView.addSubview(elapsedTimeVC.view)
         elapsedTimeVC.view.isHidden = true
     }
     
@@ -142,7 +147,7 @@ class VideoRecorderViewController: UIViewController {
                         try self.startRecording()
                     }
                 } catch let error {
-                    self.errorHandler(error)
+                    self.commonErrorHandler(error)
                 }
             }
             .disposed(by: bag)
@@ -158,21 +163,10 @@ class VideoRecorderViewController: UIViewController {
                 self.present(albumVC, animated: true)
             }
             .disposed(by: bag)
-        
-//        screenSizeButton.rx.tap
-//            .observe(on: MainScheduler.instance)
-//            .bind { [weak self] in
-//                guard let self = self else { return }
-//                self.previewLayerSize = self.previewLayerSize.next()
-//                self.setCameraPreviewLayer(self.preview)
-//
-//                self.view.layoutIfNeeded()
-//            }
-//            .disposed(by: bag)
     }
 
     private func bindObservables() {
-        viewModel.previewLayer.asObservable()
+        viewModel.previewLayerRelay.asObservable()
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newLayer in
                 guard let self = self else { return }
@@ -186,7 +180,7 @@ class VideoRecorderViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newValue in
                 guard let self = self else { return }
-                self.previewUIView.isHidden = newValue
+                self.previewContainerView.isHidden = newValue
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
@@ -197,16 +191,23 @@ class VideoRecorderViewController: UIViewController {
             .bind(to: thumbnailButton.rx.image(for: .normal))
             .disposed(by: bag)
         
-        viewModel.statusObserver
+        viewModel.statusObservable
             .observe(on: MainScheduler.instance)
             .bind { [weak self] error in
                 guard let self = self else { return }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.errorHandler(error)
+                    self.commonErrorHandler(error)
                 }
             }
             .disposed(by: bag)
+    }
+    
+    private func bindNotificationCenter() {
+        // Detect orientation change
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(elapsedTimePostionHandler), name: UIDevice.orientationDidChangeNotification, object: nil
+        )
     }
     
     // Initializers
@@ -228,9 +229,10 @@ private extension VideoRecorderViewController {
         
         self.isRecording = true
         self.shutterButton.isRecording = true
+        self.elapsedTimeVC.view.isHidden = false
+
         try self.viewModel.startRecordingVideo()
         
-        self.elapsedTimeVC.view.isHidden = false
         self.view.layoutIfNeeded()
     }
     
@@ -239,23 +241,85 @@ private extension VideoRecorderViewController {
         
         self.isRecording = false
         self.shutterButton.isRecording = false
+        self.elapsedTimeVC.view.isHidden = true
+
         try self.viewModel.stopRecordingVideo()
         
-        self.elapsedTimeVC.view.isHidden = true
+        self.view.layoutIfNeeded()
+    }
+    
+    // TODO: Recording paused
+    func pauseRecofding() throws {
+         try self.viewModel.pauseRecordingVideo()
+        
+        // TODO: 다시 시작할 건지 물어보는 얼러트 추가
+        
         self.view.layoutIfNeeded()
     }
 }
 
+// MARK: Handler
 extension VideoRecorderViewController {
-    private func errorHandler(_ error: Error) {
-        let alert = UIAlertController(title: "오류", message: error.localizedDescription,
-                                           preferredStyle: UIAlertController.Style.alert).then {
-            $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+    private func commonErrorHandler(_ error: Error) {
+        let alert = UIAlertController(title: "오류",
+                                      message: error.localizedDescription,
+                                      preferredStyle: UIAlertController.Style.alert).then {
+            $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,
+                                       handler: nil))
         }
         
-        self.shutterButton.isRecording = false
-        try? self.viewModel.stopRecordingVideo()
+        // 세션 인터럽트(백그라운드 등) 시
+        // Handle the specific AVFoundationErrorDomain Code=-11818 error
+        if
+            case let error = error as NSError,
+            error.domain == AVFoundationErrorDomain,
+            error.code == -11818
+        {
+            print("AVFoundationErrorDomain Code=-11818 감지: 비디오 리코딩 세션 인터럽트를 의미함")
+            alert.title = "녹화가 중지되었습니다"
+            alert.message = "촬영한 비디오는 앨범에 저장되었습니다"
+        }
+        
         self.present(alert, animated: true)
+        try? self.stopRecording()
+    }
+    
+    @objc private func elapsedTimePostionHandler() {
+        guard !isRecording else { return }
+        
+        let orientation: UIDeviceOrientation = UIDevice.current.orientation
+        var rotationAngle: CGFloat = 0
+        
+        // MARK: Super view = previewOverlayContentView
+        elapsedTimeVC.view.snp.remakeConstraints { make in
+            switch (orientation) {
+            case .portrait: // top left
+                rotationAngle = 0
+                
+                make.top.equalToSuperview()
+                make.left.equalToSuperview()
+            case .landscapeRight: // top right
+                rotationAngle = -CGFloat.pi / 2
+                
+                make.centerY.equalToSuperview()
+                make.left.equalToSuperview().offset(-elapsedTimeVC.view.frame.width / 3)
+            case .landscapeLeft: // bottom left
+                rotationAngle = CGFloat.pi / 2
+                
+                make.centerY.equalToSuperview()
+                make.right.equalToSuperview().offset(elapsedTimeVC.view.frame.width / 3)
+            case .portraitUpsideDown: // bottom right
+                rotationAngle = CGFloat.pi
+                
+                make.bottom.equalToSuperview()
+                make.right.equalToSuperview()
+            default:
+                rotationAngle = 0
+            }
+        }
+        
+        elapsedTimeVC.view.transform = CGAffineTransform(rotationAngle: rotationAngle)
+        view.layoutIfNeeded()
     }
 }
 

@@ -19,12 +19,40 @@ class VideoAlbumSaver: AlbumSaver {
     private let albumManager: AlbumManager
     private let photoLibrary: PHPhotoLibrary
     
-    // Methods
+    // MARK: - Methods
+    /// Recommended to be executed on background queue
+    func save(videoURL: URL) async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            PHPhotoLibrary.requestAuthorization { status in
+                guard status == .authorized else {
+                    let error = VideoAlbumError.unabledToAccessAlbum
+                    
+                    LoggingManager.logger.log(error: error)
+                    continuation.resume(throwing: error)
+                    
+                    return
+                }
+                
+                continuation.resume()
+            }
+        }
+        
+        let album = albumManager.getAlbum()
+        if let album {
+            try await self.add(videoURL, to: album)
+        } else {
+            let newAlbum = try await albumManager.createAlbum()
+            try await self.add(videoURL, to: newAlbum)
+        }
+    }
+    
+    /// (내부사용) 앨범에 해당 비디오를 추가한다
     private func add(_ videoURL: URL, to album: PHAssetCollection) async throws -> Void {
         async let task: Void = photoLibrary.performChanges {
-            if let assetChangeRequest =
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL),
-               let placeholder = assetChangeRequest.placeholderForCreatedAsset {
+            if
+                let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL),
+                let placeholder = assetChangeRequest.placeholderForCreatedAsset
+            {
                 let albumChangeRequest = PHAssetCollectionChangeRequest(for: album)
                 let enumeration = NSArray(object: placeholder)
                 albumChangeRequest?.addAssets(enumeration)
@@ -32,32 +60,6 @@ class VideoAlbumSaver: AlbumSaver {
         }
         
         return try await task
-    }
-    
-    /// Recommended to be executed on background queue
-    func save(videoURL: URL) async throws {
-        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            PHPhotoLibrary.requestAuthorization { status in
-                guard status == .authorized else {
-                    print("앨범 접근 권한이 없습니다.")
-                    continuation.resume(throwing: VideoAlbumError.unabledToAccessAlbum)
-                    return
-                }
-                
-                continuation.resume()
-            }
-        }
-
-        do {
-            if let album = albumManager.getAlbum() {
-                try await self.add(videoURL, to: album)
-            } else {
-                let album = try await albumManager.createAlbum()
-                try await self.add(videoURL, to: album)
-            }
-        } catch let error {
-            print("동영상을 저장하는데 실패했습니다: \(error.localizedDescription)")
-        }
     }
     
     init(_ albumManager: AlbumManager = VideoAlbumManager.shared,
