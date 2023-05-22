@@ -33,6 +33,7 @@ class VideoRecoderViewModel {
     
     private let statusRelay = ReplayRelay<Error>.create(bufferSize: 1)
     private(set) var statusObservable: Observable<Error>
+    private var previousZoomFactor: CGFloat = 1.0
 
     // MARK: - Public methods
     func startRecordingVideo() throws {
@@ -48,22 +49,23 @@ class VideoRecoderViewModel {
     }
     
     @objc func setZoomFactorFromPinchGesture(_ sender: UIPinchGestureRecognizer) {
+        let videoZoomFactor = sender.scale * previousZoomFactor
+        let minZoomFactor = 1.0
+        
         guard
-            let maxZoomFactor = sessionManager.maxZoomFactor,
-            let currentZoomFactor = sessionManager.currentZoomFactor
+            let maxZoomFactor = sessionManager.maxZoomFactor
         else {
             return
         }
         
-        let sensitivity: CGFloat = 4
-        
         switch sender.state {
-        case .began: fallthrough
+        case .ended:
+            previousZoomFactor = videoZoomFactor >= 1 ? videoZoomFactor : 1
         case .changed:
-            let scale = sender.scale
-
-            videoConfiguration.zoomFactor.accept(
-                max(min(currentZoomFactor * ((scale + (sensitivity-1))/sensitivity), maxZoomFactor), 1.0))
+            if (videoZoomFactor <= maxZoomFactor) {
+                let newZoomFactor = max(minZoomFactor, min(videoZoomFactor, maxZoomFactor))
+                videoConfiguration.zoomFactor.accept(newZoomFactor)
+            }
         default:
             break
         }
