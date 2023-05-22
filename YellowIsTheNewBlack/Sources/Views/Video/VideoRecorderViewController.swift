@@ -38,7 +38,8 @@ class VideoRecorderViewController: UIViewController {
         $0.imageView?.contentMode = .scaleAspectFill
     }
     
-    lazy var previewUIView = UIView()
+    lazy var previewContainerView = UIView()
+    lazy var previewOverlayContentView = UIView()
     
     lazy var shutterButton = ShutterButton()
     lazy var spacer = UIView.spacer
@@ -58,6 +59,7 @@ class VideoRecorderViewController: UIViewController {
         setLayout()
         bindButtons()
         bindObservables()
+        bindNotificationCenter()
         
         let pinchRecognizer = UIPinchGestureRecognizer(target: viewModel,
                                                        action: #selector(viewModel.setZoomFactorFromPinchGesture(_:)))
@@ -74,9 +76,9 @@ class VideoRecorderViewController: UIViewController {
         }
         preview = _layer
 
-        self.view.addSubview(previewUIView)
-        previewUIView.layer.addSublayer(preview!)
-        previewUIView.snp.makeConstraints { make in
+        self.view.addSubview(previewContainerView)
+        previewContainerView.layer.addSublayer(preview!)
+        previewContainerView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
@@ -88,7 +90,7 @@ class VideoRecorderViewController: UIViewController {
         preview!.videoGravity = .resizeAspectFill
         preview!.cornerRadius = 20
         
-        previewUIView.isHidden = viewModel.videoConfiguration.stealthMode.value
+        previewContainerView.isHidden = viewModel.videoConfiguration.stealthMode.value
         
         setLayout()
     }
@@ -120,12 +122,15 @@ class VideoRecorderViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
         
-        self.view.addSubview(elapsedTimeVC.view)
-        elapsedTimeVC.view.snp.makeConstraints { make in
+        self.view.addSubview(previewOverlayContentView)
+        previewOverlayContentView.snp.makeConstraints { make in
             make.top.equalTo(settingVC.view.snp.bottom)
             make.width.equalToSuperview()
             make.bottom.equalTo(shutterButton.snp.top)
         }
+        
+        // Position will be handled by elapsedTimePostionHandler
+        previewOverlayContentView.addSubview(elapsedTimeVC.view)
         elapsedTimeVC.view.isHidden = true
     }
     
@@ -175,7 +180,7 @@ class VideoRecorderViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] newValue in
                 guard let self = self else { return }
-                self.previewUIView.isHidden = newValue
+                self.previewContainerView.isHidden = newValue
                 self.view.layoutIfNeeded()
             }
             .disposed(by: bag)
@@ -196,6 +201,13 @@ class VideoRecorderViewController: UIViewController {
                 }
             }
             .disposed(by: bag)
+    }
+    
+    private func bindNotificationCenter() {
+        // Detect orientation change
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(elapsedTimePostionHandler), name: UIDevice.orientationDidChangeNotification, object: nil
+        )
     }
     
     // Initializers
@@ -246,6 +258,7 @@ private extension VideoRecorderViewController {
     }
 }
 
+// MARK: Handler
 extension VideoRecorderViewController {
     private func commonErrorHandler(_ error: Error) {
         let alert = UIAlertController(title: "오류",
@@ -269,6 +282,44 @@ extension VideoRecorderViewController {
         
         self.present(alert, animated: true)
         try? self.stopRecording()
+    }
+    
+    @objc private func elapsedTimePostionHandler() {
+        guard !isRecording else { return }
+        
+        let orientation: UIDeviceOrientation = UIDevice.current.orientation
+        var rotationAngle: CGFloat = 0
+        
+        // MARK: Super view = previewOverlayContentView
+        elapsedTimeVC.view.snp.remakeConstraints { make in
+            switch (orientation) {
+            case .portrait: // top left
+                rotationAngle = 0
+                
+                make.top.equalToSuperview()
+                make.left.equalToSuperview()
+            case .landscapeRight: // top right
+                rotationAngle = -CGFloat.pi / 2
+                
+                make.centerY.equalToSuperview()
+                make.left.equalToSuperview().offset(-elapsedTimeVC.view.frame.width / 3)
+            case .landscapeLeft: // bottom left
+                rotationAngle = CGFloat.pi / 2
+                
+                make.centerY.equalToSuperview()
+                make.right.equalToSuperview().offset(elapsedTimeVC.view.frame.width / 3)
+            case .portraitUpsideDown: // bottom right
+                rotationAngle = CGFloat.pi
+                
+                make.bottom.equalToSuperview()
+                make.right.equalToSuperview()
+            default:
+                rotationAngle = 0
+            }
+        }
+        
+        elapsedTimeVC.view.transform = CGAffineTransform(rotationAngle: rotationAngle)
+        view.layoutIfNeeded()
     }
 }
 
