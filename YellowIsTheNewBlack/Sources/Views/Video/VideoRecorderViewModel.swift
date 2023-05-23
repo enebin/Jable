@@ -184,7 +184,7 @@ class VideoRecoderViewModel {
         self.videoConfiguration = videoConfiguration
         
         self.videoAlbumFetcher = videoAlbumFetcher
-        self.thumbnailObserver = videoAlbumFetcher.getObserver().map { $0.last?.thumbnail }
+        self.thumbnailObserver = videoAlbumFetcher.getObserver().map { $0.first?.thumbnail }
         
         self.statusObservable = statusRelay.asObservable()
         
@@ -201,7 +201,7 @@ class VideoRecoderViewModel {
 
 extension VideoRecoderViewModel {
     private func getThumbnailObserver(from videoRelay: BehaviorRelay<[VideoFileInformation]>) -> Observable<UIImage?> {
-        return videoRelay.map { $0.last?.thumbnail }
+        return videoRelay.map { $0.first?.thumbnail }
     }
     
     private func statusRelayInterceptor(_ statusRelay: StatusRelay) -> Observable<Error> {

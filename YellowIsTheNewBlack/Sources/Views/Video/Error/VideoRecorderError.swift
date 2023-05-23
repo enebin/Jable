@@ -27,7 +27,7 @@ enum VideoRecorderError: LocalizedError {
         case .unableToSetOutput:
             return "영상을 녹화할 수 없습니다."
         case .notConfigured:
-            return "카메라 세션이 생성되지 않았습니다."
+            return "카메라 세션이 생성되지 않았습니다. 카메라 사용권한을 확인해주세요."
         case .notSupportedOS:
             return "지원되지 않는 iOS 버전입니다(iOS 15 이상에서 지원)"
         case .notSupportedDevice:

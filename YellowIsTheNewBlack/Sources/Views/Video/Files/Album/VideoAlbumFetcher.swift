@@ -63,7 +63,8 @@ class VideoAlbumFetcher: NSObject, AlbumFetcher {
                     // Push only last asset
                     if count == videoAssets.count - 1 {
                         DispatchQueue.main.async {
-                            observer.accept(informations)
+                            // 시간역순
+                            observer.accept(informations.reversed())
                         }
                     }
                 }
