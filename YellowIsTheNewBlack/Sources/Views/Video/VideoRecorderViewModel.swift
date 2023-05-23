@@ -19,7 +19,7 @@ class VideoRecoderViewModel {
     // Dependencies
     let videoConfiguration: VideoSessionConfiguration
     private let sessionManager: SingleVideoSessionManager
-    private let videoAlbumFethcher: VideoAlbumFetcher
+    private let videoAlbumFetcher: VideoAlbumFetcher
     
     // MARK: Private propertieds
     private var bag = DisposeBag()
@@ -95,6 +95,9 @@ class VideoRecoderViewModel {
                 print("앨범 접근 권한이 없습니다.")
                 return
             }
+            
+            // Update thumbnail observser after permission granted
+            self.thumbnailObserver = getThumbnailObserver(from: self.videoAlbumFetcher.getObserver())
         }
     }
     
@@ -180,11 +183,8 @@ class VideoRecoderViewModel {
         
         self.videoConfiguration = videoConfiguration
         
-        self.videoAlbumFethcher = videoAlbumFetcher
-        self.thumbnailObserver = videoAlbumFetcher.getObserver()
-            .map { thumbnails in
-                return thumbnails.last?.thumbnail
-            }
+        self.videoAlbumFetcher = videoAlbumFetcher
+        self.thumbnailObserver = videoAlbumFetcher.getObserver().map { $0.first?.thumbnail }
         
         self.statusObservable = statusRelay.asObservable()
         
@@ -200,6 +200,10 @@ class VideoRecoderViewModel {
 }
 
 extension VideoRecoderViewModel {
+    private func getThumbnailObserver(from videoRelay: BehaviorRelay<[VideoFileInformation]>) -> Observable<UIImage?> {
+        return videoRelay.map { $0.first?.thumbnail }
+    }
+    
     private func statusRelayInterceptor(_ statusRelay: StatusRelay) -> Observable<Error> {
         return statusRelay.do { _ in
             try self.stopRecordingVideo() // Duplicated maybe(inside session manager)

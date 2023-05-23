@@ -50,7 +50,8 @@ class VideoAlbumFetcher: NSObject, AlbumFetcher {
                     return
                 }
                 
-                let videoOptions: PHVideoRequestOptions = PHVideoRequestOptions()
+                let videoOptions = PHVideoRequestOptions()
+                videoOptions.isNetworkAccessAllowed = true
                 videoOptions.version = .original
                 
                 PHImageManager.default().requestAVAsset(forVideo: asset, options: videoOptions) { (asset, audioMix, info) in
@@ -59,9 +60,11 @@ class VideoAlbumFetcher: NSObject, AlbumFetcher {
                         informations.append(information)
                     }
                     
+                    // Push only last asset
                     if count == videoAssets.count - 1 {
                         DispatchQueue.main.async {
-                            observer.accept(informations)
+                            // 시간역순
+                            observer.accept(informations.reversed())
                         }
                     }
                 }
@@ -69,8 +72,10 @@ class VideoAlbumFetcher: NSObject, AlbumFetcher {
         }
     }
     
-    init(_ albumManager: AlbumManager = VideoAlbumManager.shared,
-         _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
+    init(
+        _ albumManager: AlbumManager = VideoAlbumManager.shared,
+        _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()
+    ) {
         self.albumManager = albumManager
         self.photoLibrary = photoLibrary
     }
@@ -78,9 +83,11 @@ class VideoAlbumFetcher: NSObject, AlbumFetcher {
 
 extension VideoAlbumFetcher: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        if let album = albumManager.getAlbum(),
-           let albumChanges = changeInstance.changeDetails(for: album),
-           let newAlbum = albumChanges.objectAfterChanges {
+        if
+            let album = albumManager.getAlbum(),
+            let albumChanges = changeInstance.changeDetails(for: album),
+            let newAlbum = albumChanges.objectAfterChanges
+        {
             loadVideoInformationsFromAlbum(newAlbum, to: self.changeObserer)
         }
     }

@@ -261,13 +261,7 @@ private extension VideoRecorderViewController {
 // MARK: Handler
 extension VideoRecorderViewController {
     private func commonErrorHandler(_ error: Error) {
-        let alert = UIAlertController(title: "오류",
-                                      message: error.localizedDescription,
-                                      preferredStyle: UIAlertController.Style.alert).then {
-            $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,
-                                       handler: nil))
-        }
-        
+        let alertController: UIAlertController
         // 세션 인터럽트(백그라운드 등) 시
         // Handle the specific AVFoundationErrorDomain Code=-11818 error
         if
@@ -275,13 +269,54 @@ extension VideoRecorderViewController {
             error.domain == AVFoundationErrorDomain,
             error.code == -11818
         {
-            print("AVFoundationErrorDomain Code=-11818 감지: 비디오 리코딩 세션 인터럽트를 의미함")
-            alert.title = "녹화가 중지되었습니다"
-            alert.message = "촬영한 비디오는 앨범에 저장되었습니다"
+            alertController = handleSessionSuspendedError()
+        } else if
+            let error = error as? VideoRecorderError,
+            case .notConfigured = error
+        {
+            alertController = handleErrorWithCameraPermission(error)
+        } else {
+            alertController = UIAlertController(
+                title: "오류",
+                message: error.localizedDescription,
+                preferredStyle: UIAlertController.Style.alert
+            ).then {
+                $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))
+            }
+            
         }
         
-        self.present(alert, animated: true)
+        self.present(alertController, animated: true)
         try? self.stopRecording()
+    }
+    
+    private func handleErrorWithCameraPermission(_ error: Error) -> UIAlertController {
+        return UIAlertController(
+            title: "녹화할 수 없습니다",
+            message: error.localizedDescription,
+            preferredStyle: UIAlertController.Style.alert
+        ).then {
+            $0.addAction(UIAlertAction(
+                title: "Ok", style: .default, handler: nil)
+            )
+            
+            $0.addAction(UIAlertAction(
+                title: "Setting", style: .cancel, handler: { [weak self] _ in
+                    self?.settingOpener()
+                })
+            )
+        }
+    }
+    
+    private func handleSessionSuspendedError() -> UIAlertController {
+        //        print("AVFoundationErrorDomain Code=-11818 감지: 비디오 리코딩 세션 인터럽트를 의미함")
+        return UIAlertController(
+            title: "녹화가 중지되었습니다",
+            message: "촬영한 비디오는 앨범에 저장되었습니다",
+            preferredStyle: UIAlertController.Style.alert
+        ).then {
+            $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))
+        }
     }
     
     @objc private func elapsedTimePostionHandler() {
@@ -320,6 +355,12 @@ extension VideoRecorderViewController {
         
         elapsedTimeVC.view.transform = CGAffineTransform(rotationAngle: rotationAngle)
         view.layoutIfNeeded()
+    }
+    
+    private func settingOpener() {
+        if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+        }
     }
 }
 
