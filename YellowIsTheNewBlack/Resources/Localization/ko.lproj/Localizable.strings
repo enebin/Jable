@@ -28,7 +28,7 @@
 "Cannot take a video because camera permissions are denied." = "카메라 사용 권한이 거부되어 동영상을 촬영할 수 없습니다.";
 "Unable to save the video." = "영상을 저장할 수 없습니다.";
 "Unable to record video." = "영상을 녹화할 수 없습니다.";
-"No camera session was created, please check your camera permissions" = "카메라 세션이 생성되지 않았습니다. 카메라 사용권한을 확인해주세요";
+"No camera session was created, please check your camera permissions." = "카메라 세션이 생성되지 않았습니다. 카메라 사용권한을 확인해주세요";
 "Unsupported iOS version (supported on iOS 15 and later)" = "지원되지 않는 iOS 버전입니다(iOS 15 이상에서 지원)";
 "Unsupported device (supported on iPhone XR and later devices)" = "지원되지 않는 디바이스입니다.(아이폰 XR 이상의 기기에서 지원)";
 

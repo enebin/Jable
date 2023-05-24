@@ -21,7 +21,7 @@ enum VideoRecorderError: LocalizedError {
         case .invalidDevice:
             return "Unable to set up camera device.\nPlease check camera usage permission.".localized
         case .permissionDenied:
-            return "Cannot take a video because camera permission's  denied.".localized
+            return "Cannot take a video because camera permissions are denied.".localized
         case .unableToSetInput:
             return "Unable to save the video".localized
         case .unableToSetOutput:

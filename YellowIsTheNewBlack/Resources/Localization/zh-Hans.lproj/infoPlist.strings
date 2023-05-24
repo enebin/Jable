@@ -1,0 +1,13 @@
+/* 
+  infoPlist.strings
+  YellowIsTheNewBlack
+
+  Created by Young Bin on 2023/05/24.
+  
+*/
+
+NSCameraUsageDescription = "Please allow camera access to record videos.";
+NSFileProviderDomainUsageDescription = "Please allow album access to save and view videos.";
+NSMicrophoneUsageDescription = "Please allow microphone access to record video audio.";
+NSPhotoLibraryAddUsageDescription = "Please allow album access to save and view videos.";
+NSPhotoLibraryUsageDescription = "Please allow album access to save and view videos.";

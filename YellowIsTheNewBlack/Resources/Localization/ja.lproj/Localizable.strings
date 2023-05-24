@@ -28,7 +28,7 @@
 "Cannot take a video because camera permissions are denied." = "カメラの使用許可が拒否されているため、ビデオを撮影できません。";
 "Unable to save the video." = "ビデオを保存できません。";
 "Unable to record video." = "ビデオを録画できません。";
-"No camera session was created, please check your camera permissions" = "カメラセッションが作成されていません。カメラの許可を確認してください。";
+"No camera session was created, please check your camera permissions." = "カメラセッションが作成されていません。カメラの許可を確認してください。";
 "Unsupported iOS version (supported on iOS 15 and later)" = "サポートされていないiOSバージョンです（iOS 15以降でサポート）";
 "Unsupported device (supported on iPhone XR and later devices)" = "サポートされていないデバイスです（iPhone XR以降のデバイスでサポート）";
 
