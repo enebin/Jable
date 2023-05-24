@@ -1,0 +1,35 @@
+/*
+  Localizable.strings
+  YellowIsTheNewBlack
+
+  Created by Young Bin on 2023/05/24.
+  
+*/
+
+"Quality" = "Quality";
+"LOW" = "LOW";
+"MID" = "MID";
+"HIGH" = "HIGH";
+
+"Position" = "Position";
+"Rear" = "Rear";
+"Front" = "Front";
+"Mute" = "음소거";
+"Unmute" = "음소거 해제";
+
+"Unknown error" = "알 수 없는 에러";
+"Error" = "오류";
+"Unable to record" = "녹화할 수 없습니다";
+"Recording stopped" = "녹화가 중지되었습니다";
+"The video you took was saved to an album" = "촬영한 비디오는 앨범에 저장되었습니다";
+
+"App doesn't have permission to access your album roll." = "앨범 접근 권한이 없습니다.";
+"Unable to set up camera device.\nPlease check camera usage permission." = "카메라 디바이스를 설정할 수 없습니다.\n카메라 사용 권한을 확인해주세요.";
+"Cannot take a video because camera permissions are denied." = "카메라 사용 권한이 거부되어 동영상을 촬영할 수 없습니다.";
+"Unable to save the video." = "영상을 저장할 수 없습니다.";
+"Unable to record video." = "영상을 녹화할 수 없습니다.";
+"No camera session was created, please check your camera permissions." = "카메라 세션이 생성되지 않았습니다. 카메라 사용권한을 확인해주세요";
+"Unsupported iOS version (supported on iOS 15 and later)" = "지원되지 않는 iOS 버전입니다(iOS 15 이상에서 지원)";
+"Unsupported device (supported on iPhone XR and later devices)" = "지원되지 않는 디바이스입니다.(아이폰 XR 이상의 기기에서 지원)";
+
+"App can't access albums. App can't read or write videos without permission. Please grant permission in Settings." = "앨범에 접근할 수 없습니다. 권한이 없으면 비디오를 읽거나 쓸 수 없습니다. 설정에서 권한을 허용해주세요.";

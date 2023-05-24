@@ -1,0 +1,13 @@
+/* 
+  infoPlist.strings
+  YellowIsTheNewBlack
+
+  Created by Young Bin on 2023/05/24.
+  
+*/
+
+NSCameraUsageDescription = "请允许相机权限以录制视频。";
+NSFileProviderDomainUsageDescription = "请允许相册访问权限以保存和查看视频。";
+NSMicrophoneUsageDescription = "请允许麦克风权限以录制视频音频。";
+NSPhotoLibraryAddUsageDescription = "请允许相册访问权限以保存和查看视频。";
+NSPhotoLibraryUsageDescription = "请允许相册访问权限以保存和查看视频。";

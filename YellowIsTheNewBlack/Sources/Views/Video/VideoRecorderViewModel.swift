@@ -92,7 +92,7 @@ class VideoRecoderViewModel {
             
             guard status == .authorized else {
                 self.statusRelay.accept(VideoAlbumError.unabledToAccessAlbum)
-                print("앨범 접근 권한이 없습니다.")
+                print("App doesn't have permission to access your album roll.".localized)
                 return
             }
             
@@ -191,8 +191,6 @@ class VideoRecoderViewModel {
         self.bindObservables()
         self.checkPermission()
         
-        self.statusObservable = statusRelayInterceptor(statusRelay)
-        
         Task {
             try await self.sessionManager.setupSession()
         }
@@ -202,11 +200,5 @@ class VideoRecoderViewModel {
 extension VideoRecoderViewModel {
     private func getThumbnailObserver(from videoRelay: BehaviorRelay<[VideoFileInformation]>) -> Observable<UIImage?> {
         return videoRelay.map { $0.first?.thumbnail }
-    }
-    
-    private func statusRelayInterceptor(_ statusRelay: StatusRelay) -> Observable<Error> {
-        return statusRelay.do { _ in
-            try self.stopRecordingVideo() // Duplicated maybe(inside session manager)
-        }
     }
 }

@@ -107,7 +107,7 @@ class GalleryViewController: UIViewController {
             .bind { [weak self] error in
                 guard let self = self  else { return }
                 
-                let alert = UIAlertController(title: "오류", message: error.localizedDescription,
+                let alert = UIAlertController(title: "Error".localized, message: error.localizedDescription,
                                               preferredStyle: UIAlertController.Style.alert).then {
                     $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
                 }

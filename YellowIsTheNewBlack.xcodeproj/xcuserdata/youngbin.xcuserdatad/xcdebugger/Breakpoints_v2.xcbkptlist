@@ -3,4 +3,164 @@
    uuid = "7554C26D-847C-4D2F-8308-160A55FFE8D9"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7115F9E7-FB6C-4A28-8A4B-20540F359417"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "checkPermission()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7115F9E7-FB6C-4A28-8A4B-20540F359417 - 57fce0616d206035"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.PHAuthorizationStatus) -&gt; () in YellowIsTheNewBlack.VideoRecoderViewModel.checkPermission() -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "264">
+               </Location>
+               <Location
+                  uuid = "7115F9E7-FB6C-4A28-8A4B-20540F359417 - 1b9aef71eb0c4474"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "YellowIsTheNewBlack.VideoRecoderViewModel.checkPermission() -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "7115F9E7-FB6C-4A28-8A4B-20540F359417 - 57fce0616d206035"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.PHAuthorizationStatus) -&gt; () in YellowIsTheNewBlack.VideoRecoderViewModel.checkPermission() -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BE5C1C0D-C136-4A88-99F3-F3B9341C4C9C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "checkPermission()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BE5C1C0D-C136-4A88-99F3-F3B9341C4C9C - 57fce0616d206035"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.PHAuthorizationStatus) -&gt; () in YellowIsTheNewBlack.VideoRecoderViewModel.checkPermission() -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "264">
+               </Location>
+               <Location
+                  uuid = "BE5C1C0D-C136-4A88-99F3-F3B9341C4C9C - 1b9aef71eb0c4474"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "YellowIsTheNewBlack.VideoRecoderViewModel.checkPermission() -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "BE5C1C0D-C136-4A88-99F3-F3B9341C4C9C - 57fce0616d206035"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.PHAuthorizationStatus) -&gt; () in YellowIsTheNewBlack.VideoRecoderViewModel.checkPermission() -&gt; ()"
+                  moduleName = "YellowIsTheNewBlack"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youngbin/Documents/Github/Jable/YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5D552066-94D6-433C-99F2-7F7B0797C8D3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "checkPermission()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BBAF273E-FDDA-4995-B675-BE863EDF0322"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YellowIsTheNewBlack/Sources/Views/Video/VideoRecorderViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "checkPermission()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

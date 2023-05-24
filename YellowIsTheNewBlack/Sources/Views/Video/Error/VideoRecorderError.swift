@@ -19,19 +19,19 @@ enum VideoRecorderError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidDevice:
-            return "카메라 디바이스를 설정할 수 없습니다.\n카메라 사용 권한을 확인해주세요."
+            return "Unable to set up camera device.\nPlease check camera usage permission.".localized
         case .permissionDenied:
-            return "카메라 사용 권한이 거부되어 동영상을 촬영할 수 없습니다."
+            return "Cannot take a video because camera permissions are denied.".localized
         case .unableToSetInput:
-            return "영상을 저장할 수 없습니다."
+            return "Unable to save the video".localized
         case .unableToSetOutput:
-            return "영상을 녹화할 수 없습니다."
+            return "Unable to record video.".localized
         case .notConfigured:
-            return "카메라 세션이 생성되지 않았습니다. 카메라 사용권한을 확인해주세요."
+            return "No camera session was created, please check your camera permissions.".localized
         case .notSupportedOS:
-            return "지원되지 않는 iOS 버전입니다(iOS 15 이상에서 지원)"
+            return "Unsupported iOS version (supported on iOS 15 and later)".localized
         case .notSupportedDevice:
-            return "지원되지 않는 디바이스입니다.(아이폰 XR 이상의 기기에서 지원)"
+            return "Unsupported device (supported on iPhone XR and later devices)".localized
         }
     }
 }

@@ -29,11 +29,11 @@ class MuteToolBarViewController: UIViewController {
     }
     
     lazy var muteButton = LabelButton().then {
-        $0.setTitleLabel("음소거")
+        $0.setTitleLabel("Mute".localized)
     }
     
     lazy var unmuteButton = LabelButton().then {
-        $0.setTitleLabel("음소거 해제")
+        $0.setTitleLabel("Unmute".localized)
     }
     
     lazy var backButton = SystemImageButton().then {

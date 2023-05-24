@@ -1,0 +1,35 @@
+/* 
+  Localizable.strings
+  YellowIsTheNewBlack
+
+  Created by Young Bin on 2023/05/24.
+  
+*/
+
+"Quality" = "Quality";
+"LOW" = "LOW";
+"MID" = "MID";
+"HIGH" = "HIGH";
+
+"Position" = "Position";
+"Rear" = "Rear";
+"Front" = "Front";
+"Mute" = "ミュート";
+"Unmute" = "ミュート解除";
+
+"Unknown error" = "不明なエラー";
+"Error" = "エラー";
+"Unable to record" = "録音できません";
+"Recording stopped" = "録音が停止しました";
+"The video you took was saved to an album" = "撮影したビデオはアルバムに保存されました";
+
+"App doesn't have permission to access your album roll." = "アプリはアルバムにアクセスする許可がありません。";
+"Unable to set up camera device.\nPlease check camera usage permission." = "カメラデバイスを設定できません。\nカメラの使用許可を確認してください。";
+"Cannot take a video because camera permissions are denied." = "カメラの使用許可が拒否されているため、ビデオを撮影できません。";
+"Unable to save the video." = "ビデオを保存できません。";
+"Unable to record video." = "ビデオを録画できません。";
+"No camera session was created, please check your camera permissions." = "カメラセッションが作成されていません。カメラの許可を確認してください。";
+"Unsupported iOS version (supported on iOS 15 and later)" = "サポートされていないiOSバージョンです（iOS 15以降でサポート）";
+"Unsupported device (supported on iPhone XR and later devices)" = "サポートされていないデバイスです（iPhone XR以降のデバイスでサポート）";
+
+"App can't access albums. App can't read or write videos without permission. Please grant permission in Settings." = "アプリはアルバムにアクセスできません。許可なしでビデオを読み書きすることはできません。設定で許可を付与してください。";
