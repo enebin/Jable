@@ -31,15 +31,15 @@ class VideoQualityToolBarViewController: UIViewController, ToolbarItem {
     var childButtons = [UIButton]()
     
     lazy var highButton = LabelButton().then {
-        $0.setTitleLabel("HIGH")
+        $0.setTitleLabel("HIGH".localized)
     }
     
     lazy var mediumButton = LabelButton().then {
-        $0.setTitleLabel("MID")
+        $0.setTitleLabel("MID".localized)
     }
 
     lazy var lowButton = LabelButton().then {
-        $0.setTitleLabel("LOW")
+        $0.setTitleLabel("LOW".localized)
     }
     
     lazy var backButton = SystemImageButton().then {

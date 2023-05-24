@@ -23,11 +23,11 @@ class SettingTypeViewController: UIViewController, ToolbarItem {
     }
     
     lazy var qualityButton = LabelButton().then {
-        $0.setTitleLabel("Quality")
+        $0.setTitleLabel("Quality".localized)
     }
     
     lazy var positionButton = LabelButton().then {
-        $0.setTitleLabel("Position")
+        $0.setTitleLabel("Position".localized)
     }
     
         

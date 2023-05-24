@@ -19,7 +19,7 @@ class VideoRecorderViewController: UIViewController {
     let viewModel: VideoRecoderViewModel
 
     // MARK: Internal vars and const
-    var errorMessage = "알 수 없는 오류"
+    var errorMessage = "Unknown error".localized
     var isRecording = false
     let bag = DisposeBag()
     
@@ -156,7 +156,6 @@ class VideoRecorderViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] in
                 guard let self = self else { return }
-                print("Tapped")
                 HapticManager.shared.generate(type: .normal)
                 
                 let albumVC = GalleryViewController()
@@ -277,7 +276,7 @@ extension VideoRecorderViewController {
             alertController = handleErrorWithCameraPermission(error)
         } else {
             alertController = UIAlertController(
-                title: "오류",
+                title: "Error".localized,
                 message: error.localizedDescription,
                 preferredStyle: UIAlertController.Style.alert
             ).then {
@@ -292,7 +291,7 @@ extension VideoRecorderViewController {
     
     private func handleErrorWithCameraPermission(_ error: Error) -> UIAlertController {
         return UIAlertController(
-            title: "녹화할 수 없습니다",
+            title: "Unable to record".localized,
             message: error.localizedDescription,
             preferredStyle: UIAlertController.Style.alert
         ).then {
@@ -309,10 +308,10 @@ extension VideoRecorderViewController {
     }
     
     private func handleSessionSuspendedError() -> UIAlertController {
-        //        print("AVFoundationErrorDomain Code=-11818 감지: 비디오 리코딩 세션 인터럽트를 의미함")
+        // AVFoundationErrorDomain Code=-11818 감지: 비디오 리코딩 세션 인터럽트를 의미함")
         return UIAlertController(
-            title: "녹화가 중지되었습니다",
-            message: "촬영한 비디오는 앨범에 저장되었습니다",
+            title: "Recording stopped".localized,
+            message: "The video you took was saved to an album".localized,
             preferredStyle: UIAlertController.Style.alert
         ).then {
             $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))

@@ -20,6 +20,8 @@
 		0751FD5D28E042D900E01C47 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5C28E042D900E01C47 /* RxCocoa */; };
 		0751FD5F28E042D900E01C47 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD5E28E042D900E01C47 /* RxRelay */; };
 		0751FD6128E042D900E01C47 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD6028E042D900E01C47 /* RxSwift */; };
+		0771A52F2A1E114300D38844 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0771A5312A1E114300D38844 /* Localizable.strings */; };
+		0771A53A2A1E122600D38844 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0771A5392A1E122600D38844 /* Tool.swift */; };
 		077D42912920F9CF006BCD81 /* LocalStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077D42902920F9CF006BCD81 /* LocalStorageTests.swift */; };
 		077D42932921005E006BCD81 /* AVCaptureSession + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077D42922921005E006BCD81 /* AVCaptureSession + Extension.swift */; };
 		077D429529210077006BCD81 /* AVCaptureDevice + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077D429429210077006BCD81 /* AVCaptureDevice + Extension.swift */; };
@@ -87,6 +89,14 @@
 		072B1B9D28EAC3AC00E362C3 /* SystemImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImageButton.swift; sourceTree = "<group>"; };
 		072B1BA028EAE86A00E362C3 /* VideoQualityToolBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQualityToolBarViewController.swift; sourceTree = "<group>"; };
 		072B1BA228EAE8CA00E362C3 /* LabelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelButton.swift; sourceTree = "<group>"; };
+		0771A5302A1E114300D38844 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0771A5322A1E11BC00D38844 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		0771A5332A1E11BC00D38844 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0771A5342A1E11C300D38844 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		0771A5352A1E11C300D38844 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0771A5362A1E11CE00D38844 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		0771A5372A1E11CE00D38844 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		0771A5392A1E122600D38844 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		077A8E14292253DC002AF34B /* YellowIsTheNewBlackTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YellowIsTheNewBlackTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		077D42902920F9CF006BCD81 /* LocalStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageTests.swift; sourceTree = "<group>"; };
 		077D42922921005E006BCD81 /* AVCaptureSession + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVCaptureSession + Extension.swift"; sourceTree = "<group>"; };
@@ -172,6 +182,15 @@
 				072B1BA028EAE86A00E362C3 /* VideoQualityToolBarViewController.swift */,
 			);
 			path = "Video quality";
+			sourceTree = "<group>";
+		};
+		0771A5382A1E121700D38844 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				0771A5312A1E114300D38844 /* Localizable.strings */,
+				0771A5392A1E122600D38844 /* Tool.swift */,
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 		0798665628E6FA3E00E698ED /* Common */ = {
@@ -348,6 +367,7 @@
 		9C27A3B42925CD8D00D660AB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0771A5382A1E121700D38844 /* Localization */,
 				9C27A3B52925CE3200D660AB /* Font */,
 			);
 			path = Resources;
@@ -553,6 +573,9 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
+				ja,
+				"zh-Hans",
 			);
 			mainGroup = 9BEAA6362843824E00AB77A7;
 			packageReferences = (
@@ -585,6 +608,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C27A3B72925CE3200D660AB /* Jalnan.ttf in Resources */,
+				0771A52F2A1E114300D38844 /* Localizable.strings in Resources */,
 				9BEAA64F2843825200AB77A7 /* LaunchScreen.storyboard in Resources */,
 				9BEAA64C2843825200AB77A7 /* Assets.xcassets in Resources */,
 			);
@@ -628,6 +652,7 @@
 				9BAF4AD32860019A00B75689 /* GallerySection.swift in Sources */,
 				9CD451992851B167007CF311 /* VideoFilePathManager.swift in Sources */,
 				9C1482E12A1B08F2005F989D /* RotatingButton.swift in Sources */,
+				0771A53A2A1E122600D38844 /* Tool.swift in Sources */,
 				9CE6ED4628ED14870009744D /* SettingTypeViewController.swift in Sources */,
 				9BEFB505285ECFAC006C526C /* VideoFileInformationMaker.swift in Sources */,
 				9BEFB4FC285DF96E006C526C /* VideoFileInformation.swift in Sources */,
@@ -668,10 +693,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0771A5312A1E114300D38844 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0771A5302A1E114300D38844 /* en */,
+				0771A5332A1E11BC00D38844 /* ko */,
+				0771A5352A1E11C300D38844 /* ja */,
+				0771A5372A1E11CE00D38844 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		9BEAA64D2843825200AB77A7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				9BEAA64E2843825200AB77A7 /* Base */,
+				0771A5322A1E11BC00D38844 /* ko */,
+				0771A5342A1E11C300D38844 /* ja */,
+				0771A5362A1E11CE00D38844 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -736,6 +775,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -797,6 +837,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -855,7 +896,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YellowIsTheNewBlack/Info.plist;
@@ -895,7 +936,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YellowIsTheNewBlack/Info.plist;

@@ -1,0 +1,35 @@
+/* 
+  Localizable.strings
+  YellowIsTheNewBlack
+
+  Created by Young Bin on 2023/05/24.
+  
+*/
+
+"Quality" = "质量";
+"LOW" = "低";
+"MID" = "中";
+"HIGH" = "高";
+
+"Position" = "位置";
+"Rear" = "后置";
+"Front" = "前置";
+"Mute" = "静音";
+"Unmute" = "取消静音";
+
+"Unknown error" = "未知错误";
+"Error" = "错误";
+"Unable to record" = "无法录制";
+"Recording stopped" = "录制已停止";
+"The video you took was saved to an album" = "您拍摄的视频已保存到相册";
+
+"App doesn't have permission to access your album roll." = "应用无法访问您的相册。";
+"Unable to set up camera device.\nPlease check camera usage permission." = "无法设置相机设备。\n请检查相机使用权限。";
+"Cannot take a video because camera permissions are denied." = "无法拍摄视频，因为相机权限被拒绝。";
+"Unable to save the video." = "无法保存视频。";
+"Unable to record video." = "无法录制视频。";
+"No camera session was created, please check your camera permissions" = "未创建相机会话，请检查相机权限";
+"Unsupported iOS version (supported on iOS 15 and later)" = "不支持的iOS版本（仅支持iOS 15及更高版本）";
+"Unsupported device (supported on iPhone XR and later devices)" = "不支持的设备（仅支持iPhone XR及更高版本）";
+
+"App can't access albums. App can't read or write videos without permission. Please grant permission in Settings." = "应用无法访问相册。没有权限，无法读取或写入视频。请在设置中授予权限。";

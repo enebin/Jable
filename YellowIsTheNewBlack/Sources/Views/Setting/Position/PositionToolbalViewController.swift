@@ -42,11 +42,11 @@ class PositionToolbalViewController: UIViewController, ToolbarItem {
     
     // MARK: - View components
     lazy var rearButton = LabelButton().then {
-        $0.setTitleLabel("Rear")
+        $0.setTitleLabel("Rear".localized)
     }
     
     lazy var frontButton = LabelButton().then {
-        $0.setTitleLabel("Front")
+        $0.setTitleLabel("Front".localized)
     }
     
 //    lazy var simultaneousButton = LabelButton().then {

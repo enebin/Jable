@@ -14,13 +14,13 @@ class LoggingManager {
     
     func log(message: String) {
         if showLog {
-            print("[BLBX] \(message)")
+            print("[Jable] \(message)")
         }
     }
     
     func log(error: Error, file: String = (#file as NSString).lastPathComponent, method: String = #function) {
         if showLog {
-            print("[BLBX : error] [\(file) : \(method)] - \(error) : \(error.localizedDescription)")
+            print("[Jable : error] [\(file) : \(method)] - \(error) : \(error.localizedDescription)")
         }
     }
 }

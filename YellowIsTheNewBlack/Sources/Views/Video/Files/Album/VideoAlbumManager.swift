@@ -49,7 +49,7 @@ class VideoAlbumManager: AlbumManager {
         return album
     }
     
-    init(_ albumName: String = "BLBX",
+    init(_ albumName: String = "Jable",
          _ photoLibrary: PHPhotoLibrary = PHPhotoLibrary.shared()) {
         self.photoLibrary = photoLibrary
         self.albumName = albumName

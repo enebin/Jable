@@ -92,7 +92,7 @@ class VideoRecoderViewModel {
             
             guard status == .authorized else {
                 self.statusRelay.accept(VideoAlbumError.unabledToAccessAlbum)
-                print("앨범 접근 권한이 없습니다.")
+                print("App doesn't have permission to access your album roll.".localized)
                 return
             }
             
