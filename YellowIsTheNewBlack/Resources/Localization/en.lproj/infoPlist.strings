@@ -6,8 +6,8 @@
   
 */
 
-NSCameraUsageDescription = "请允许相机权限以录制视频。";
-NSFileProviderDomainUsageDescription = "请允许相册访问权限以保存和查看视频。";
-NSMicrophoneUsageDescription = "请允许麦克风权限以录制视频音频。";
-NSPhotoLibraryAddUsageDescription = "请允许相册访问权限以保存和查看视频。";
-NSPhotoLibraryUsageDescription = "请允许相册访问权限以保存和查看视频。";
+NSCameraUsageDescription = "Please allow camera access to record videos.";
+NSFileProviderDomainUsageDescription = "Please allow album access to save and view videos.";
+NSMicrophoneUsageDescription = "Please allow microphone access to record video audio.";
+NSPhotoLibraryAddUsageDescription = "Please allow album access to save and view videos.";
+NSPhotoLibraryUsageDescription = "Please allow album access to save and view videos.";

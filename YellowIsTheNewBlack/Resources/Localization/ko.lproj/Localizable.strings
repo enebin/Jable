@@ -15,7 +15,7 @@
 "Rear" = "Rear";
 "Front" = "Front";
 "Mute" = "음소거";
-"Unute" = "음소거 해제";
+"Unmute" = "음소거 해제";
 
 "Unknown error" = "알 수 없는 에러";
 "Error" = "오류";

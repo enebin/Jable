@@ -6,14 +6,14 @@
   
 */
 
-"Quality" = "品質";
-"LOW" = "低";
-"MID" = "中";
-"HIGH" = "高";
+"Quality" = "Quality";
+"LOW" = "LOW";
+"MID" = "MID";
+"HIGH" = "HIGH";
 
-"Position" = "位置";
-"Rear" = "後方";
-"Front" = "前方";
+"Position" = "Position";
+"Rear" = "Rear";
+"Front" = "Front";
 "Mute" = "ミュート";
 "Unmute" = "ミュート解除";
 

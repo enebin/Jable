@@ -22,7 +22,7 @@
 		0751FD6128E042D900E01C47 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0751FD6028E042D900E01C47 /* RxSwift */; };
 		0771A52F2A1E114300D38844 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0771A5312A1E114300D38844 /* Localizable.strings */; };
 		0771A53A2A1E122600D38844 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0771A5392A1E122600D38844 /* Tool.swift */; };
-		0771A53D2A1E1A2B00D38844 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0771A53F2A1E1A2B00D38844 /* infoPlist.strings */; };
+		0771A53D2A1E1A2B00D38844 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0771A53F2A1E1A2B00D38844 /* InfoPlist.strings */; };
 		077D42912920F9CF006BCD81 /* LocalStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077D42902920F9CF006BCD81 /* LocalStorageTests.swift */; };
 		077D42932921005E006BCD81 /* AVCaptureSession + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077D42922921005E006BCD81 /* AVCaptureSession + Extension.swift */; };
 		077D429529210077006BCD81 /* AVCaptureDevice + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077D429429210077006BCD81 /* AVCaptureDevice + Extension.swift */; };
@@ -97,11 +97,11 @@
 		0771A5362A1E11CE00D38844 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		0771A5372A1E11CE00D38844 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		0771A5392A1E122600D38844 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
-		0771A5402A1E1A3200D38844 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/infoPlist.strings"; sourceTree = "<group>"; };
-		0771A5412A1E1A3200D38844 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/infoPlist.strings; sourceTree = "<group>"; };
-		0771A5422A1E1A3300D38844 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		0771A5402A1E1A3200D38844 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		0771A5412A1E1A3200D38844 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0771A5422A1E1A3300D38844 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0771A5482A1E1EB500D38844 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		0771A5492A1E1EB500D38844 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		0771A5492A1E1EB500D38844 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0771A54A2A1E1EB500D38844 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		077A8E14292253DC002AF34B /* YellowIsTheNewBlackTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YellowIsTheNewBlackTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		077D42902920F9CF006BCD81 /* LocalStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageTests.swift; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 		0771A5382A1E121700D38844 /* Localization */ = {
 			isa = PBXGroup;
 			children = (
-				0771A53F2A1E1A2B00D38844 /* infoPlist.strings */,
+				0771A53F2A1E1A2B00D38844 /* InfoPlist.strings */,
 				0771A5312A1E114300D38844 /* Localizable.strings */,
 				0771A5392A1E122600D38844 /* Tool.swift */,
 			);
@@ -618,7 +618,7 @@
 				0771A52F2A1E114300D38844 /* Localizable.strings in Resources */,
 				9BEAA64F2843825200AB77A7 /* LaunchScreen.storyboard in Resources */,
 				9BEAA64C2843825200AB77A7 /* Assets.xcassets in Resources */,
-				0771A53D2A1E1A2B00D38844 /* infoPlist.strings in Resources */,
+				0771A53D2A1E1A2B00D38844 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,7 +712,7 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		0771A53F2A1E1A2B00D38844 /* infoPlist.strings */ = {
+		0771A53F2A1E1A2B00D38844 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				0771A5402A1E1A3200D38844 /* zh-Hans */,
@@ -720,7 +720,7 @@
 				0771A5422A1E1A3300D38844 /* ko */,
 				0771A5492A1E1EB500D38844 /* en */,
 			);
-			name = infoPlist.strings;
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		9BEAA64D2843825200AB77A7 /* LaunchScreen.storyboard */ = {
@@ -916,11 +916,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YellowIsTheNewBlack/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "자블";
+				INFOPLIST_KEY_CFBundleDisplayName = Jable;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = NSFileProviderDomainUsageDescription;
@@ -938,7 +938,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.enebin.YellowIsTheNewBlack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -956,11 +956,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W6QHM4Y43Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YellowIsTheNewBlack/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "자블";
+				INFOPLIST_KEY_CFBundleDisplayName = Jable;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = NSFileProviderDomainUsageDescription;
@@ -978,7 +978,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.enebin.YellowIsTheNewBlack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
