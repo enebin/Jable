@@ -191,8 +191,6 @@ class VideoRecoderViewModel {
         self.bindObservables()
         self.checkPermission()
         
-        self.statusObservable = statusRelayInterceptor(statusRelay)
-        
         Task {
             try await self.sessionManager.setupSession()
         }
@@ -202,11 +200,5 @@ class VideoRecoderViewModel {
 extension VideoRecoderViewModel {
     private func getThumbnailObserver(from videoRelay: BehaviorRelay<[VideoFileInformation]>) -> Observable<UIImage?> {
         return videoRelay.map { $0.first?.thumbnail }
-    }
-    
-    private func statusRelayInterceptor(_ statusRelay: StatusRelay) -> Observable<Error> {
-        return statusRelay.do { _ in
-            try self.stopRecordingVideo() // Duplicated maybe(inside session manager)
-        }
     }
 }
