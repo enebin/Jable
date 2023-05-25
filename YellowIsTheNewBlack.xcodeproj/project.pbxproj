@@ -136,8 +136,6 @@
 		9C0B2B4328E1B52000BD9C81 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
 		9C1482E02A1B08F2005F989D /* RotatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingButton.swift; sourceTree = "<group>"; };
 		9C27A3B62925CE3200D660AB /* Jalnan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jalnan.ttf; sourceTree = "<group>"; };
-		9C27A3BA2925D1FE00D660AB /* MultiVideoSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiVideoSessionManager.swift; path = "YellowIsTheNewBlack/Sources/Video/Session/Multi Camera/MultiVideoSessionManager.swift"; sourceTree = SOURCE_ROOT; };
-		9C27A3BB2925D1FE00D660AB /* MultiVideoSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiVideoSession.swift; path = "YellowIsTheNewBlack/Sources/Video/Session/Multi Camera/MultiVideoSession.swift"; sourceTree = SOURCE_ROOT; };
 		9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSessionManager.swift; sourceTree = "<group>"; };
 		9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleVideoSessionManager+Extension.swift"; sourceTree = "<group>"; };
 		9C4093F228D825C0001533BF /* VideoAlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAlbumManager.swift; sourceTree = "<group>"; };
@@ -200,14 +198,56 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
+		079629FC2A1F753D006DA94B /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				079629FD2A1F7626006DA94B /* AVFoundation */,
+				079629FE2A1F764B006DA94B /* Session */,
+				9C27CD2C28F63F4F00F98E08 /* Error */,
+				9C4093FB28D84935001533BF /* Album */,
+				9BEFB4FF285DFBE4006C526C /* File */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		079629FD2A1F7626006DA94B /* AVFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				077D42922921005E006BCD81 /* AVCaptureSession + Extension.swift */,
+				077D429429210077006BCD81 /* AVCaptureDevice + Extension.swift */,
+			);
+			path = AVFoundation;
+			sourceTree = "<group>";
+		};
+		079629FE2A1F764B006DA94B /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */,
+				9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */,
+				9B543ACF285DAB1600B41CB3 /* SingleVideoSessionManager.swift */,
+				9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		079629FF2A1F768E006DA94B /* SubVC */ = {
+			isa = PBXGroup;
+			children = (
+				07DE1E6028F148F80080AC0B /* Mute */,
+				07DE1E7428F3F9BE0080AC0B /* Position */,
+				072B1B9F28EAE84F00E362C3 /* Video quality */,
+			);
+			path = SubVC;
+			sourceTree = "<group>";
+		};
 		0798665628E6FA3E00E698ED /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				9C8B087C29EFC843009D1DE0 /* Recording */,
-				9C64E9F028EBBF1600FB1DBE /* Protocol */,
-				0798665A28E7016200E698ED /* Camera */,
-				0798665928E7015D00E698ED /* Button */,
+				9C8B087D29EFC885009D1DE0 /* TimerViewController.swift */,
 				072B1B9728EA9AC400E362C3 /* Spacer.swift */,
+				07A4302428FBCFD200B6E182 /* UIView+Extension.swift */,
+				0798665928E7015D00E698ED /* Button */,
+				0798665A28E7016200E698ED /* Camera */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -260,25 +300,14 @@
 			path = Position;
 			sourceTree = "<group>";
 		};
-		9B05DFA828FACE3600DE5927 /* Single Camera */ = {
-			isa = PBXGroup;
-			children = (
-				9B543ACF285DAB1600B41CB3 /* SingleVideoSessionManager.swift */,
-				9C27CD2A28F63EDC00F98E08 /* SingleVideoSessionManager+Extension.swift */,
-			);
-			path = "Single Camera";
-			sourceTree = "<group>";
-		};
 		9B51E6402866EF8500D3BB82 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				079629FF2A1F768E006DA94B /* SubVC */,
 				9C0B2B4328E1B52000BD9C81 /* SettingType.swift */,
 				072B1B9328EA96AC00E362C3 /* SettingToolBarViewController.swift */,
 				9CE6ED4528ED14870009744D /* SettingTypeViewController.swift */,
 				9CB0D92A28DA91C3009C2CE0 /* Cell */,
-				07DE1E6028F148F80080AC0B /* Mute */,
-				07DE1E7428F3F9BE0080AC0B /* Position */,
-				072B1B9F28EAE84F00E362C3 /* Video quality */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -290,13 +319,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9BA362992859EA8900339D46 /* Managers */ = {
+		9BA362992859EA8900339D46 /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				9BA3629A2859EA9900339D46 /* LoggingManager.swift */,
 				079866D628E843A900E698ED /* HapticManager.swift */,
 			);
-			path = Managers;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		9BA362AE2859F4DE00339D46 /* YellowIsTheNewBlackTests */ = {
@@ -351,16 +380,15 @@
 			path = YellowIsTheNewBlack;
 			sourceTree = "<group>";
 		};
-		9BEFB4FF285DFBE4006C526C /* Files */ = {
+		9BEFB4FF285DFBE4006C526C /* File */ = {
 			isa = PBXGroup;
 			children = (
-				9C4093FB28D84935001533BF /* Album */,
 				9BEFB4FB285DF96E006C526C /* VideoFileInformation.swift */,
 				9BEFB504285ECFAC006C526C /* VideoFileInformationMaker.swift */,
 				9CD451982851B167007CF311 /* VideoFilePathManager.swift */,
 				9BEFB502285EC59C006C526C /* VideoFileManager.swift */,
 			);
-			path = Files;
+			path = File;
 			sourceTree = "<group>";
 		};
 		9C1482DF2A1B08E8005F989D /* Super */ = {
@@ -388,26 +416,6 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
-		9C27A3B92925D1F100D660AB /* Multi Camera */ = {
-			isa = PBXGroup;
-			children = (
-				9C27A3BB2925D1FE00D660AB /* MultiVideoSession.swift */,
-				9C27A3BA2925D1FE00D660AB /* MultiVideoSessionManager.swift */,
-			);
-			path = "Multi Camera";
-			sourceTree = "<group>";
-		};
-		9C27CD2528F63DBF00F98E08 /* Session */ = {
-			isa = PBXGroup;
-			children = (
-				9C27A3B92925D1F100D660AB /* Multi Camera */,
-				9C9CA8092853212200655A66 /* VideoRecorderConfiguration.swift */,
-				9C27CD2628F63DCD00F98E08 /* VideoSessionManager.swift */,
-				9B05DFA828FACE3600DE5927 /* Single Camera */,
-			);
-			path = Session;
-			sourceTree = "<group>";
-		};
 		9C27CD2C28F63F4F00F98E08 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,7 +427,7 @@
 		9C4093EC28D7EF80001533BF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9C8B087B29EFC808009D1DE0 /* Views */,
+				9C8B087B29EFC808009D1DE0 /* View */,
 				9C4093ED28D7EF8B001533BF /* Utils */,
 			);
 			path = Sources;
@@ -428,23 +436,22 @@
 		9C4093ED28D7EF8B001533BF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				9C4093F428D825C9001533BF /* Protocols */,
-				9BA362992859EA8900339D46 /* Managers */,
-				07A4302428FBCFD200B6E182 /* UIView+Extension.swift */,
-				077D42922921005E006BCD81 /* AVCaptureSession + Extension.swift */,
-				077D429429210077006BCD81 /* AVCaptureDevice + Extension.swift */,
+				9C4093F428D825C9001533BF /* Protocol */,
+				079629FC2A1F753D006DA94B /* Camera */,
+				9BA362992859EA8900339D46 /* Common */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		9C4093F428D825C9001533BF /* Protocols */ = {
+		9C4093F428D825C9001533BF /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */,
 				9CB0D92D28DA93F8009C2CE0 /* CellItem.swift */,
 				07DE1E7228F3EDF00080AC0B /* CustomCell.swift */,
 				07A4302228F3FA6100B6E182 /* ToolBarItem.swift */,
 			);
-			path = Protocols;
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		9C4093FB28D84935001533BF /* Album */ = {
@@ -458,31 +465,15 @@
 			path = Album;
 			sourceTree = "<group>";
 		};
-		9C64E9F028EBBF1600FB1DBE /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				9C64E9F128EBBF1F00FB1DBE /* VideoConfiguration.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		9C8B087B29EFC808009D1DE0 /* Views */ = {
+		9C8B087B29EFC808009D1DE0 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				0798665628E6FA3E00E698ED /* Common */,
-				9CD45189284F2BE9007CF311 /* Video */,
+				9CD45189284F2BE9007CF311 /* Main */,
 				9BA362BD285B464100339D46 /* Gallery */,
 				9B51E6402866EF8500D3BB82 /* Setting */,
 			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		9C8B087C29EFC843009D1DE0 /* Recording */ = {
-			isa = PBXGroup;
-			children = (
-				9C8B087D29EFC885009D1DE0 /* TimerViewController.swift */,
-			);
-			path = Recording;
+			path = View;
 			sourceTree = "<group>";
 		};
 		9CB0D92A28DA91C3009C2CE0 /* Cell */ = {
@@ -494,16 +485,13 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		9CD45189284F2BE9007CF311 /* Video */ = {
+		9CD45189284F2BE9007CF311 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				9CD4518C284F3281007CF311 /* VideoRecorderViewController.swift */,
 				9CD4518A284F2BFB007CF311 /* VideoRecorderViewModel.swift */,
-				9C27CD2C28F63F4F00F98E08 /* Error */,
-				9BEFB4FF285DFBE4006C526C /* Files */,
-				9C27CD2528F63DBF00F98E08 /* Session */,
 			);
-			path = Video;
+			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
