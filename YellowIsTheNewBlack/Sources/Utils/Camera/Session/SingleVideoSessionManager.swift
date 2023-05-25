@@ -69,7 +69,10 @@ class SingleVideoSessionManager: NSObject, VideoSessionManager {
         }
                 
         let filePath = videoFileManager.filePath
+        
         connection.videoOrientation = deviceOrientation
+        connection.preferredVideoStabilizationMode = .standard
+        
         output.startRecording(to: filePath, recordingDelegate: self)
 
         completion?()
