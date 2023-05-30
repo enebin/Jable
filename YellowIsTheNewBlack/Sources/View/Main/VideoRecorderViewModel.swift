@@ -12,6 +12,8 @@ import Photos
 import RxSwift
 import RxRelay
 
+import Swoosh
+
 /// 카메라세션
 class VideoRecoderViewModel {
     typealias StatusRelay = ReplayRelay<Error>
