@@ -90,6 +90,7 @@
 		072B1B9D28EAC3AC00E362C3 /* SystemImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImageButton.swift; sourceTree = "<group>"; };
 		072B1BA028EAE86A00E362C3 /* VideoQualityToolBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQualityToolBarViewController.swift; sourceTree = "<group>"; };
 		072B1BA228EAE8CA00E362C3 /* LabelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelButton.swift; sourceTree = "<group>"; };
+		075CC74B2A26118800FC64EE /* Swoosh */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Swoosh; path = ../Swoosh/Swoosh; sourceTree = "<group>"; };
 		0771A5322A1E11BC00D38844 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		0771A5332A1E11BC00D38844 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0771A5342A1E11C300D38844 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -186,6 +187,14 @@
 				072B1BA028EAE86A00E362C3 /* VideoQualityToolBarViewController.swift */,
 			);
 			path = "Video quality";
+			sourceTree = "<group>";
+		};
+		075CC74A2A26118800FC64EE /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				075CC74B2A26118800FC64EE /* Swoosh */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		0771A5382A1E121700D38844 /* Localization */ = {
@@ -350,6 +359,7 @@
 		9BEAA6362843824E00AB77A7 = {
 			isa = PBXGroup;
 			children = (
+				075CC74A2A26118800FC64EE /* Packages */,
 				9BEAA6412843824E00AB77A7 /* YellowIsTheNewBlack */,
 				9BA362AE2859F4DE00339D46 /* YellowIsTheNewBlackTests */,
 				9BEAA6402843824E00AB77A7 /* Products */,
