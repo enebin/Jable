@@ -18,7 +18,9 @@ class CustomImageButton: RotatingButton {
     
     func setCustomImage(_ image: UIImage) {
         self.setImage(image, for: .normal)
-        self.imageView?.contentMode = .scaleAspectFit
+        self.imageView?.contentMode = .scaleAspectFill
+        
+        self.layoutIfNeeded()
     }
     
     private func setLayout() {

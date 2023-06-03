@@ -11,6 +11,7 @@ import AVFoundation
 import RxRelay
 import RxSwift
 
+// MARK: - SUPER ANTI PATTERN whoa.. -
 
 struct LocalVideoSessionConfiguration: VideoConfiguration {
     private let userDefault: UserDefaults
