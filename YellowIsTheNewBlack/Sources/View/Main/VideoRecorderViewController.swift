@@ -10,6 +10,9 @@ import AVFoundation
 
 import Then
 import SnapKit
+import Aespa
+
+import Combine
 import RxCocoa
 import RxSwift
 
@@ -21,7 +24,9 @@ class VideoRecorderViewController: UIViewController {
     // MARK: Internal vars and const
     var errorMessage = "Unknown error".localized
     var isRecording = false
+    
     let bag = DisposeBag()
+    var subscriptions = Set<AnyCancellable>()
     
     var previewLayerSize: PreviewLayerSize = .large
     var preview: AVCaptureVideoPreviewLayer?
@@ -165,15 +170,26 @@ class VideoRecorderViewController: UIViewController {
     }
 
     private func bindObservables() {
-        viewModel.previewLayerRelay.asObservable()
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] newLayer in
+        viewModel.aespaPreviewPublisher
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newLayer in
                 guard let self = self else { return }
-                
+
                 self.setCameraPreviewLayer(newLayer)
                 self.view.layoutIfNeeded()
             }
-            .disposed(by: bag)
+            .store(in: &subscriptions)
+        
+        viewModel.aespaThumbnailPublisher
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                guard let self else { return }
+                self.thumbnailButton.setCustomImage(image)
+            }
+            .store(in: &subscriptions)
+        
         
         viewModel.videoConfiguration.stealthMode
             .observe(on: MainScheduler.instance)
@@ -184,18 +200,13 @@ class VideoRecorderViewController: UIViewController {
             }
             .disposed(by: bag)
         
-        viewModel.thumbnailObserver
-            .observe(on: MainScheduler.instance)
-            .compactMap{ $0 }
-            .bind(to: thumbnailButton.rx.image(for: .normal))
-            .disposed(by: bag)
         
         viewModel.statusObservable
             .observe(on: MainScheduler.instance)
             .bind { [weak self] error in
                 guard let self = self else { return }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.commonErrorHandler(error)
                 }
             }
@@ -205,8 +216,10 @@ class VideoRecorderViewController: UIViewController {
     private func bindNotificationCenter() {
         // Detect orientation change
         NotificationCenter.default.addObserver(
-            self, selector: #selector(elapsedTimePostionHandler), name: UIDevice.orientationDidChangeNotification, object: nil
-        )
+            self,
+            selector: #selector(elapsedTimePostionHandler),
+            name: UIDevice.orientationDidChangeNotification,
+            object: nil)
     }
     
     // Initializers
@@ -246,15 +259,6 @@ private extension VideoRecorderViewController {
         
         self.view.layoutIfNeeded()
     }
-    
-    // TODO: Recording paused
-    func pauseRecofding() throws {
-         try self.viewModel.pauseRecordingVideo()
-        
-        // TODO: 다시 시작할 건지 물어보는 얼러트 추가
-        
-        self.view.layoutIfNeeded()
-    }
 }
 
 // MARK: Handler
@@ -270,8 +274,8 @@ extension VideoRecorderViewController {
         {
             alertController = handleSessionSuspendedError()
         } else if
-            let error = error as? VideoRecorderError,
-            case .notConfigured = error
+            let error = error as? AespaError,
+            case .permission = error
         {
             alertController = handleErrorWithCameraPermission(error)
         } else {
@@ -282,7 +286,6 @@ extension VideoRecorderViewController {
             ).then {
                 $0.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: nil))
             }
-            
         }
         
         self.present(alertController, animated: true)
@@ -301,7 +304,7 @@ extension VideoRecorderViewController {
             
             $0.addAction(UIAlertAction(
                 title: "Setting", style: .cancel, handler: { [weak self] _ in
-                    self?.settingOpener()
+                    self?.openSettingApp()
                 })
             )
         }
@@ -356,7 +359,7 @@ extension VideoRecorderViewController {
         view.layoutIfNeeded()
     }
     
-    private func settingOpener() {
+    private func openSettingApp() {
         if let appSettings = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
         }

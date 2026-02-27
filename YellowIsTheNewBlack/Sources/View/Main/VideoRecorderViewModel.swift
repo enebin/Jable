@@ -12,40 +12,147 @@ import Photos
 import RxSwift
 import RxRelay
 
+import Combine
+
+import Aespa
+
 /// 카메라세션
 class VideoRecoderViewModel {
     typealias StatusRelay = ReplayRelay<Error>
+    typealias VideoFileResult = Result<VideoFile, Error>
     
     // Dependencies
     let videoConfiguration: VideoSessionConfiguration
-    private let sessionManager: SingleVideoSessionManager
-    private let videoAlbumFetcher: VideoAlbumFetcher
+    private let aespaSession: AespaSession
+    
+    private(set) var aespaThumbnailPublisher: AnyPublisher<UIImage, Never>
+    private(set) var aespaVideoFilePublisher: AnyPublisher<VideoFileResult, Never> // TODO: Handle it
+    private(set) var aespaPreviewPublisher: AnyPublisher<AVCaptureVideoPreviewLayer, Never>
     
     // MARK: Private propertieds
     private var bag = DisposeBag()
+    private var subsriptions = Set<AnyCancellable>()
     private var isObservablesBound = false
     
     private let workQueue = SerialDispatchQueueScheduler(qos: .userInitiated)
         
     // MARK: Public properties(outputs)
-    let previewLayerRelay = PublishRelay<AVCaptureVideoPreviewLayer?>()
-    var thumbnailObserver: Observable<UIImage?>
-    
     private let statusRelay = ReplayRelay<Error>.create(bufferSize: 1)
     private(set) var statusObservable: Observable<Error>
+    
     private var previousZoomFactor: CGFloat = 1.0
-
+    
+    init(
+        _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration()
+    ) {
+        self.videoConfiguration = videoConfiguration
+        self.statusObservable = statusRelay.asObservable()
+        
+        let aespaOption = AespaOption(albumName: "Jable")
+        aespaSession = Aespa.session(with: aespaOption)
+        
+//        aespaSession = AespaSession(option: aespaOption)
+        
+//        aespaVideoFilePublisher = aespaSession.videoFileIOStatusPublisher
+//        aespaPreviewPublisher = aespaSession.previewLayerPublisher
+//        aespaThumbnailPublisher = aespaSession.videoFileIOStatusPublisher.mapThumbnail()
+        
+        aespaVideoFilePublisher = aespaSession.videoFilePublisher
+        aespaThumbnailPublisher = aespaSession.videoFilePublisher.mapThumbnail()
+        aespaPreviewPublisher = aespaSession.previewLayerPublisher
+        
+        Task(priority: .background) {
+//            if case .failure(let error) = await self.aespaSession.configure() {
+//                self.statusRelay.accept(error)
+//            }
+            
+            do {
+                try await Aespa.configure()
+            } catch let error {
+                self.statusRelay.accept(error)
+            }
+            
+            bindObservables()
+        }
+    }
+    
     // MARK: - Public methods
     func startRecordingVideo() throws {
-        try sessionManager.startRecordingVideo()
+        try aespaSession.startRecording()
     }
     
     func stopRecordingVideo() throws {
-        try sessionManager.stopRecordingVideo()
+        try aespaSession.stopRecording()
     }
     
     func pauseRecordingVideo() throws {
-//        try sessionManager.pauseRecordingVideo()
+        // TODO: tbd
+    }
+    
+    private func bindObservables() {
+        if isObservablesBound {
+            fatalError("Observables have already been bound!")
+        }
+        
+        isObservablesBound = true
+        aespaVideoFilePublisher
+            .receive(on: DispatchQueue.global(qos: .utility))
+            .sink { [weak self] status in
+                guard let self else { return }
+                
+                if case .failure(let error) = status {
+                    self.statusRelay.accept(error)
+                    try? self.stopRecordingVideo()
+                }
+            }
+            .store(in: &subsriptions)
+        
+        videoConfiguration.videoQuality
+            .debounce(.milliseconds(150), scheduler: workQueue)
+            .subscribe(on: workQueue)
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] quality in
+                guard let self = self else { return }
+                
+                do {
+                    try aespaSession.setQuality(to: quality)
+                } catch let error {
+                    self.statusRelay.accept(error)
+                }
+            }
+            .disposed(by: bag)
+        
+        videoConfiguration.silentMode
+            .debounce(.milliseconds(150), scheduler: workQueue)
+            .subscribe(on: workQueue)
+            .bind { [weak self] isEnabled in
+                guard let self = self else { return }
+                
+                do {
+                    if isEnabled {
+                        try aespaSession.mute()
+                    } else {
+                        try aespaSession.unmute()
+                    }
+                } catch let error {
+                    self.statusRelay.accept(error)
+                }
+            }
+            .disposed(by: bag)
+        
+        videoConfiguration.cameraPosition
+            .debounce(.milliseconds(150), scheduler: workQueue)
+            .subscribe(on: workQueue)
+            .bind { [weak self] position in
+                guard let self = self else { return }
+                
+                do {
+                    try aespaSession.setPosition(to: position)
+                } catch let error {
+                    self.statusRelay.accept(error)
+                }
+            }
+            .disposed(by: bag)
     }
     
     @objc func setZoomFactorFromPinchGesture(_ sender: UIPinchGestureRecognizer) {
@@ -53,7 +160,7 @@ class VideoRecoderViewModel {
         let minZoomFactor = 1.0
         
         guard
-            let maxZoomFactor = sessionManager.maxZoomFactor
+            let maxZoomFactor = aespaSession.maxZoomFactor
         else {
             return
         }
@@ -64,141 +171,22 @@ class VideoRecoderViewModel {
         case .changed:
             if (videoZoomFactor <= maxZoomFactor) {
                 let newZoomFactor = max(minZoomFactor, min(videoZoomFactor, maxZoomFactor))
-                videoConfiguration.zoomFactor.accept(newZoomFactor)
+                aespaSession.zoom(factor: newZoomFactor)
             }
         default:
             break
         }
     }
-    
-    // MARK: - Private methods
-    private func updatePreview(
-        with session: AVCaptureSession,
-        orientation: AVCaptureVideoOrientation = .portrait
-    ) {
-        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        previewLayer.connection?.videoOrientation = orientation
-        
-        DispatchQueue.main.async {
-            self.previewLayerRelay.accept(previewLayer)
-        }
-    }
-    
-    private func checkPermission() {
-        PHPhotoLibrary.requestAuthorization { [weak self] status in
-            guard let self = self else {
-                return
-            }
-            
-            guard status == .authorized else {
-                self.statusRelay.accept(VideoAlbumError.unabledToAccessAlbum)
-                print("App doesn't have permission to access your album roll.".localized)
-                return
-            }
-            
-            // Update thumbnail observser after permission granted
-            self.thumbnailObserver = getThumbnailObserver(from: self.videoAlbumFetcher.getObserver())
-        }
-    }
-    
-    private func bindObservables() {
-        if isObservablesBound {
-            fatalError("Observables have already been bound!")
-        }
-
-        self.isObservablesBound = true
-        videoConfiguration.videoQuality
-            .debounce(.milliseconds(150), scheduler: workQueue)
-            .subscribe(on: workQueue)
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] quality in
-                guard let self = self else {
-                    return
-                }
-                
-                self.sessionManager.setVideoQuality(quality) { session in
-                    self.updatePreview(with: session)
-                }
-                    
-            }
-            .disposed(by: bag)
-        
-        videoConfiguration.silentMode
-            .debounce(.milliseconds(150), scheduler: workQueue)
-            .subscribe(on: workQueue)
-            .bind { [weak self] isEnabled in
-                guard let self = self else { return }
-                
-                self.sessionManager.setSlientMode(isEnabled,
-                                                  currentCamPosition: self.videoConfiguration.cameraPosition.value) { session in
-                    self.updatePreview(with: session)
-                }
-            }
-            .disposed(by: bag)
-
-        videoConfiguration.cameraPosition
-            .debounce(.milliseconds(150), scheduler: workQueue)
-            .subscribe(on: workQueue)
-            .bind { [weak self] position in
-                guard let self = self else { return }
-                
-                self.sessionManager.setCameraPosition(position) { session in
-                    self.updatePreview(with: session)
-                }
-            }
-            .disposed(by: bag)
-        
-        videoConfiguration.zoomFactor
-            .subscribe(on: workQueue)
-            .bind { [weak self] factor in
-                guard let self = self else { return }
-                
-                self.sessionManager.setZoom(factor)
-            }
-            .disposed(by: bag)
-        
-        
-        if #available(iOS 16, *), self.sessionManager.session.isMultitaskingCameraAccessSupported {
-            videoConfiguration.backgroundMode
-                .debounce(.milliseconds(150), scheduler: workQueue)
-                .subscribe(on: workQueue)
-                .bind { [weak self] enabled in
-                    guard let self = self else { return }
-                    
-                    self.sessionManager.setBackgroundMode(enabled) { session in
-                        self.updatePreview(with: session)
-                    }
-                }
-                .disposed(by: bag)
-        }
-    }
-    
-    init(
-        _ sessionManager: SingleVideoSessionManager = SingleVideoSessionManager.shared,
-        _ videoConfiguration: VideoSessionConfiguration = VideoSessionConfiguration(),
-        _ videoAlbumFetcher: VideoAlbumFetcher = VideoAlbumFetcher.shared
-    ) {
-        self.sessionManager = sessionManager
-        sessionManager.statusObsrever = self.statusRelay
-        
-        self.videoConfiguration = videoConfiguration
-        
-        self.videoAlbumFetcher = videoAlbumFetcher
-        self.thumbnailObserver = videoAlbumFetcher.getObserver().map { $0.first?.thumbnail }
-        
-        self.statusObservable = statusRelay.asObservable()
-        
-        self.bindObservables()
-        self.checkPermission()
-        
-        Task {
-            try await self.sessionManager.setupSession()
-        }
-    }
 }
 
-extension VideoRecoderViewModel {
-    private func getThumbnailObserver(from videoRelay: BehaviorRelay<[VideoFileInformation]>) -> Observable<UIImage?> {
-        return videoRelay.map { $0.first?.thumbnail }
+fileprivate extension AnyPublisher where Output == Result<VideoFile, Error> {
+    func mapThumbnail() -> AnyPublisher<UIImage, Failure> {
+        self.compactMap { result in
+            if case .success(let file) = result {
+                return file.thumbnail
+            } else {
+                return nil
+            }
+        }.eraseToAnyPublisher()
     }
 }

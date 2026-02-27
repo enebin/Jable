@@ -14,13 +14,13 @@ class LoggingManager {
     
     func log(message: String) {
         if showLog {
-            print("[Jable] \(message)")
+            print("[Aespa] \(message)")
         }
     }
     
     func log(error: Error, file: String = (#file as NSString).lastPathComponent, method: String = #function) {
         if showLog {
-            print("[Jable : error] [\(file) : \(method)] - \(error) : \(error.localizedDescription)")
+            print("[Aespa : error] [\(file) : \(method)] - \(error) : \(error.localizedDescription)")
         }
     }
 }
